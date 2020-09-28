@@ -19,7 +19,7 @@ public:
 	Scene();
 	~Scene();
 
-	template <typename Function, typename... Args>
+	template<typename Function, typename... Args>
 	void run_method(Function&& function, Args&&... args) {
 		WorkerThreadDelay::post_message(std::bind(function, this, args...));
 	}

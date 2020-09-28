@@ -1,9 +1,5 @@
 #pragma once
 
-/*
-Utility code that can be useful in different projects
-*/
-
 #include "typedef.h"
 
 #include "error.h"

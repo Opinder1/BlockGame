@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 #include "typedef.h"
 
@@ -9,7 +9,7 @@
 
 struct Packet {
 	uint8 type;
-	void* data;
+	char* data;
 	size_t data_size;
 
 	ENetPacket* to_enet_packet();
@@ -22,27 +22,28 @@ private:
 	size_t writer_pos;
 
 public:
-	Packet* packet;
+	Packet packet;
 };
 
 class PacketReader {
 private:
-	uint64 reader_pos;
+	uint32 reader_pos;
+
+	Packet packet;
 
 public:
-	Packet* packet;
 
-	PacketReader(Packet* packet);
+	PacketReader(Packet packet);
 
 	std::string read(uint64 size) {
-		std::string var((char*)packet->data + reader_pos, (char*)packet->data + reader_pos + size);
+		std::string var((char*)packet.data + reader_pos, (char*)packet.data + reader_pos + size);
 		reader_pos += size;
 		return var;
 	}
 
 	template<class Type>
 	Type read() {
-		Type var = *(Type*)((char*)packet->data + reader_pos);
+		Type var = *(Type*)((char*)packet.data + reader_pos);
 		reader_pos += sizeof(Type);
 		return var;
 	}

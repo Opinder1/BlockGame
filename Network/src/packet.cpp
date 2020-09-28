@@ -1,6 +1,6 @@
 #include "packet.h"
 
-PacketReader::PacketReader(Packet* packet) {
+PacketReader::PacketReader(Packet packet) {
 	this->packet = packet;
 
 	this->reader_pos = 0;

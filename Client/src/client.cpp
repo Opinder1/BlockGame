@@ -9,7 +9,7 @@ Client::Client(std::string ip, uint16 port) : NetClient(ip, port), log("client")
 }
 
 Client::~Client() {
-
+    
 }
 
 bool Client::initialised() {
@@ -21,7 +21,6 @@ bool Client::is_running() {
 }
 
 void Client::on_tick() {
-    log.println("Server tick");
     NetClient::poll_netevent();
 }
 

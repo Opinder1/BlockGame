@@ -18,7 +18,7 @@ public:
 	Client(std::string ip, uint16 port);
     ~Client();
 
-	template <typename Function, typename... Args>
+	template<typename Function, typename... Args>
 	void run_method(Function&& function, Args&&... args) {
 		WorkerThread::post_message(std::bind(function, this, args...));
 	}
