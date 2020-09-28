@@ -32,10 +32,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)build\$(Configuration)-$(Platform)\</OutDir>
-    <IncludePath>C:\VisualStudio\Voxel Engine\Shared\include;C:\VisualStudio\Voxel Engine\Engine\src;C:\VisualStudio\Voxel Engine\Ocode\src;C:\VisualStudio\Voxel Engine\Server\src;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VisualStudio\Voxel Engine\x64\Release;C:\VisualStudio\Voxel Engine\Shared\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)\build\$(ProjectName)\$(Configuration)-$(Platform)\</IntDir>
-    <SourcePath>C:\VisualStudio\Voxel Engine\Server\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -50,27 +47,28 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Ocode\src\;$(SolutionDir)\Ocode\include\;$(SolutionDir)\Network\src\;$(SolutionDir)\Network\include\;$(SolutionDir)\Common</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\server\client.cpp" />
-    <ClCompile Include="src\scene\scene.cpp" />
+    <ClCompile Include="src\client.cpp" />
+    <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="src\server\server.cpp" />
+    <ClCompile Include="src\server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\server\commands.h" />
-    <ClInclude Include="src\server\client.h" />
-    <ClInclude Include="src\scene\scene.h" />
-    <ClInclude Include="src\server\server.h" />
+    <ClInclude Include="src\commands.h" />
+    <ClInclude Include="src\client.h" />
+    <ClInclude Include="src\scene.h" />
+    <ClInclude Include="src\server.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

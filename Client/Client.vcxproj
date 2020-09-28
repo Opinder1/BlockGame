@@ -33,9 +33,6 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)build\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\build\$(ProjectName)\$(Configuration)-$(Platform)\</IntDir>
-    <IncludePath>C:\VisualStudio\Voxel Engine\Shared\include;C:\VisualStudio\Voxel Engine\Engine\src;C:\VisualStudio\Voxel Engine\Ocode\src;C:\VisualStudio\Voxel Engine\Client\src;$(IncludePath)</IncludePath>
-    <SourcePath>C:\VisualStudio\Voxel Engine\Client\src;$(SourcePath)</SourcePath>
-    <LibraryPath>C:\VisualStudio\Voxel Engine\x64\Release;C:\VisualStudio\Voxel Engine\Shared\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -49,22 +46,23 @@
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Ocode\src\;$(SolutionDir)\Ocode\include\;$(SolutionDir)\Network\src\;$(SolutionDir)\Network\include\;$(SolutionDir)\Common</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\VisualStudio\Voxel Engine\Shared\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="src\client\client.cpp" />
+    <ClCompile Include="src\client.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\client\client.h" />
+    <ClInclude Include="src\client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

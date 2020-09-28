@@ -7,7 +7,7 @@
 
 #include <vector>
 
-#include "server/client.h"
+#include "client.h"
 
 class Scene : public ocode::WorkerThreadDelay {
 private:

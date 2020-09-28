@@ -5,7 +5,7 @@
 #include <string>
 #include <cstdio>
 
-#include "enet.h"
+#include "enet/enet.h"
 
 struct Packet {
 	uint8 type;

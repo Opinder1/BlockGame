@@ -2,7 +2,8 @@
 
 #include "typedef.h"
 
-#include "engine.h"
+#include "ocode.h"
+#include "network.h"
 
 class Client : private NetClient, public ocode::WorkerThread {
 private:

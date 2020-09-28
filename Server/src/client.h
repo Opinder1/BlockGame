@@ -1,6 +1,7 @@
 #pragma once
 
-#include "engine.h"
+#include "ocode.h"
+#include "network.h"
 
 #include <string>
 

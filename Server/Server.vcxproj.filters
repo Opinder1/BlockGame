@@ -18,27 +18,27 @@
     <ClCompile Include="Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene\scene.cpp">
+    <ClCompile Include="src\client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\server\server.cpp">
+    <ClCompile Include="src\server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\server\client.cpp">
+    <ClCompile Include="src\scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\scene\scene.h">
+    <ClInclude Include="src\client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\server\server.h">
+    <ClInclude Include="src\commands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\server\commands.h">
+    <ClInclude Include="src\server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\server\client.h">
+    <ClInclude Include="src\scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

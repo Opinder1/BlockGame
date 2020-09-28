@@ -4,11 +4,12 @@
 #include <atomic>
 #include <unordered_map>
 
-#include "engine.h"
+#include "ocode.h"
+#include "network.h"
 
 #include "commands.h"
 #include "client.h"
-#include "scene/scene.h"
+#include "scene.h"
 
 #define COMMAND(name) int name(Server* server, uint8 argc, std::string* argv)
 

@@ -1,4 +1,4 @@
-#include "client/client.h"
+#include "src/client.h"
 
 int main() {
 	ocode::Config config("client.yml");

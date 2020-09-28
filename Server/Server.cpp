@@ -2,13 +2,11 @@
 
 #include "typedef.h"
 
-#include "yaml-cpp/yaml.h"
-
-#include "server/server.h"
-
 #include <string>
 #include <iostream>
 #include <fstream>
+
+#include "src/server.h"
 
 COMMAND(unknown) {
 	server->log.println("Unknown command. Type /help for help");
