@@ -1,17 +1,37 @@
 #include "packet.h"
 
-PacketReader::PacketReader(Packet packet) {
-	this->packet = packet;
+PacketReader::PacketReader(uint8* data, uint32 data_size) : data(data), data_size(data_size) {}
 
-	this->reader_pos = 0;
+PacketReader::PacketReader(ENetPacket* packet) : reader_pos(0) {
+	data = packet->data;
+	data_size = (uint32)packet->dataLength;
+};
+
+bool PacketReader::reached_end() {
+	return reader_pos >= data_size;
 }
 
-std::string Packet::to_string() {
-	char buffer[100];
-	sprintf_s(buffer, 100, "Packet: %u %.*s", type, (int)data_size, (char*)data);
-	return buffer;
+uint32 PacketReader::size() {
+	return data_size - reader_pos;
 }
 
-ENetPacket* Packet::to_enet_packet() {
-	return enet_packet_create(data, data_size, ENET_PACKET_FLAG_RELIABLE);
+std::string PacketReader::read_string(uint32 size) {
+	std::string var(data + reader_pos, data + reader_pos + size);
+	reader_pos += size;
+	return var;
+}
+
+uint8* PacketReader::segment(uint32 size) {
+	uint8* pos = data + reader_pos;
+	reader_pos += size;
+	return pos;
+}
+
+PacketWriter::PacketWriter(uint8 type) {
+	writer << type;
+}
+
+ENetPacket* PacketWriter::to_packet() {
+	std::string data = writer.str();
+	return enet_packet_create(data.c_str(), data.size(), ENET_PACKET_FLAG_RELIABLE);
 }

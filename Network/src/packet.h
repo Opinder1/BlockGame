@@ -3,48 +3,54 @@
 #include "typedef.h"
 
 #include <string>
-#include <cstdio>
+#include <sstream>
 
 #include "enet/enet.h"
 
-struct Packet {
-	uint8 type;
-	char* data;
-	size_t data_size;
+class PacketReader {
+private:
+	uint8* data;
+	uint32 data_size;
 
-	ENetPacket* to_enet_packet();
+	uint32 reader_pos;
 
-	std::string to_string();
+public:
+	enum Type {
+		DEFAULT, SSL_TO, SSL_FROM
+	};
+	
+
+	PacketReader(uint8* data, uint32 data_size);
+	PacketReader(ENetPacket* packet);
+	PacketReader(const PacketReader&) = delete;
+
+	bool reached_end();
+	uint32 size();
+
+	template<class Type>
+	Type read() {
+		Type var = *(Type*)(data + reader_pos);
+		reader_pos += sizeof(Type);
+		return var;
+	}
+
+	std::string read_string(uint32 size);
+
+	uint8* segment(uint32 size);
 };
 
 class PacketWriter {
 private:
-	size_t writer_pos;
+	std::stringstream writer;
 
 public:
-	Packet packet;
-};
-
-class PacketReader {
-private:
-	uint32 reader_pos;
-
-	Packet packet;
-
-public:
-
-	PacketReader(Packet packet);
-
-	std::string read(uint64 size) {
-		std::string var((char*)packet.data + reader_pos, (char*)packet.data + reader_pos + size);
-		reader_pos += size;
-		return var;
-	}
+	PacketWriter(uint8 type);
+	PacketWriter(const PacketWriter&) = delete;
 
 	template<class Type>
-	Type read() {
-		Type var = *(Type*)((char*)packet.data + reader_pos);
-		reader_pos += sizeof(Type);
-		return var;
+	void write(Type&& data) {
+		writer << data;
 	}
+
+	ENetPacket* to_packet();
 };

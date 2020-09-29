@@ -43,24 +43,30 @@ void NetClient::poll_netevent() {
         break;
 
     case ENET_EVENT_TYPE_RECEIVE:
-        packet_recive({ 0, event.packet->data, event.packet->dataLength });
 
-        size_t pos = 0;
+        PacketReader packet(event.packet);
 
-        while (pos < event.packet->dataLength) {
-            uint8 packet_type = *(uint8*)(event.packet->data + pos);
-            pos += sizeof(uint8);
+        uint8 net_packet_type = packet.read<uint8>();
 
-            uint64 packet_size = *(uint64*)(event.packet->data + pos);
-            pos += sizeof(uint64);
+        switch (net_packet_type) {
+        case PacketReader::DEFAULT:
+            do {
+                uint8 packet_type = packet.read<uint8>();
 
-            char* packet_data = (char*)(event.packet->data + pos);
+                uint32 packet_size = packet.read<uint32>();
 
-            switch (packet_type) {
+                uint8* packet_data = packet.segment(packet_size);
 
-            }
+                packet_recive(packet_type, { packet_data, packet_size });
+            } while (!packet.reached_end());
 
-            packet_recive({ packet_type, packet_data, packet_size });
+            break;
+
+        case PacketReader::SSL_FROM:
+            break;
+
+        case PacketReader::SSL_TO:
+            break;
         }
 
         enet_packet_destroy(event.packet);
@@ -68,8 +74,8 @@ void NetClient::poll_netevent() {
     }
 }
 
-void NetClient::packet_send(Packet packet) {
-    ENetPacket* enet_packet = packet.to_enet_packet();
+void NetClient::packet_send(PacketWriter& packet) {
+    ENetPacket* enet_packet = packet.to_packet();
 
     enet_peer_send(server, 0, enet_packet);
 

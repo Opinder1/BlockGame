@@ -23,7 +23,7 @@ private:
 
 	void connect(Peer peer) override;
 	void disconnect(Peer peer) override;
-	void packet_recive(Peer peer, Packet packet) override;
+	void packet_recive(Peer peer, uint8 type, PacketReader packet) override;
 
 public: //Should be removed
 	Commands<Server> commands;
@@ -42,8 +42,8 @@ public:
 	bool initialised();
 	bool is_running();
 
-	void player_join(Peer client, PacketReader reader);
-	void player_leave(Peer client, PacketReader reader);
+	void player_join(Peer client, PacketReader& packet);
+	void player_leave(Peer client, PacketReader& packet);
 
 	void new_scene(uint32 id);
 };

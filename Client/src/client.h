@@ -12,7 +12,7 @@ private:
 	void on_tick() override;
 
 	void disconnect() override;
-	void packet_recive(Packet packet) override;
+	void packet_recive(uint8 type, PacketReader packet) override;
 
 public:
 	Client(std::string ip, uint16 port);

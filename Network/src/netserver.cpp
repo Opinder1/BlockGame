@@ -39,36 +39,38 @@ void NetServer::poll_netevent() {
         break;
 
     case ENET_EVENT_TYPE_RECEIVE:
-        //ocode::println("A packet of length %llu containing %s was received from %s on channel %u.", event.packet->dataLength, (char*)event.packet->data, peer_to_string(peer), event.channel);
+        PacketReader packet(event.packet);
 
-        packet_recive((Peer)event.peer, { 0, event.packet->data, event.packet->dataLength });
+        uint8 net_packet_type = packet.read<uint8>();
 
-        size_t pos = 0;
+        switch (net_packet_type) {
+        case PacketReader::DEFAULT:
+            do {
+                uint8 packet_type = packet.read<uint8>();
 
-        while (pos < event.packet->dataLength) {
-            uint8 packet_type = *(uint8*)(event.packet->data + pos);
-            pos += sizeof(uint8);
+                uint32 packet_size = packet.read<uint32>();
 
-            uint64 packet_size = *(uint64*)(event.packet->data + pos);
-            pos += sizeof(uint64);
+                uint8* packet_data = packet.segment(packet_size);
 
-            char* packet_data = (char*)(event.packet->data + pos);
+                packet_recive((Peer)event.peer, packet_type, { packet_data, packet_size });
+            } while (!packet.reached_end());
 
-            switch (packet_type) {
+            break;
 
-            }
+        case PacketReader::SSL_FROM:
+            break;
 
-            packet_recive((Peer)event.peer, { packet_type, packet_data, packet_size });
+        case PacketReader::SSL_TO:
+            break;
         }
 
         enet_packet_destroy(event.packet);
-
         break;
     }
 }
 
-void NetServer::packet_send(Peer client, Packet packet) {
-    ENetPacket* enet_packet = packet.to_enet_packet();
+void NetServer::packet_send(Peer client, PacketWriter& packet) {
+    ENetPacket* enet_packet = packet.to_packet();
 
     enet_peer_send((ENetPeer*)client, 0, enet_packet);
 
@@ -77,8 +79,8 @@ void NetServer::packet_send(Peer client, Packet packet) {
     enet_host_flush(server);
 }
 
-void NetServer::packet_broadcast(Packet packet) {
-    ENetPacket* enet_packet = packet.to_enet_packet();
+void NetServer::packet_broadcast(PacketWriter& packet) {
+    ENetPacket* enet_packet = packet.to_packet();
 
     enet_host_broadcast(server, 0, enet_packet);
 

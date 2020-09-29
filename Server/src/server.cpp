@@ -39,20 +39,18 @@ void Server::disconnect(Peer client) {
 	log.println("%u Disconnected", client);
 }
 
-void Server::packet_recive(Peer peer, Packet packet) {
-    PacketReader reader(&packet);
-
-    switch (packet.type) {
+void Server::packet_recive(Peer peer, uint8 type, PacketReader packet) {
+    switch (type) {
     case 0:
-        log.println("%u Packet: %s", peer, packet.to_string());
+        log.println("%u Packet: %s", peer, packet.read_string(packet.size()).c_str());
         break;
 
     case 1:
-        player_join(peer, reader);
+        player_join(peer, packet);
         break;
 
     case 2:
-        player_leave(peer, reader);
+        player_leave(peer, packet);
         break;
 
     case 3:
@@ -67,20 +65,20 @@ void Server::packet_recive(Peer peer, Packet packet) {
     }
 }
 
-void Server::player_join(Peer peer, PacketReader reader) {
+void Server::player_join(Peer peer, PacketReader& reader) {
     ocode::UUID id = reader.read<ocode::UUID>();
 
     ocode::Config player_config(id.to_string() + ".yml");
 
     uint8 username_size = reader.read<uint8>();
-    std::string username = reader.read(username_size);
+    std::string username = reader.read_string(username_size);
 
     std::shared_ptr<Client> client(new Client(username, peer));
 
     this->players.insert({ peer, client });
 }
 
-void Server::player_leave(Peer peer, PacketReader reader) {
+void Server::player_leave(Peer peer, PacketReader& reader) {
     this->players.erase(peer);
 }
 

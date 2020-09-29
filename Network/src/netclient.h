@@ -26,8 +26,8 @@ public:
     void poll_netevent();
 
     virtual void disconnect() = 0;
-    virtual void packet_recive(Packet packet) = 0;
+    virtual void packet_recive(uint8 type, PacketReader packet) = 0;
 
-    void packet_send(Packet packet);
+    void packet_send(PacketWriter& packet);
     //void packet_send_multiple(Packet* packets);
 };

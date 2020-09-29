@@ -25,9 +25,9 @@ public:
 
     virtual void connect(Peer client) = 0;
     virtual void disconnect(Peer client) = 0;
-    virtual void packet_recive(Peer client, Packet packet) = 0;
+    virtual void packet_recive(Peer client, uint8 type, PacketReader packet) = 0;
 
-    void packet_send(Peer client, Packet packet);
+    void packet_send(Peer client, PacketWriter& packet);
     //void packet_send_multiple(ENetPeer* client, Packet* packets);
-    void packet_broadcast(Packet packet);
+    void packet_broadcast(PacketWriter& packet);
 };

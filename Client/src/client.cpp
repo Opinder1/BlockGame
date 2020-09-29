@@ -28,7 +28,7 @@ void Client::disconnect() {
 
 }
 
-void Client::packet_recive(Packet packet) {
+void Client::packet_recive(uint8 type, PacketReader packet) {
 
 }
 
@@ -50,6 +50,9 @@ void Client::connect(uint8 connect_attempts, uint16 connect_timeout) {
         WorkerThread::stop_running();
     }
 
-    //Packet packet("A");
-    //NetClient::packet_send(packet);
+    PacketWriter packet(0);
+
+    packet.write("hello");
+
+    NetClient::packet_send(packet);
 }
