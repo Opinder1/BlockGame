@@ -7,6 +7,7 @@ NetClient::NetClient(std::string ip, uint16 port) : server(NULL) {
     client = enet_host_create(NULL, 1, 2, 0, 0);
 }
 
+#include <iostream>
 NetClient::~NetClient() {
     enet_host_destroy(client);
 }
@@ -49,7 +50,7 @@ void NetClient::poll_netevent() {
         uint8 net_packet_type = packet.read<uint8>();
 
         switch (net_packet_type) {
-        case PacketReader::DEFAULT:
+        case Packet::DEFAULT:
             do {
                 uint8 packet_type = packet.read<uint8>();
 
@@ -62,10 +63,10 @@ void NetClient::poll_netevent() {
 
             break;
 
-        case PacketReader::SSL_FROM:
+        case Packet::SSL_FROM:
             break;
 
-        case PacketReader::SSL_TO:
+        case Packet::SSL_TO:
             break;
         }
 

@@ -47,15 +47,15 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Ocode\src\;$(SolutionDir)\Ocode\include\;$(SolutionDir)\Network\src\;$(SolutionDir)\Network\include\;$(SolutionDir)\common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Ocode\src\;$(SolutionDir)\Network\src\;$(SolutionDir)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cryptlib.lib;enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

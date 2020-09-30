@@ -36,7 +36,7 @@ public:
 
 	template<typename Function, typename... Args>
 	void run_method(Function&& function, Args&&... args) {
-		WorkerThread::post_message(std::bind(function, this, args...));
+		WorkerThread::post_message(function, this, args...);
 	}
 
 	bool initialised();

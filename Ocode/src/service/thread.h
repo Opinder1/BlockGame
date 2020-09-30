@@ -10,10 +10,19 @@
 #include <queue>
 #include <chrono>
 #include <cstdarg>
-
-#include "threadmessage.h"
+#include <functional>
 
 namespace ocode {
+    struct ThreadMessage {
+        enum MessageType { Stop, Post, Timer };
+
+        uint8 type;
+        std::function<void()> action;
+
+        ThreadMessage() : type(0), action(0) {}
+        ThreadMessage(uint8 type, std::function<void()>&& action) : type(type), action(action) {}
+    };
+
     class Thread { 
     protected:
         std::atomic_bool running = true;
@@ -33,19 +42,21 @@ namespace ocode {
 
         void ProcessThread();
 
+    protected:
+        template<class Function, class Class, class... Args>
+        void post_message(Function f, Class c, Args... args) {
+            std::shared_ptr<ThreadMessage> message(new ThreadMessage(ThreadMessage::Post, std::bind(f, c, args...)));
+
+            std::lock_guard<std::mutex> lock(mutex);
+            queue.push(message);
+        }
+
     public:
         WorkerThread();
 
         virtual ~WorkerThread();
 
         void stop_running();
-
-        void post_message(std::function<void()> action) {
-            std::shared_ptr<ThreadMessage> message(new ThreadMessage(ThreadMessage::Post, action));
-
-            std::lock_guard<std::mutex> lock(mutex);
-            queue.push(message);
-        }
     };
 
     class WorkerThreadDelay : public Thread {
@@ -60,19 +71,21 @@ namespace ocode {
 
         void ProcessThread();
 
+    protected:
+        template<class Function, class Class, class... Args>
+        void post_message(Function f, Class c, Args... args) {
+            std::shared_ptr<ThreadMessage> message(new ThreadMessage(ThreadMessage::Post, std::bind(f, c, args...)));
+
+            std::lock_guard<std::mutex> lock(mutex);
+            queue.push(message);
+            cv.notify_one();
+        }
+
     public:
         WorkerThreadDelay();
 
         virtual ~WorkerThreadDelay();
 
         void stop_running();
-
-        void post_message(std::function<void()> action) {
-            std::shared_ptr<ThreadMessage> message(new ThreadMessage(ThreadMessage::Post, action));
-
-            std::lock_guard<std::mutex> lock(mutex);
-            queue.push(message);
-            cv.notify_one();
-        }
     };
 }

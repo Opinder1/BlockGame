@@ -68,10 +68,10 @@ void Server::packet_recive(Peer peer, uint8 type, PacketReader packet) {
 void Server::player_join(Peer peer, PacketReader& reader) {
     ocode::UUID id = reader.read<ocode::UUID>();
 
-    ocode::Config player_config(id.to_string() + ".yml");
-
     uint8 username_size = reader.read<uint8>();
     std::string username = reader.read_string(username_size);
+
+    ocode::Config player_config(id.to_string() + ".yml");
 
     std::shared_ptr<Client> client(new Client(username, peer));
 

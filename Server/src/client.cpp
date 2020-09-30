@@ -1,11 +1,7 @@
 #include "client.h"
 
-Client::Client(std::string username, Peer connection) {
-	this->id = random.generate_uuid();
+Client::Client(ocode::UUID id, std::string username, Peer connection) : id(id), username(username), connection(connection) {
 
-	this->username = username;
-
-	this->connection = connection;
 }
 
 Client::~Client() {

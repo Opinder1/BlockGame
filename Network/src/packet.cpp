@@ -1,6 +1,6 @@
 #include "packet.h"
 
-PacketReader::PacketReader(uint8* data, uint32 data_size) : data(data), data_size(data_size) {}
+PacketReader::PacketReader(uint8* data, uint32 data_size) : data(data), data_size(data_size), reader_pos(0) {}
 
 PacketReader::PacketReader(ENetPacket* packet) : reader_pos(0) {
 	data = packet->data;

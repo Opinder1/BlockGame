@@ -37,6 +37,43 @@
     <ClCompile Include="src\uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\rapidjson\allocators.h" />
+    <ClInclude Include="include\rapidjson\cursorstreamwrapper.h" />
+    <ClInclude Include="include\rapidjson\document.h" />
+    <ClInclude Include="include\rapidjson\encodedstream.h" />
+    <ClInclude Include="include\rapidjson\encodings.h" />
+    <ClInclude Include="include\rapidjson\error\en.h" />
+    <ClInclude Include="include\rapidjson\error\error.h" />
+    <ClInclude Include="include\rapidjson\filereadstream.h" />
+    <ClInclude Include="include\rapidjson\filewritestream.h" />
+    <ClInclude Include="include\rapidjson\fwd.h" />
+    <ClInclude Include="include\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="include\rapidjson\internal\clzll.h" />
+    <ClInclude Include="include\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="include\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="include\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="include\rapidjson\internal\itoa.h" />
+    <ClInclude Include="include\rapidjson\internal\meta.h" />
+    <ClInclude Include="include\rapidjson\internal\pow10.h" />
+    <ClInclude Include="include\rapidjson\internal\regex.h" />
+    <ClInclude Include="include\rapidjson\internal\stack.h" />
+    <ClInclude Include="include\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="include\rapidjson\internal\strtod.h" />
+    <ClInclude Include="include\rapidjson\internal\swap.h" />
+    <ClInclude Include="include\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="include\rapidjson\memorybuffer.h" />
+    <ClInclude Include="include\rapidjson\memorystream.h" />
+    <ClInclude Include="include\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="include\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="include\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="include\rapidjson\pointer.h" />
+    <ClInclude Include="include\rapidjson\prettywriter.h" />
+    <ClInclude Include="include\rapidjson\rapidjson.h" />
+    <ClInclude Include="include\rapidjson\reader.h" />
+    <ClInclude Include="include\rapidjson\schema.h" />
+    <ClInclude Include="include\rapidjson\stream.h" />
+    <ClInclude Include="include\rapidjson\stringbuffer.h" />
+    <ClInclude Include="include\rapidjson\writer.h" />
     <ClInclude Include="include\yaml-cpp\anchor.h" />
     <ClInclude Include="include\yaml-cpp\binary.h" />
     <ClInclude Include="include\yaml-cpp\contrib\anchordict.h" />
@@ -93,7 +130,6 @@
     <ClInclude Include="src\ocode.h" />
     <ClInclude Include="src\parser\parser.h" />
     <ClInclude Include="src\service\thread.h" />
-    <ClInclude Include="src\service\threadmessage.h" />
     <ClInclude Include="src\error.h" />
     <ClInclude Include="src\random.h" />
     <ClInclude Include="src\timer.h" />
@@ -155,7 +191,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)build\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\build\$(ProjectName)\$(Configuration)-$(Platform)\</IntDir>
-    <IncludePath>$(ProjectDir)\include;$(SolutionDir)\Common;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -179,8 +215,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>

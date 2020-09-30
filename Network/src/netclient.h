@@ -5,6 +5,9 @@
 #include <atomic>
 
 #include "enet/enet.h"
+#include "cryptlib/cryptlib.h"
+#include "cryptlib/sha.h"
+
 #include "packet.h"
 
 class NetClient {

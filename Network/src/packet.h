@@ -7,6 +7,12 @@
 
 #include "enet/enet.h"
 
+namespace Packet {
+	enum Type {
+		DEFAULT, SSL_TO, SSL_FROM
+	};
+}
+
 class PacketReader {
 private:
 	uint8* data;
@@ -15,11 +21,6 @@ private:
 	uint32 reader_pos;
 
 public:
-	enum Type {
-		DEFAULT, SSL_TO, SSL_FROM
-	};
-	
-
 	PacketReader(uint8* data, uint32 data_size);
 	PacketReader(ENetPacket* packet);
 	PacketReader(const PacketReader&) = delete;

@@ -3,6 +3,7 @@
 #include "typedef.h"
 
 #include "enet/enet.h"
+
 #include "packet.h"
 
 std::string peer_to_string(ENetPeer* client);

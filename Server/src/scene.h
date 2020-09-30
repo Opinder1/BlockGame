@@ -21,7 +21,7 @@ public:
 
 	template<typename Function, typename... Args>
 	void run_method(Function&& function, Args&&... args) {
-		WorkerThreadDelay::post_message(std::bind(function, this, args...));
+		WorkerThreadDelay::post_message(function, this, args...);
 	}
 
 	void on_tick() override; 

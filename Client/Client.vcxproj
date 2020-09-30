@@ -46,15 +46,15 @@
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Ocode\src\;$(SolutionDir)\Ocode\include\;$(SolutionDir)\Network\src\;$(SolutionDir)\Network\include\;$(SolutionDir)\Common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Ocode\src\;$(SolutionDir)\Network\src\;$(SolutionDir)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cryptlib.lib;enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

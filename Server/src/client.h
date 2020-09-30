@@ -12,10 +12,8 @@ private:
 
 	Peer connection;
 
-	inline static ocode::Random random;
-
 public:
-	Client(std::string username, Peer connection);
+	Client(ocode::UUID id, std::string username, Peer connection);
 	~Client();
 
 	std::string to_string();
