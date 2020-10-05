@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <string>
 
-#include "log.h"
 #include "file.h"
+#include "log.h"
 
 namespace ocode {
     struct File_Meta {

@@ -4,18 +4,19 @@
 
 #include <thread>
 #include <atomic>
-
 #include <vector>
+#include <memory>
 
-#include "client.h"
+#include "player.h"
 
 class Scene : public ocode::WorkerThreadDelay {
 private:
 	ocode::Random random;
 
-	std::vector<Client*> clients;
+	std::vector<std::shared_ptr<Player>> clients;
 
 public:
+	Scene(const Scene&) = delete;
 	Scene();
 	~Scene();
 

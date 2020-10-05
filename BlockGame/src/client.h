@@ -5,16 +5,21 @@
 #include "ocode.h"
 #include "network.h"
 
-class Client : private NetClient, public ocode::WorkerThread {
+#include "packet.h"
+#include "session.h"
+
+class Client : private network::Client, public ocode::WorkerThread {
 private:
 	ocode::LogFile log;
 
+	bool initialised();
+	 
 	void on_tick() override;
 
-	void disconnect() override;
-	void packet_recive(uint8 type, PacketReader packet) override;
+	void packet_recive(network::Peer peer, uint8 type, network::PacketReader& packet) override;
 
 public:
+	Client(const Client&) = delete;
 	Client(std::string ip, uint16 port);
     ~Client();
 
@@ -23,8 +28,7 @@ public:
 		WorkerThread::post_message(function, this, args...);
 	}
 
-	bool initialised();
 	bool is_running();
 
-	void connect(uint8 connect_attempts, uint16 connect_timeout);
-};
+	void connect(uint8 connect_attempts, uint16 connect_timeout); 
+}; 

@@ -30,9 +30,6 @@
     <ClCompile Include="src\service\workerthreaddelay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\uuid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,9 +37,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\filesystem\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\filesystem\file.cpp">
@@ -54,13 +48,28 @@
     <ClCompile Include="src\filesystem\log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\filesystem\ofa.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\filesystem\partial_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\filesystem\virtual_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filesystem\ofa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\commands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\netclient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\nethost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\netserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\network\packet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,12 +78,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\service\thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ocode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\uuid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\timer.h">
@@ -230,9 +233,6 @@
     <ClInclude Include="include\zlib\zutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\filesystem\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\filesystem\file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -240,9 +240,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\filesystem\log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\filesystem\ofa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\rapidjson\error\en.h">
@@ -354,6 +351,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\rapidjson\writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\filesystem\ofa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\commands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ocode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\nethost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\network.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\network\packet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,8 +9,4 @@ namespace ocode {
 		seed = 6364136223846793005 * seed + 1;
 		return seed;
 	}
-
-	UUID Random::generate_uuid() {
-		return { generate(), generate() };
-	}
 }

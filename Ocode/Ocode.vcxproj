@@ -19,13 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\filesystem\config.cpp" />
+    <ClCompile Include="src\commands.cpp" />
     <ClCompile Include="src\filesystem\file.cpp" />
     <ClCompile Include="src\filesystem\folder.cpp" />
     <ClCompile Include="src\filesystem\ofa.cpp" />
     <ClCompile Include="src\filesystem\partial_file.cpp" />
     <ClCompile Include="src\filesystem\virtual_file.cpp" />
     <ClCompile Include="src\filesystem\log.cpp" />
+    <ClCompile Include="src\network\netclient.cpp" />
+    <ClCompile Include="src\network\nethost.cpp" />
+    <ClCompile Include="src\network\netserver.cpp" />
+    <ClCompile Include="src\network\packet.cpp" />
     <ClCompile Include="src\parser\preprocess.cpp" />
     <ClCompile Include="src\parser\token.cpp" />
     <ClCompile Include="src\parser\tokenize.cpp" />
@@ -34,7 +38,6 @@
     <ClCompile Include="src\error.cpp" />
     <ClCompile Include="src\random.cpp" />
     <ClCompile Include="src\timer.cpp" />
-    <ClCompile Include="src\uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\rapidjson\allocators.h" />
@@ -122,18 +125,21 @@
     <ClInclude Include="include\zlib\zconf.h" />
     <ClInclude Include="include\zlib\zlib.h" />
     <ClInclude Include="include\zlib\zutil.h" />
-    <ClInclude Include="src\filesystem\config.h" />
+    <ClInclude Include="src\commands.h" />
     <ClInclude Include="src\filesystem\file.h" />
     <ClInclude Include="src\filesystem\filesystem.h" />
-    <ClInclude Include="src\filesystem\ofa.h" />
     <ClInclude Include="src\filesystem\log.h" />
-    <ClInclude Include="src\ocode.h" />
+    <ClInclude Include="src\filesystem\ofa.h" />
+    <ClInclude Include="ocode.h" />
+    <ClInclude Include="src\message.h" />
+    <ClInclude Include="src\network\nethost.h" />
+    <ClInclude Include="src\network\network.h" />
+    <ClInclude Include="src\network\packet.h" />
     <ClInclude Include="src\parser\parser.h" />
     <ClInclude Include="src\service\thread.h" />
     <ClInclude Include="src\error.h" />
     <ClInclude Include="src\random.h" />
     <ClInclude Include="src\timer.h" />
-    <ClInclude Include="src\uuid.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

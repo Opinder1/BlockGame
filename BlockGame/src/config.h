@@ -5,9 +5,9 @@
 #include <string>
 #include <fstream>
 
-#include "yaml-cpp/yaml.h"
+#include <yaml-cpp/yaml.h>
 
-#include "file.h"
+#include "ocode.h"
 
 namespace ocode {
 	class Config {

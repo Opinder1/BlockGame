@@ -26,21 +26,29 @@ namespace ocode {
     void LogFile::print(const char* format, ...) {
         fprintf(file, "[PRINTLN] ");
 
-        va_list args;
+        va_list args, fargs;
         va_start(args, format);
+        va_copy(fargs, args);
+
         vprintf(format, args);
-        vfprintf(file, format, args);
         va_end(args);
+
+        vfprintf(file, format, args);
+        va_end(fargs);
     }
 
     void LogFile::println(const char* format, ...) {
         fprintf(file, "[PRINTLN] ");
 
-        va_list args;
+        va_list args, fargs;
         va_start(args, format);
+        va_copy(fargs, args);
+
         vprintf(format, args);
-        vfprintf(file, format, args);
         va_end(args);
+
+        vfprintf(file, format, args);
+        va_end(fargs);
 
         printf("\n");
         fwrite("\n", 1, 1, file);

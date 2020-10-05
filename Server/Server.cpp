@@ -1,12 +1,14 @@
-#define _HAS_EXCEPTIONS 0
+#define SERVER
 
 #include "typedef.h"
 
 #include <string>
 #include <iostream>
-#include <fstream>
 
-#include "src/server.h"
+#include "ocode.h"
+#include "blockgame.h"
+
+Server* server;
 
 COMMAND(unknown) {
 	server->log.println("Unknown command. Type /help for help");
@@ -20,8 +22,7 @@ COMMAND(help) {
 
 COMMAND(quit) {
 	server->log.println("Stopping server...");
-	server->stop_running();
-	return 0;
+	return -1;
 }
 
 COMMAND(list) {
@@ -51,30 +52,35 @@ COMMAND(max_threads) {
 	return 0;
 }
 
-Server server_setup(ocode::Config config) {
+void command_setup(ocode::Commands& commands) {
+	commands.set_default(unknown);
+	commands.add_command("help", help);
+	commands.add_command("quit", quit);
+	commands.add_command("list", list);
+	commands.add_command("broadcast", broadcast);
+	commands.add_command("args_test", args_test);
+	commands.add_command("max_threads", max_threads);
+}
+
+Server* server_setup(ocode::Config config) {
 	uint16 port = config.get_value<uint16>("port", 1234);
-	uint8 max_connections = config.get_value<uint8>("max_connections", 32);
+	uint8 max_connections = (uint8)config.get_value<uint16>("max_connections", 32);
 
-	return Server(port, max_connections);
+	return new Server(port, max_connections);
 }
 
-void command_setup(Server& server) {
-	server.commands.set_default(unknown);
-	server.commands.add_command("help", help);
-	server.commands.add_command("quit", quit);
-	server.commands.add_command("list", list);
-	server.commands.add_command("broadcast", broadcast);
-	server.commands.add_command("args_test", args_test);
-	server.commands.add_command("max_threads", max_threads);
-}
-
-void command_loop(Server& server) {
+void command_loop() {
+	ocode::Commands commands;
 	std::string command;
 
-	while (server.is_running()) {
+	command_setup(commands);
+
+	while (server->is_running()) {
 		std::cin >> command;
 
-		server.commands.run_command(command.c_str());
+		if (commands.run_command(command.c_str()) != 0) {
+			server->stop_running();
+		}
 	}
 }
 
@@ -85,13 +91,9 @@ int main(int argc, const char** argv) {
 
 	ocode::Config config("server.yml");
 
-	if (!ocode::file_exists("server.yml")) {
-		return -1;
-	}
+	server = server_setup(config);
 
-	Server server = server_setup(config);
+	command_loop();
 
-	command_setup(server);
-
-	command_loop(server);
+	delete server;
 }

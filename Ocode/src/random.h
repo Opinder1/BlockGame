@@ -2,8 +2,6 @@
 
 #include "typedef.h"
 
-#include "uuid.h"
-
 #include <chrono>
 
 namespace ocode {
@@ -15,7 +13,5 @@ namespace ocode {
 		Random();
 
 		uint64 generate();
-
-		UUID generate_uuid();
 	};
 }

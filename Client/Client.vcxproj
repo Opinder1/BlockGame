@@ -46,7 +46,7 @@
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Ocode\src\;$(SolutionDir)\Network\src\;$(SolutionDir)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\BlockGame\;$(SolutionDir)\Ocode\;$(SolutionDir)\Network\;$(SolutionDir)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -54,15 +54,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;ocode.lib;network.lib;blockgame.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="src\client.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

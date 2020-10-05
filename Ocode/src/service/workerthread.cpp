@@ -12,10 +12,12 @@ namespace ocode {
     }
 
     void WorkerThread::stop_running() {
-        std::shared_ptr<ThreadMessage> message(new ThreadMessage(ThreadMessage::Stop, {}));
+        if (running) {
+            std::shared_ptr<ThreadMessage> message(new ThreadMessage(ThreadMessage::Stop, {}));
 
-        std::lock_guard<std::mutex> lock(mutex);
-        queue.push(message);
+            std::lock_guard<std::mutex> lock(mutex);
+            queue.push(message);
+        }
     }
 
     void WorkerThread::ProcessThread() {
