@@ -20,8 +20,8 @@ namespace ocode {
 		std::unordered_map<std::string, CommandType> commands;
 
 	public:
+		Commands(const Commands&) = delete;
 		Commands() : unknown_command(NULL) {}
-
 		~Commands() {}
 
 		void set_default(CommandType unknown_command);

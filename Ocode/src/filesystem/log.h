@@ -1,6 +1,6 @@
 #pragma once
 
-#include "typedef.h"
+#include "../typedef.h"
 
 #include <string>
 #include <cstdarg>
@@ -12,11 +12,11 @@ namespace ocode {
         FILE* file;
 
     public:
-        LogFile(std::string name);
-
+        LogFile(const LogFile&) = delete;
+        LogFile(const std::string& name);
         ~LogFile();
 
-        bool initialised();
+        bool initialized();
 
         void printraw(const void* buffer, uint32 buffer_size);
 

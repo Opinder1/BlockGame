@@ -1,6 +1,6 @@
 #pragma once
 
-#include "typedef.h"
+#include "../typedef.h"
 
 #include <string>
 #include <cstdio>
@@ -22,13 +22,13 @@ namespace ocode {
         uint32 size;
 
     public:
-        Virtual_File(std::string file_name, const uint8* file_data, uint32 size);
-
+        Virtual_File(const Virtual_File&) = delete;
+        Virtual_File(const std::string& file_name, const uint8* file_data, uint32 size);
         ~Virtual_File();
 
         void seek(uint32 pos);
 
-        std::string& get_name();
+        const std::string& get_name();
 
         uint32 get_size();
 
@@ -57,7 +57,8 @@ namespace ocode {
         FILE* file;
 
     public:
-        Partial_File(std::string file_name);
+        Partial_File(const Partial_File&) = delete;
+        Partial_File(const std::string& file_name);
 
         ~Partial_File();
 
@@ -66,9 +67,9 @@ namespace ocode {
             fread(&buffer, sizeof(Type), 1, this->file);
         }
 
-        Virtual_File load_partial(std::string partial_name, uint32 begin, uint32 size);
+        Virtual_File load_partial(const std::string& partial_name, uint32 begin, uint32 size);
 
-        Virtual_File load_partial_compressed(std::string partial_name, uint32 begin, uint32 compressed_size, uint32 size);
+        Virtual_File load_partial_compressed(const std::string& partial_name, uint32 begin, uint32 compressed_size, uint32 size);
     };
 
     int create_file(const std::string& file_name);

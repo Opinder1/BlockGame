@@ -10,6 +10,7 @@ namespace ocode {
 		uint64 seed;
 
 	public:
+		Random(const Random&) = delete;
 		Random();
 
 		uint64 generate();

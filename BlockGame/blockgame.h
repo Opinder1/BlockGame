@@ -1,11 +1,11 @@
 #pragma once
 
-#include "src/config.h"
+#include "ocode.h"
 
-#ifdef CLIENT
-#include "src/client.h"
-#endif
+#include "src/datafile.h"
 
-#ifdef SERVER
-#include "src/server.h"
-#endif
+#include "src/events.h"
+
+#include "src/session.h"
+
+#include "src/network/network.h"

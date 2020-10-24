@@ -11,7 +11,6 @@ namespace ocode {
 
 	public:
 		Timer();
-
 		~Timer();
 
 		uint64 stop();

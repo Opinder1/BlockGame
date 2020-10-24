@@ -1,6 +1,6 @@
 #pragma once
 
-#include "typedef.h"
+#include "../typedef.h"
 
 #include <unordered_map>
 #include <string>
@@ -23,17 +23,17 @@ namespace ocode {
 
         std::unordered_map<std::string, File_Meta> files;
 
-        void error(std::string reason);
+        void error(const std::string& reason);
 
     public:
-        OFA(std::string archive_name);
-
+        OFA(const OFA&) = delete;
+        OFA(const std::string& archive_name);
         ~OFA();
 
         void print_files();
 
-        bool contains_file(std::string& file_name);
+        bool contains_file(const std::string& file_name);
 
-        Virtual_File operator[](std::string& file_name);
+        Virtual_File operator[](const std::string& file_name);
     };
 }

@@ -24,12 +24,6 @@
     <ClCompile Include="src\parser\tokenize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\service\workerthread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\service\workerthreaddelay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,24 +54,18 @@
     <ClCompile Include="src\commands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\network\netclient.cpp">
+    <ClCompile Include="src\events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\network\nethost.cpp">
+    <ClCompile Include="src\uuid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\network\netserver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\network\packet.cpp">
+    <ClCompile Include="src\workerthread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\parser\parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\service\thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\timer.h">
@@ -362,16 +350,16 @@
     <ClInclude Include="ocode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\network\nethost.h">
+    <ClInclude Include="src\events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\network\network.h">
+    <ClInclude Include="src\uuid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\network\packet.h">
+    <ClInclude Include="src\typedef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\message.h">
+    <ClInclude Include="src\workerthread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

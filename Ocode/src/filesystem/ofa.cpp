@@ -1,7 +1,7 @@
 #include "ofa.h"
 
 namespace ocode {
-    OFA::OFA(std::string archive_name) : Partial_File(archive_name) {
+    OFA::OFA(const std::string& archive_name) : Partial_File(archive_name) {
         this->read_scalar(this->meta_compressed_size);
 
         this->read_scalar(this->meta_size);
@@ -41,15 +41,15 @@ namespace ocode {
         }
     }
 
-    void OFA::error(std::string reason) {
+    void OFA::error(const std::string& reason) {
         println("OFA Error: Error reading archive: %s\n Reason: %s", this->file_name.data(), reason.data());
     }
 
-    bool OFA::contains_file(std::string& file_name) {
+    bool OFA::contains_file(const std::string& file_name) {
         return this->files.find(file_name) != this->files.end();
     }
 
-    Virtual_File OFA::operator[](std::string& file_name) {
+    Virtual_File OFA::operator[](const std::string& file_name) {
         if (!this->contains_file(file_name)) {
             println("OFA Error: Could not find the file %s in the archive %s", file_name.data(), this->file_name.data());
         }

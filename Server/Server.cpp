@@ -1,12 +1,7 @@
-#define SERVER
-
-#include "typedef.h"
+#include "src/server.h"
 
 #include <string>
 #include <iostream>
-
-#include "ocode.h"
-#include "blockgame.h"
 
 Server* server;
 
@@ -62,13 +57,6 @@ void command_setup(ocode::Commands& commands) {
 	commands.add_command("max_threads", max_threads);
 }
 
-Server* server_setup(ocode::Config config) {
-	uint16 port = config.get_value<uint16>("port", 1234);
-	uint8 max_connections = (uint8)config.get_value<uint16>("max_connections", 32);
-
-	return new Server(port, max_connections);
-}
-
 void command_loop() {
 	ocode::Commands commands;
 	std::string command;
@@ -89,9 +77,9 @@ int main(int argc, const char** argv) {
 
 	ocode::println("[Voxel Engine server]\nType /help for a list of commands");
 
-	ocode::Config config("server.yml");
+	Config config("server.yml");
 
-	server = server_setup(config);
+	server = new Server();
 
 	command_loop();
 

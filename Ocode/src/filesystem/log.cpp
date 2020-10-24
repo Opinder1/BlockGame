@@ -1,11 +1,11 @@
 #include "log.h"
 
 namespace ocode {
-    LogFile::LogFile(std::string name) {
+    LogFile::LogFile(const std::string& name) {
         fopen_s(&file, (name + ".log").c_str(), "w");
     }
 
-    bool LogFile::initialised() {
+    bool LogFile::initialized() {
         return file != NULL;
     }
 
@@ -33,7 +33,7 @@ namespace ocode {
         vprintf(format, args);
         va_end(args);
 
-        vfprintf(file, format, args);
+        vfprintf(file, format, fargs);
         va_end(fargs);
     }
 
@@ -47,7 +47,7 @@ namespace ocode {
         vprintf(format, args);
         va_end(args);
 
-        vfprintf(file, format, args);
+        vfprintf(file, format, fargs);
         va_end(fargs);
 
         printf("\n");

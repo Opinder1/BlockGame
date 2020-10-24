@@ -1,7 +1,7 @@
 #include "file.h"
 
 namespace ocode {
-    Virtual_File::Virtual_File(std::string file_name, const uint8* file_data, uint32 size) {
+    Virtual_File::Virtual_File(const std::string& file_name, const uint8* file_data, uint32 size) {
         this->name = file_name;
         this->data = file_data;
         this->size = size;
@@ -20,7 +20,7 @@ namespace ocode {
         }
     }
 
-    std::string& Virtual_File::get_name() {
+    const std::string& Virtual_File::get_name() {
         return this->name;
     }
 
