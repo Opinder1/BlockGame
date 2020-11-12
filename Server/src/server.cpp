@@ -1,8 +1,8 @@
 #include "server.h"
 
 Server::Server() : 
-    log("server.log"),
-    config("server.yml"),
+    log("server"),
+    config("server"),
     server(this, config.get_value<uint16>("port", 1234), (uint8)config.get_value<uint16>("max_connections", 32))
 {
     if (!log.initialized()) {
@@ -30,7 +30,7 @@ Server::~Server() {
 
 }
 
-bool Server::on_tick(const ocode::TickEvent* e) {
+bool Server::on_tick(const TickEvent* e) {
     server.listen();
 }
 

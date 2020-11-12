@@ -22,7 +22,9 @@ namespace ocode {
 
 	class Event {
 	public:
-		virtual ~Event() {}; // Should it be virtual ???
+		Event(const Event&) = delete;
+		Event() {}
+		virtual ~Event() {};
 
 		virtual const std::string to_string() const = 0;
 	};

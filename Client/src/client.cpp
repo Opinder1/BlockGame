@@ -2,9 +2,9 @@
 
 Client::Client() :
     running(true),
-    log("client.log"),
-    config("client.yml"),
-    window(this, "test")
+    log("client"),
+    config("client"),
+    window(get_manager(), "test")
 {
     if (!log.initialized()) {
         return;
@@ -22,68 +22,62 @@ Client::Client() :
         return;
     }
 
-    Monitor::init(this);
+    Monitor::init(get_manager());
 
-    EVENT_SUBSCRIBE(PacketReciveEvent, on_packet_recive);
-    EVENT_SUBSCRIBE(WindowResizeEvent, on_window_resize);
-
-    do {
-        tick();
-    } while (running);
+    EVENT_SUBSCRIBE(WindowResizeEvent, Client::on_window_resize);
+    EVENT_SUBSCRIBE(WindowCloseEvent, Client::on_window_close);
 }
 
 Client::~Client() {
 
 }
 
-void Client::tick() {
+void Client::run() {
+    while (running) {
+        update();
+    }
+}
+
+void Client::update() {
     glfwPollEvents();
 
-    layers.tick(window);
+    window.use();
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    layers.update();
 
     window.update();
 }
 
-int Client::connect() {
-    /*
-    bool connected = false;
-
-    for (uint8 i = 0; i < options.connect_attempts; i++) {
-        log.println("Attempting to connect");
-        connected = ocode::Client::connect(options.connect_timeout);
-
-        if (connected) {
-            break;
-        }
-    }
-
-    if (!connected) {
-        log.println("Could not connect to server");
-    }
-
-    ocode::PacketWriter writer(ocode::UNENCRYPTED, MessageTypes::PLAYER_JOIN);
-
-    ocode::Random r;
-
-    Session s = { 0, 0, 0, 0, uuid(r) };
-
-    writer.write(s);
-    writer.write<std::string>("data");
-
-    send_packet(writer.to_message());
-
-    log.println("Joined server");
-
-    return connected;
-    */
-    return 0;
-}
-
-bool Client::on_packet_recive(const PacketReciveEvent* e) {
-    return false;
+ocode::EventManager* Client::get_manager() {
+    return reinterpret_cast<ocode::EventManager*>(this);
 }
 
 bool Client::on_window_resize(const WindowResizeEvent* e) {
     glViewport(0, 0, e->get_width(), e->get_height());
     return false;
+}
+
+bool Client::on_window_close(const WindowCloseEvent* e) {
+    running = false;
+
+    return false;
+}
+
+Client* client;
+
+void client_init() {
+    if (client == NULL) {
+        client = new Client();
+    }
+}
+
+void client_run(Layer* initial_layer) {
+    if (client != NULL) {
+        client->layers.insert(initial_layer);
+
+        client->run();
+
+        delete client;
+    }
 }

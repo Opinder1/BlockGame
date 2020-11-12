@@ -73,7 +73,9 @@ private:
 public:
     PeerConnectEvent(ENetPeer* peer) : peer(peer) {}
 
-    const std::string to_string() const override;
+    inline const std::string to_string() const override {
+        return std::string("PeerConnect: ");
+    }
 
     const ENetPeer* get_peer() const;
 };
@@ -86,7 +88,9 @@ private:
 public:
     PeerDisconnectEvent(ENetPeer* peer, uint32 reason) : peer(peer), reason(reason) {}
 
-    const std::string to_string() const override;
+    inline const std::string to_string() const override {
+        return std::string("PeerDisconnect: ") + std::to_string(reason);
+    }
 
     const ENetPeer* get_peer() const;
     const uint32 get_reason() const;

@@ -1,30 +1,40 @@
 #pragma once
 
-#include "blockgame.h"
+#include <ocode.h>
 
-#include "window.h"
 #include "layer.h"
 
+#include "engine/engine.h"
+
 class Client : private ocode::EventManager {
-private:
+	friend void client_init();
+
+public:
 	bool running;
 
 	ocode::LogFile log;
-	Config config;
+	ocode::Config config;
 
 	Window window;
 	LayerManager layers;
 
 private:
-	int connect();
-
-	void tick();
-	
-	bool on_packet_recive(const PacketReciveEvent* e);
+	Client();
 
 	bool on_window_resize(const WindowResizeEvent* e);
+	bool on_window_close(const WindowCloseEvent* e);
 
 public:
-	Client();
 	~Client();
+
+	void run();
+	void update();
+
+	ocode::EventManager* get_manager();
 };
+
+extern Client* client;
+
+void client_init();
+
+void client_run(Layer* initial_layer);

@@ -11,14 +11,14 @@ class ServerScene;
 
 class ServerScene : private ocode::WorkerThread {
 private:
-	Server& server;
+	Server* server;
 
 	std::vector<std::shared_ptr<Client>> players;
 
-	//std::unique_ptr<Scene> scene;
+	//Scene& scene;
 
 public:
-	ServerScene(Server& server);
+	ServerScene(Server* server);
 
 	~ServerScene();
 

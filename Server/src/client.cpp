@@ -4,7 +4,7 @@ bool Client::is_valid_session(Session session, const std::wstring& username) {
     return true;
 }
 
-Client::Client(Server& server, ENetPeer* peer, Session session, const std::wstring& username) : server(server), peer(peer), session(session), username(username) {
+Client::Client(Server* server, ENetPeer* peer, Session session, const std::wstring& username) : server(server), peer(peer), session(session), username(username) {
 
     data_file_name = "players/" + session.unique_id.to_string() + ".player";
 

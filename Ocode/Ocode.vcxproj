@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\commands.cpp" />
+    <ClCompile Include="src\datafile.cpp" />
     <ClCompile Include="src\events.cpp" />
     <ClCompile Include="src\filesystem\file.cpp" />
     <ClCompile Include="src\filesystem\folder.cpp" />
@@ -32,9 +33,9 @@
     <ClCompile Include="src\parser\tokenize.cpp" />
     <ClCompile Include="src\error.cpp" />
     <ClCompile Include="src\random.cpp" />
-    <ClCompile Include="src\workerthread.cpp" />
     <ClCompile Include="src\timer.cpp" />
     <ClCompile Include="src\uuid.cpp" />
+    <ClCompile Include="src\worker_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\rapidjson\allocators.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="include\zlib\zlib.h" />
     <ClInclude Include="include\zlib\zutil.h" />
     <ClInclude Include="src\commands.h" />
+    <ClInclude Include="src\datafile.h" />
     <ClInclude Include="src\events.h" />
     <ClInclude Include="src\filesystem\file.h" />
     <ClInclude Include="src\filesystem\filesystem.h" />
@@ -132,10 +134,10 @@
     <ClInclude Include="src\parser\parser.h" />
     <ClInclude Include="src\error.h" />
     <ClInclude Include="src\random.h" />
-    <ClInclude Include="src\workerthread.h" />
     <ClInclude Include="src\timer.h" />
     <ClInclude Include="src\uuid.h" />
     <ClInclude Include="src\typedef.h" />
+    <ClInclude Include="src\worker_thread.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

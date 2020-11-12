@@ -15,7 +15,8 @@ public:
 	static bool is_valid_session(Session session, const std::wstring& username);
 
 private:
-	Server& server;
+	Server* server;
+
 	ENetPeer* peer;
 
 	Session session;

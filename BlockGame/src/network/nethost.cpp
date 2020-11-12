@@ -113,16 +113,8 @@ bool NetClient::on_packet_send(const PacketSendEvent* e) {
     return true;
 }
 
-const std::string PeerConnectEvent::to_string() const {
-    return std::string("PeerConnect: ");
-}
-
 const ENetPeer* PeerConnectEvent::get_peer() const {
     return peer;
-}
-
-const std::string PeerDisconnectEvent::to_string() const {
-    return std::string("PeerDisconnect: ") + std::to_string(reason);
 }
 
 const ENetPeer* PeerDisconnectEvent::get_peer() const {

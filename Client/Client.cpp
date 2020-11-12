@@ -1,9 +1,9 @@
 #include "src/client.h"
 
-Client* client;
+#include "src/mainmenu.h"
 
-int main() {
-	client = new Client();
-	
-	delete client;
+int main(int argc, char** argv) {
+	client_init();
+
+	client_run(new MainMenu());
 }

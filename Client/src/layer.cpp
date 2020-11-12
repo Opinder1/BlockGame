@@ -6,13 +6,14 @@ LayerManager::LayerManager() {
 
 LayerManager::~LayerManager() {
 	for (auto layer : layers) {
+		layer->on_disconnect();
 		delete layer;
 	}
 }
 
-void LayerManager::tick(Window& window) {
+void LayerManager::update() {
 	for (auto layer : layers) {
-		layer->tick(window);
+		layer->update();
 	}
 }
 

@@ -22,10 +22,6 @@ bool PacketReader::reached_end() {
 	return reader_pos == packet.data_size;
 }
 
-const std::string PacketSendEvent::to_string() const {
-	return std::string("PacketSendEvent: ");
-}
-
 ENetPeer* PacketSendEvent::get_peer() const {
 	return peer;
 }
@@ -36,10 +32,6 @@ ENetPacket* PacketSendEvent::get_packet() const {
 
 const std::string PacketBroadcastEvent::to_string() const {
 	return std::string("PacketBroadcastEvent: ");
-}
-
-const std::string PacketReciveEvent::to_string() const {
-    return std::string("PacketReviceEvent: ") + std::to_string((uint8)packet.type) + std::string(packet.data, packet.data + packet.data_size);
 }
 
 ENetPeer* PacketReciveEvent::get_peer() const {

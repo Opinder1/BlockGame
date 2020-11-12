@@ -83,4 +83,6 @@ namespace ocode {
     int file_exists(const std::string& file_name);
 
     void create_folder_if_not_exist(const std::string& folder_name);
+
+    std::string get_folder(const std::string& file_name);
 }

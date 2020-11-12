@@ -60,7 +60,10 @@
     <ClCompile Include="src\uuid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\workerthread.cpp">
+    <ClCompile Include="src\datafile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\worker_thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -359,7 +362,10 @@
     <ClInclude Include="src\typedef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\workerthread.h">
+    <ClInclude Include="src\datafile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\worker_thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

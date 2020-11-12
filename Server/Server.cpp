@@ -3,8 +3,6 @@
 #include <string>
 #include <iostream>
 
-Server* server;
-
 COMMAND(unknown) {
 	server->log.println("Unknown command. Type /help for help");
 	return 0;
