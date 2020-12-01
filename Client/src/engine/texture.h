@@ -1,14 +1,39 @@
 #pragma once
 
-#include "shader.h"
+#include <ocode.h>
 
-class Texture {
-private:
-	ShaderProgram program;
-	
-public:
-	Texture(const char* file_name);
-	~Texture();
+#include <string>
 
-	void use();
-};
+#include <glm/glm.hpp>
+
+namespace engine {
+	struct Pixel {
+		uint8 r, g, b, a;
+	};
+
+	class Texture {
+	private:
+		Pixel* data;
+
+		glm::uvec2 size;
+
+	protected:
+		void _set_at(glm::uvec2 pos, Pixel pixel);
+		Pixel& _get_at(glm::uvec2 pos) const;
+
+	public:
+		Texture(const Texture&) = delete;
+		Texture(glm::uvec2 size);
+		Texture(const std::string& name);
+		~Texture();
+
+		glm::uvec2 get_size() const;
+
+		void set_at(glm::uvec2 pos, Pixel pixel);
+		Pixel get_at(glm::uvec2 pos) const;
+
+		Pixel* get_data() const;
+
+		Pixel& operator[](glm::uvec2 pos);
+	};
+}

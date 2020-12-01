@@ -1,77 +1,80 @@
 #include "monitor.h"
 
-ocode::EventManager* Monitor::manager = NULL;
+namespace engine {
+    ocode::EventManager* Monitor::manager = NULL;
 
-bool Monitor::operator==(Monitor monitor) {
-    return this->monitor == monitor.monitor;
-}
-
-void on_monitor_change(GLFWmonitor* monitor, int event) {
-    if (event == GLFW_CONNECTED) {
-        Monitor::manager->event_post<MonitorConnectEvent>(new MonitorConnectEvent(monitor));
-    } else if (event == GLFW_DISCONNECTED) {
-        Monitor::manager->event_post<MonitorDisconnectEvent>(new MonitorDisconnectEvent(monitor));
-    }
-}
-
-Monitor Monitor::init(ocode::EventManager* m) {
-    glfwSetMonitorCallback(on_monitor_change);
-
-    Monitor::manager = m;
-    
-    return Monitor::get_primary();
-}
-
-Monitor Monitor::get_primary() {
-    return Monitor(glfwGetPrimaryMonitor());
-}
-
-Monitor Monitor::get(uint32 id) {
-    uint32 count;
-
-    GLFWmonitor** monitor_list = glfwGetMonitors((int32*)&count);
-
-    if (id > count) {
-        id = count;
+    bool Monitor::operator==(Monitor monitor) {
+        return this->monitor == monitor.monitor;
     }
 
-    return Monitor(monitor_list[id]);
-}
+    void on_monitor_change(GLFWmonitor* monitor, int event) {
+        if (event == GLFW_CONNECTED) {
+            Monitor::manager->event_post<MonitorConnectEvent>(new MonitorConnectEvent(monitor));
+        }
+        else if (event == GLFW_DISCONNECTED) {
+            Monitor::manager->event_post<MonitorDisconnectEvent>(new MonitorDisconnectEvent(monitor));
+        }
+    }
 
-void Monitor::use(GLFWwindow* window) {
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    Monitor Monitor::init(ocode::EventManager* m) {
+        glfwSetMonitorCallback(on_monitor_change);
 
-    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+        Monitor::manager = m;
 
-    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        return Monitor::get_primary();
+    }
 
-    glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-}
+    Monitor Monitor::get_primary() {
+        return Monitor(glfwGetPrimaryMonitor());
+    }
 
-bool Monitor::is_null() {
-    return monitor == NULL;
-}
+    Monitor Monitor::get(uint32 id) {
+        uint32 count;
 
-const glm::uvec2 Monitor::get_size() {
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        GLFWmonitor** monitor_list = glfwGetMonitors((int32*)&count);
 
-    return { (uint32)mode->width, (uint32)mode->height };
-}
+        if (id > count) {
+            id = count;
+        }
 
-const glm::ivec2 Monitor::get_pos() {
-    glm::ivec2 pos;
+        return Monitor(monitor_list[id]);
+    }
 
-    glfwGetMonitorWorkarea(monitor, &pos.x, &pos.y, nullptr, nullptr);
+    void Monitor::use(GLFWwindow* window) {
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-    return pos;
-}
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-const Monitor MonitorConnectEvent::get_monitor() const {
-    return monitor;
-}
+        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 
-const Monitor MonitorDisconnectEvent::get_monitor() const {
-    return monitor;
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+    }
+
+    bool Monitor::is_null() {
+        return monitor == NULL;
+    }
+
+    const glm::uvec2 Monitor::get_size() {
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+        return { (uint32)mode->width, (uint32)mode->height };
+    }
+
+    const glm::ivec2 Monitor::get_pos() {
+        glm::ivec2 pos;
+
+        glfwGetMonitorWorkarea(monitor, &pos.x, &pos.y, nullptr, nullptr);
+
+        return pos;
+    }
+
+    const Monitor MonitorConnectEvent::get_monitor() const {
+        return monitor;
+    }
+
+    const Monitor MonitorDisconnectEvent::get_monitor() const {
+        return monitor;
+    }
 }

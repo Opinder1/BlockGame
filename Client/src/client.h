@@ -15,14 +15,14 @@ public:
 	ocode::LogFile log;
 	ocode::Config config;
 
-	Window window;
+	engine::Window window;
 	LayerManager layers;
 
 private:
 	Client();
 
-	bool on_window_resize(const WindowResizeEvent* e);
-	bool on_window_close(const WindowCloseEvent* e);
+	bool on_window_resize(const engine::WindowResizeEvent* e);
+	bool on_window_close(const engine::WindowCloseEvent* e);
 
 public:
 	~Client();

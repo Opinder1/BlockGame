@@ -1,13 +1,3 @@
-#ifdef __GNUC__
-#define LINUX
-#else
-#define WINDOWS_OFF
-#endif
-
-#ifdef WINDOWS
-#include <windows.h>
-#endif
-
 #include <cstdio>
 #include <cstdarg>
 #include <exception>

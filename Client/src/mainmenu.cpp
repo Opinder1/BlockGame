@@ -1,6 +1,6 @@
 #include "mainmenu.h"
 
-MainMenu::MainMenu() : texture("test.png"), poly() {
+MainMenu::MainMenu() : material("texture"), poly() {
 	//client->insert(new Game());
 }
 
@@ -17,6 +17,6 @@ void MainMenu::on_disconnect() {
 }
 
 void MainMenu::update() {
-	texture.use();
+	material.use();
 	poly.draw();
 }

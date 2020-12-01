@@ -1,5 +1,19 @@
 #include "error.h"
 
+#ifdef __GNUC__
+#define LINUX
+#else
+#define WINDOWS
+#endif
+
+#ifdef LINUX
+#include <unistd.h>
+#endif
+
+#ifdef WINDOWS
+#include <windows.h>
+#endif
+
 void error_box(const char* title, const char* format, ...) {
 	char message[256];
 
@@ -13,4 +27,4 @@ void error_box(const char* title, const char* format, ...) {
 #endif
 
 	std::terminate();
-}
+} 

@@ -22,10 +22,10 @@ Client::Client() :
         return;
     }
 
-    Monitor::init(get_manager());
+    engine::Monitor::init(get_manager());
 
-    EVENT_SUBSCRIBE(WindowResizeEvent, Client::on_window_resize);
-    EVENT_SUBSCRIBE(WindowCloseEvent, Client::on_window_close);
+    EVENT_SUBSCRIBE(engine::WindowResizeEvent, Client::on_window_resize);
+    EVENT_SUBSCRIBE(engine::WindowCloseEvent, Client::on_window_close);
 }
 
 Client::~Client() {
@@ -50,15 +50,16 @@ void Client::update() {
 }
 
 ocode::EventManager* Client::get_manager() {
-    return reinterpret_cast<ocode::EventManager*>(this);
+    return this;
+    //return reinterpret_cast<ocode::EventManager*>(this);
 }
 
-bool Client::on_window_resize(const WindowResizeEvent* e) {
+bool Client::on_window_resize(const engine::WindowResizeEvent* e) {
     glViewport(0, 0, e->get_width(), e->get_height());
     return false;
 }
 
-bool Client::on_window_close(const WindowCloseEvent* e) {
+bool Client::on_window_close(const engine::WindowCloseEvent* e) {
     running = false;
 
     return false;

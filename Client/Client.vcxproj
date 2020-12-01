@@ -106,6 +106,7 @@
     <ClCompile Include="src\client.cpp" />
     <ClCompile Include="src\engine\shader.cpp" />
     <ClCompile Include="src\engine\polygon.cpp" />
+    <ClCompile Include="src\engine\material.cpp" />
     <ClCompile Include="src\engine\texture.cpp" />
     <ClCompile Include="src\layer.cpp" />
     <ClCompile Include="src\mainmenu.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="src\engine\renderer.h" />
     <ClInclude Include="src\engine\shader.h" />
     <ClInclude Include="src\engine\polygon.h" />
+    <ClInclude Include="src\engine\material.h" />
     <ClInclude Include="src\engine\texture.h" />
     <ClInclude Include="src\layer.h" />
     <ClInclude Include="src\mainmenu.h" />

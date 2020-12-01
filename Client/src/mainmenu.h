@@ -8,7 +8,7 @@
 
 class MainMenu : public Layer {
 private:
-	Texture texture;
+	engine::Material material;
 
 	engine::Polygon poly;
 

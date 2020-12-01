@@ -20,7 +20,7 @@ namespace ocode {
 		YAML::Node node;
 
 	public:
-		Config(std::string file_name);
+		Config(const std::string& name);
 		~Config();
 
 		void save();

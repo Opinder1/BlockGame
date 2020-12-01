@@ -11,28 +11,38 @@ float square[] = {
 };
 
 namespace engine {
-	Polygon::Polygon() {
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
+	Polygon::Polygon() : Polygon(square) {
+	
+	}
 
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(square), square, GL_STATIC_DRAW);
+	Polygon::Polygon(float* data) {
+		glGenVertexArrays(1, &vertex_array_id);
+		glBindVertexArray(vertex_array_id);
 
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(0);
+		glGenBuffers(1, &vertex_buffer_id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
 
-		glBindVertexArray(NULL);
+		int index = 0;
+
+		glEnableVertexAttribArray(index);
+		glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+		unbind();
 	}
 
 	Polygon::~Polygon() {
-		glDeleteBuffers(1, &vbo);
-		glDeleteVertexArrays(1, &vao);
+		glDeleteBuffers(1, &vertex_buffer_id);
+		glDeleteVertexArrays(1, &vertex_array_id);
 	}
 
 	void Polygon::draw() {
-		glBindVertexArray(vao);
+		glBindVertexArray(vertex_array_id);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
+	}
+
+	void Polygon::unbind() {
+		glBindVertexArray(NULL);
 	}
 }

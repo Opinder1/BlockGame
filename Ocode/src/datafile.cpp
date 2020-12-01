@@ -1,8 +1,8 @@
 #include "datafile.h"
 
 namespace ocode {
-	Config::Config(std::string file_name) {
-		this->file_name = file_name + ".yml";
+	Config::Config(const std::string& name) {
+		this->file_name = name + ".yml";
 
 		if (!file_exists(file_name)) {
 			create_file(file_name);

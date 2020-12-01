@@ -1,30 +1,30 @@
 #include "window.h"
 
-void on_window_resize(GLFWwindow* window, int event_width, int event_height) {
-    ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
+namespace engine {
+    void on_window_resize(GLFWwindow* window, int event_width, int event_height) {
+        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
 
-    manager->EVENT_POST(WindowResizeEvent, { (uint32)event_width, (uint32)event_height });
-}
+        manager->EVENT_POST(WindowResizeEvent, { (uint32)event_width, (uint32)event_height });
+    }
 
-void on_window_move(GLFWwindow* window, int event_x, int event_y) {
-    ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
+    void on_window_move(GLFWwindow* window, int event_x, int event_y) {
+        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
 
-    manager->EVENT_POST(WindowMoveEvent, { event_x, event_y });
-}
+        manager->EVENT_POST(WindowMoveEvent, { event_x, event_y });
+    }
 
-void on_window_close(GLFWwindow* window) {
-    ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
+    void on_window_close(GLFWwindow* window) {
+        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
 
-    manager->EVENT_POST(WindowCloseEvent);
-}
+        manager->EVENT_POST(WindowCloseEvent);
+    }
 
-void on_window_focus(GLFWwindow* window, int focused) {
-    ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
+    void on_window_focus(GLFWwindow* window, int focused) {
+        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
 
-    manager->EVENT_POST(WindowFocusEvent, { (bool)focused });
-}
+        manager->EVENT_POST(WindowFocusEvent, { (bool)focused });
+    }
 
-//namespace engine {
     Window::Window(ocode::EventManager* m, const std::string& name, glm::uvec2 size) : ocode::EventDevice(m), window(NULL), last_size(size), last_pos({ 0, 0 }) {
         if (!glfwInit()) {
             error_box("Window Error", "Failed to initialise glfw");
@@ -85,12 +85,12 @@ void on_window_focus(GLFWwindow* window, int focused) {
         glfwSetWindowShouldClose(window, true);
     }
 
-    void Window::set_icon() {
-        GLFWimage images[1];
+    void Window::set_icon(const Texture& texture) {
+        glm::uvec2 size = texture.get_size();
 
-        //images[0] = load_image(file);
+        GLFWimage image = { size.x, size.y, (uint8*)texture.get_data() };
 
-        glfwSetWindowIcon(window, 1, images);
+        glfwSetWindowIcon(window, 1, &image);
     }
 
     void Window::set_fullscreen(Monitor monitor, bool vsync) {
@@ -141,32 +141,32 @@ void on_window_focus(GLFWwindow* window, int focused) {
 
         return false;
     }
-//}
 
-const glm::uvec2 WindowResizeEvent::get_size() const {
-    return event_size;
-}
+    const glm::uvec2 WindowResizeEvent::get_size() const {
+        return event_size;
+    }
 
-const uint32 WindowResizeEvent::get_width() const {
-    return event_size.x;
-}
+    const uint32 WindowResizeEvent::get_width() const {
+        return event_size.x;
+    }
 
-const uint32 WindowResizeEvent::get_height() const {
-    return event_size.y;
-}
+    const uint32 WindowResizeEvent::get_height() const {
+        return event_size.y;
+    }
 
-const glm::ivec2 WindowMoveEvent::get_pos() const {
-    return event_pos;
-}
+    const glm::ivec2 WindowMoveEvent::get_pos() const {
+        return event_pos;
+    }
 
-const int32 WindowMoveEvent::get_x() const {
-    return event_pos.x;
-}
+    const int32 WindowMoveEvent::get_x() const {
+        return event_pos.x;
+    }
 
-const int32 WindowMoveEvent::get_y() const {
-    return event_pos.y;
-}
+    const int32 WindowMoveEvent::get_y() const {
+        return event_pos.y;
+    }
 
-const bool WindowFocusEvent::get_focused() const {
-    return focused;
+    const bool WindowFocusEvent::get_focused() const {
+        return focused;
+    }
 }

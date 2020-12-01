@@ -60,11 +60,11 @@ namespace ocode {
             }
         }
     };
-}
 
-class TickEvent : public ocode::Event {
-public:
-    inline const std::string to_string() const override {
-        return std::string("TickEvent: ");
-    }
-};
+    class TickEvent : public ocode::Event {
+    public:
+        inline const std::string to_string() const override {
+            return std::string("TickEvent: ");
+        }
+    };
+}

@@ -1,143 +1,105 @@
 #include "shader.h"
 
-Shader::Shader(ShaderType type, const char* code_data, int32 code_size) {
-    id = glCreateShader((uint32)type);
+namespace engine {
+    Shader::Shader(ShaderType type, const char* code_data, int32 code_size) {
+        shader_id = glCreateShader((uint32)type);
 
-    glShaderSource(id, 1, &code_data, &code_size);
+        glShaderSource(shader_id, 1, &code_data, &code_size);
 
-    glCompileShader(id);
-}
-
-Shader::Shader(ShaderType type, const std::string& file_name) {
-    id = glCreateShader((uint32)type);
-
-    if (!ocode::file_exists(file_name)) {
-        printf("File %s does not exist\n", file_name.c_str());
-        return;
+        glCompileShader(shader_id);
     }
 
-    auto f = ocode::load_file(file_name);
+    Shader::Shader(ShaderType type, const std::string& name) {
+        shader_id = glCreateShader((uint32)type);
 
-    const char* data = (const char*)f.get_data();
-    int32 size = (int32)f.get_size();
+        std::string file_name = "resources\\" + name;
 
-    glShaderSource(id, 1, &data, &size);
+        if (!ocode::file_exists(file_name)) {
+            printf("File %s does not exist\n", file_name.c_str());
+            return;
+        }
 
-    glCompileShader(id);
+        auto f = ocode::load_file(file_name);
 
-    if (compile_status() == GL_FALSE) {
-        printf("(%s) ShaderError:\n%s\n", file_name.c_str(), get_log().c_str());
-    }
-}
+        const char* data = (const char*)f.get_data();
+        int32 size = (int32)f.get_size();
 
-Shader::~Shader() {
-    glDeleteShader(id);
-}
+        glShaderSource(shader_id, 1, &data, &size);
 
-int Shader::compile_status() const {
-    int status;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
-    return status;
-}
+        glCompileShader(shader_id);
 
-std::string Shader::get_log() {
-    int log_size;
-    glGetShaderiv(id, GL_INFO_LOG_LENGTH, &log_size);
-
-    printf("log size: %i\n", log_size);
-
-    std::vector<char> log(log_size);
-    
-    glGetShaderInfoLog(id, log_size, NULL, log.data());
-
-    return std::string(log.begin(), log.end());
-}
-
-ShaderProgram::ShaderProgram() {
-    id = glCreateProgram();
-}
-
-ShaderProgram::ShaderProgram(const std::string& file_name) {
-    id = glCreateProgram();
-
-    if (!ocode::file_exists(file_name)) {
-        printf("File %s does not exist\n", file_name.c_str());
-        return;
+        if (compile_status() == GL_FALSE) {
+            printf("(%s) ShaderError:\n%s\n", file_name.c_str(), get_log().c_str());
+        }
     }
 
-    rapidjson::Document data;
-    ocode::load_data_file(file_name, data);
-
-    std::string folder = ocode::get_folder(file_name) + '\\';
-
-    printf("file: %s, folder: %s\n", file_name.c_str(), folder.c_str());
-
-    auto& vertex_file = data["vertex"];
-    auto& fragment_file = data["fragment"];
-    auto& geometry_file = data["geometry"];
-    auto& compute_file = data["compute"];
-
-    if (vertex_file.IsString()) {
-        printf("vertex: %s\n", (folder + vertex_file.GetString()).c_str());
-        attach(Shader(ShaderType::VERTEX, folder + vertex_file.GetString()));
+    Shader::~Shader() {
+        glDeleteShader(shader_id);
     }
 
-    if (fragment_file.IsString()) {
-        printf("fragment: %s\n", (folder + fragment_file.GetString()).c_str());
-        attach(Shader(ShaderType::FRAGMENT, folder + fragment_file.GetString()));
+    int Shader::compile_status() const {
+        int status;
+        glGetShaderiv(shader_id, GL_COMPILE_STATUS, &status);
+        return status;
     }
 
-    if (geometry_file.IsString()) {
-        printf("geometry: %s\n", (folder + geometry_file.GetString()).c_str());
-        attach(Shader(ShaderType::GEOMETRY, folder + geometry_file.GetString()));
+    std::string Shader::get_log() {
+        int log_size;
+        glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &log_size);
+
+        printf("log size: %i\n", log_size);
+
+        std::vector<char> log(log_size);
+
+        glGetShaderInfoLog(shader_id, log_size, NULL, log.data());
+
+        return std::string(log.begin(), log.end());
     }
 
-    if (compute_file.IsString()) {
-        attach(Shader(ShaderType::COMPUTE, folder + compute_file.GetString()));
+    ShaderProgram::ShaderProgram() {
+        program_id = glCreateProgram();
     }
 
-    link();
-}
-
-ShaderProgram::~ShaderProgram() {
-    glDeleteProgram(id);
-}
-
-int ShaderProgram::link_status() const {
-    int status;
-    glGetProgramiv(id, GL_LINK_STATUS, &status);
-    return status;
-}
-
-std::string ShaderProgram::get_log() {
-    int log_size;
-    glGetProgramiv(id, GL_INFO_LOG_LENGTH, &log_size);
-
-    std::vector<char> log(log_size);
-
-    glGetProgramInfoLog(id, log_size, NULL, log.data());
-
-    return std::string(log.begin(), log.end());
-}
-
-void ShaderProgram::attach(const Shader& shader) {
-    if (shader.compile_status() == GL_TRUE) {
-        glAttachShader(id, shader.id);
+    ShaderProgram::~ShaderProgram() {
+        glDeleteProgram(program_id);
     }
-}
 
-void ShaderProgram::link() {
-    glLinkProgram(id);
-}
+    int ShaderProgram::link_status() const {
+        int status;
+        glGetProgramiv(program_id, GL_LINK_STATUS, &status);
+        return status;
+    }
 
-void ShaderProgram::use() {
-    glUseProgram(id);
-}
+    std::string ShaderProgram::get_log() {
+        int log_size;
+        glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &log_size);
 
-void ShaderProgram::set_float(const char* name, float x) {
-    glUniform1f(glGetUniformLocation(id, name), x);
-}
+        std::vector<char> log(log_size);
 
-void ShaderProgram::set_ivec2(const char* name, int x, int y) {
-    glUniform2i(glGetUniformLocation(id, name), x, y);
+        glGetProgramInfoLog(program_id, log_size, NULL, log.data());
+
+        return std::string(log.begin(), log.end());
+    }
+
+    void ShaderProgram::attach(const Shader& shader) {
+        if (shader.compile_status() == GL_TRUE) {
+            glAttachShader(program_id, shader.shader_id);
+        }
+    }
+
+    void ShaderProgram::link() {
+        glLinkProgram(program_id);
+    }
+
+    void ShaderProgram::use() {
+        glUseProgram(program_id);
+    }
+
+    void ShaderProgram::set_float(const char* name, float x) {
+        glUniform1f(glGetUniformLocation(program_id, name), x);
+    }
+
+    void ShaderProgram::set_ivec2(const char* name, int x, int y) {
+        glUniform2i(glGetUniformLocation(program_id, name), x, y);
+    }
 }
