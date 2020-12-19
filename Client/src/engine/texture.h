@@ -5,6 +5,7 @@
 #include <string>
 
 #include <glm/glm.hpp>
+#include <rapidjson/document.h>
 
 namespace engine {
 	struct Pixel {

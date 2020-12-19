@@ -1,6 +1,6 @@
-#include "mainmenu.h"
+ #include "mainmenu.h"
 
-MainMenu::MainMenu() : material("texture"), poly() {
+MainMenu::MainMenu() : material(), poly() {
 	//client->insert(new Game());
 }
 

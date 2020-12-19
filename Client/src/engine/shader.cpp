@@ -47,8 +47,6 @@ namespace engine {
         int log_size;
         glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &log_size);
 
-        printf("log size: %i\n", log_size);
-
         std::vector<char> log(log_size);
 
         glGetShaderInfoLog(shader_id, log_size, NULL, log.data());
@@ -82,9 +80,7 @@ namespace engine {
     }
 
     void ShaderProgram::attach(const Shader& shader) {
-        if (shader.compile_status() == GL_TRUE) {
-            glAttachShader(program_id, shader.shader_id);
-        }
+        glAttachShader(program_id, shader.shader_id);
     }
 
     void ShaderProgram::link() {

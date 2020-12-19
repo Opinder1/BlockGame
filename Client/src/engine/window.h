@@ -20,6 +20,7 @@ namespace engine {
 		glm::ivec2 last_pos;
 
 	public:
+		Window(const Window&) = delete;
 		Window(ocode::EventManager* m, const std::string& name, glm::uvec2 size = { 800, 600 });
 		~Window();
 

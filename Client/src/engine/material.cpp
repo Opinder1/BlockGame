@@ -16,7 +16,12 @@ namespace engine {
         rapidjson::Document data;
         ocode::load_data_file(file_name, data);
 
-        auto& vertex_file = data["vertex"];
+        if (data.HasParseError()) {
+            ocode::data_file_error(data);
+            return;
+        }
+
+        const auto& vertex_file = data["vertex"];
         auto& fragment_file = data["fragment"];
         auto& geometry_file = data["geometry"];
 
@@ -25,7 +30,7 @@ namespace engine {
         if (geometry_file.IsString()) program.attach(Shader(ShaderType::GEOMETRY, geometry_file.GetString()));
 
         program.link();
-         
+
         if (program.link_status() == GL_FALSE) printf("ProgramError:\n%s\n", program.get_log().c_str());
 
         auto& texture_file = data["texture"];
@@ -36,7 +41,7 @@ namespace engine {
     }
 
     Material::~Material() {
-        if (texture != NULL) {
+        if (texture != nullptr) {
             delete texture;
         }
     }

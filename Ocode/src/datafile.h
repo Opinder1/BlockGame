@@ -7,10 +7,12 @@
 #include <cstdio>
 
 #include <yaml-cpp/yaml.h>
+
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/writer.h>
+#include <rapidjson/error/en.h>
 
 namespace ocode {
 	class Config {
@@ -69,5 +71,9 @@ namespace ocode {
 
 		rapidjson::Writer writer(stream);
 		data.Accept(writer);
+	}
+
+	inline void data_file_error(const rapidjson::Document& data) {
+		printf("Error at position %llu: %s\n", data.GetErrorOffset(), rapidjson::GetParseError_En(data.GetParseError()));
 	}
 }

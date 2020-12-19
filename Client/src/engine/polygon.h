@@ -13,7 +13,7 @@ namespace engine {
 	public:
 		Polygon(const Polygon&) = delete;
 		Polygon();
-		Polygon(float* data);
+		Polygon(float* data, uint32 data_size);
 		~Polygon();
 
 		void draw();
