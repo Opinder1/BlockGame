@@ -10,10 +10,8 @@
 #include "texture.h"
 
 namespace engine {
-	class Material {
+	class Material : public ShaderProgram {
 	private:
-		ShaderProgram program;
-
 		Texture* texture;
 
 	public:

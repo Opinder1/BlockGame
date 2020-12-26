@@ -2,9 +2,9 @@
 
 #include "blockgame.h"
 
-#include "layer.h"
+#include "engine/engine.h"
 
-class Game : public Layer {
+class Game : public engine::Layer {
 private:
 	NetClient client;
 	Scene& scene;

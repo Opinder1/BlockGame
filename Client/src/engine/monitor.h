@@ -1,9 +1,9 @@
 #pragma once
 
-#include <ocode.h>
-
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+
+#include "manager.h"
 
 namespace engine {
 	class Monitor {
@@ -19,15 +19,12 @@ namespace engine {
 		Monitor() : monitor(NULL) {}
 
 		bool operator==(Monitor monitor);
-
-		static ocode::EventManager* manager;
-		static Monitor init(ocode::EventManager* manager);
+		static Monitor init();
 
 		static Monitor get_primary();
 		static Monitor get(uint32 id);
 
 		void use(GLFWwindow* window);
-
 		bool is_null();
 		const glm::uvec2 get_size();
 		const glm::ivec2 get_pos();

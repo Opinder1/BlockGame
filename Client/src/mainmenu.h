@@ -1,16 +1,17 @@
 #pragma once
 
-#include <blockgame.h> 
+#include <blockgame.h>
 
-#include "layer.h"
+#include <GLM/glm.hpp>
+#include <GLM/ext.hpp>
 
 #include "engine/engine.h"
 
-class MainMenu : public Layer {
+class MainMenu : public engine::Layer {
 private:
 	engine::Material material;
 
-	engine::Polygon poly;
+	engine::Polygon3D poly;
 
 public:
 	MainMenu();

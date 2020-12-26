@@ -20,15 +20,15 @@ namespace ocode {
         }
     }
 
-    const std::string& Virtual_File::get_name() {
+    const std::string& Virtual_File::get_name() const {
         return this->name;
     }
 
-    uint32 Virtual_File::get_size() {
+    uint32 Virtual_File::get_size() const {
         return this->size;
     }
 
-    const uint8* Virtual_File::get_data() {
+    const uint8* Virtual_File::get_data() const {
         return this->data;
     }
 

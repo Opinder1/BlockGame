@@ -64,8 +64,9 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(SolutionDir)\BlockGame\;$(SolutionDir)\Ocode\;$(SolutionDir)\Network\;$(SolutionDir)\include</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -103,12 +104,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="src\client.cpp" />
+    <ClCompile Include="src\engine\engine.cpp" />
+    <ClCompile Include="src\engine\polygon3d.cpp" />
     <ClCompile Include="src\engine\shader.cpp" />
-    <ClCompile Include="src\engine\polygon.cpp" />
+    <ClCompile Include="src\engine\polygon2d.cpp" />
     <ClCompile Include="src\engine\material.cpp" />
     <ClCompile Include="src\engine\texture.cpp" />
-    <ClCompile Include="src\layer.cpp" />
+    <ClCompile Include="src\engine\layer.cpp" />
     <ClCompile Include="src\mainmenu.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\engine\monitor.cpp" />
@@ -116,13 +118,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\engine.h" />
-    <ClInclude Include="src\client.h" />
+    <ClInclude Include="src\engine\manager.h" />
+    <ClInclude Include="src\engine\polygon3d.h" />
     <ClInclude Include="src\engine\renderer.h" />
     <ClInclude Include="src\engine\shader.h" />
-    <ClInclude Include="src\engine\polygon.h" />
+    <ClInclude Include="src\engine\polygon2d.h" />
     <ClInclude Include="src\engine\material.h" />
     <ClInclude Include="src\engine\texture.h" />
-    <ClInclude Include="src\layer.h" />
+    <ClInclude Include="src\engine\layer.h" />
     <ClInclude Include="src\mainmenu.h" />
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\engine\monitor.h" />

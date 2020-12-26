@@ -22,18 +22,18 @@ namespace engine {
         }
 
         const auto& vertex_file = data["vertex"];
-        auto& fragment_file = data["fragment"];
-        auto& geometry_file = data["geometry"];
+        const auto& fragment_file = data["fragment"];
+        const auto& geometry_file = data["geometry"];
 
-        if (vertex_file.IsString()) program.attach(Shader(ShaderType::VERTEX, vertex_file.GetString()));
-        if (fragment_file.IsString()) program.attach(Shader(ShaderType::FRAGMENT, fragment_file.GetString()));
-        if (geometry_file.IsString()) program.attach(Shader(ShaderType::GEOMETRY, geometry_file.GetString()));
+        if (vertex_file.IsString()) attach(Shader(ShaderType::VERTEX, vertex_file.GetString()));
+        if (fragment_file.IsString()) attach(Shader(ShaderType::FRAGMENT, fragment_file.GetString()));
+        if (geometry_file.IsString()) attach(Shader(ShaderType::GEOMETRY, geometry_file.GetString()));
 
-        program.link();
+        link();
 
-        if (program.link_status() == GL_FALSE) printf("ProgramError:\n%s\n", program.get_log().c_str());
+        if (link_status() == GL_FALSE) printf("ProgramError:\n%s\n", get_log().c_str());
 
-        auto& texture_file = data["texture"];
+        const auto& texture_file = data["texture"];
 
         if (texture_file.IsString()) {
             texture = new Texture(texture_file.GetString());
@@ -47,6 +47,6 @@ namespace engine {
     }
 
     void Material::use() {
-        program.use();
+        use_program();
     }
 }

@@ -1,11 +1,10 @@
 #pragma once
 
-#include <ocode.h>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include "manager.h"
 #include "monitor.h"
 #include "texture.h"
 
@@ -21,21 +20,19 @@ namespace engine {
 
 	public:
 		Window(const Window&) = delete;
-		Window(ocode::EventManager* m, const std::string& name, glm::uvec2 size = { 800, 600 });
+		Window(const std::string& name, glm::uvec2 size = { 800, 600 });
 		~Window();
 
 		bool initialized();
-
-		void use();
 		void update();
-
 		void close();
 
 		void set_icon(const Texture& texture);
-
 		void set_fullscreen(Monitor monitor, bool vsync);
 		void set_windowed();
 		void set_windowed(glm::uvec2 size, glm::ivec2 pos);
+
+		glm::ivec2 get_size();
 
 		bool on_monitor_disconnect(const MonitorDisconnectEvent* e);
 	};

@@ -123,6 +123,7 @@
     <ClInclude Include="include\zlib\zconf.h" />
     <ClInclude Include="include\zlib\zlib.h" />
     <ClInclude Include="include\zlib\zutil.h" />
+    <ClInclude Include="src\array.h" />
     <ClInclude Include="src\commands.h" />
     <ClInclude Include="src\datafile.h" />
     <ClInclude Include="src\events.h" />

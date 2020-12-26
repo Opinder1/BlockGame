@@ -25,12 +25,7 @@ namespace engine {
         manager->EVENT_POST(WindowFocusEvent, { (bool)focused });
     }
 
-    Window::Window(ocode::EventManager* m, const std::string& name, glm::uvec2 size) : ocode::EventDevice(m), window(NULL), last_size(size), last_pos({ 0, 0 }) {
-        if (!glfwInit()) {
-            error_box("Window Error", "Failed to initialise glfw");
-            return;
-        }
-
+    Window::Window(const std::string& name, glm::uvec2 size) : ocode::EventDevice(event_manager), window(NULL), last_size(size), last_pos({ 0, 0 }) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -40,12 +35,11 @@ namespace engine {
         window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
 
         if (!window) {
-            error_box("Window Error", "Failed to create window");
-            return;
+            throw "Failed to create window";
         }
 
         glfwMakeContextCurrent(window);
-        glfwSetWindowUserPointer(window, m);
+        glfwSetWindowUserPointer(window, event_manager);
 
         glfwSetWindowSizeLimits(window, size.x, size.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
         glfwGetWindowPos(window, &last_pos.x, &last_pos.y);
@@ -57,12 +51,7 @@ namespace engine {
         //glfwSetWindowIconifyCallback();
         //glfwSetWindowMaximizeCallback();
         //glfwSetWindowRefreshCallback();
-        //glfwSetFramebufferSizeCallback(this->window, on_framebuffer_resize);
-
-        if (glewInit() != GLEW_OK) {
-            error_box("Window Error", "Failed to initialise glew");
-            return;
-        }
+        //glfwSetFramebufferSizeCallback();
     }
 
     Window::~Window() {
@@ -73,12 +62,9 @@ namespace engine {
         return window != NULL;
     }
 
-    void Window::use() {
-        //glfwMakeContextCurrent(window);
-    }
-
     void Window::update() {
         glfwSwapBuffers(window);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void Window::close() {
@@ -132,6 +118,12 @@ namespace engine {
 
         EVENT_POST(WindowResizeEvent, size);
         EVENT_POST(WindowMoveEvent, pos);
+    }
+
+    glm::ivec2 Window::get_size() {
+        glm::ivec2 size;
+        glfwGetWindowSize(window, &size.x, &size.y);
+        return size;
     }
 
     bool Window::on_monitor_disconnect(const MonitorDisconnectEvent* e) {

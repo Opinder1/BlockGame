@@ -3,6 +3,9 @@
 #include <ocode.h>
 
 #include <GL/glew.h>
+#include <GLM/glm.hpp>
+#include <GLM/ext.hpp>
+
 #include <rapidjson/document.h>
 
 namespace engine {
@@ -33,21 +36,28 @@ namespace engine {
     private:
         uint32 program_id;
 
-    public:
-        ShaderProgram(const ShaderProgram&) = delete;
-        ShaderProgram();
-        ~ShaderProgram();
-
+    protected:
         int link_status() const;
         std::string get_log();
 
         void attach(const Shader& shader);
         void link();
 
-        void use();
+        void use_program();
+
+    public:
+        ShaderProgram(const ShaderProgram&) = delete;
+        ShaderProgram();
+        ~ShaderProgram();
 
         void set_float(const char* name, float x);
 
-        void set_ivec2(const char* name, int x, int y);
+        void set_vec2(const char* name, glm::vec2 value);
+        void set_vec3(const char* name, glm::vec3 value);
+        void set_vec4(const char* name, glm::vec4 value);
+
+        void set_mat2(const char* name, glm::mat2& value);
+        void set_mat3(const char* name, glm::mat3& value);
+        void set_mat4(const char* name, glm::mat4& value);
     };
 }

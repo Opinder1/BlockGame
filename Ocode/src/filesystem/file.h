@@ -28,11 +28,11 @@ namespace ocode {
 
         void seek(uint32 pos);
 
-        const std::string& get_name();
+        const std::string& get_name() const;
 
-        uint32 get_size();
+        uint32 get_size() const;
 
-        const uint8* get_data();
+        const uint8* get_data() const;
 
         bool eof();
 

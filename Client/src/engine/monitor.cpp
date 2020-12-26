@@ -1,25 +1,21 @@
 #include "monitor.h"
 
 namespace engine {
-    ocode::EventManager* Monitor::manager = NULL;
-
     bool Monitor::operator==(Monitor monitor) {
         return this->monitor == monitor.monitor;
     }
 
     void on_monitor_change(GLFWmonitor* monitor, int event) {
         if (event == GLFW_CONNECTED) {
-            Monitor::manager->event_post<MonitorConnectEvent>(new MonitorConnectEvent(monitor));
+            event_manager->EVENT_POST(MonitorConnectEvent, monitor);
         }
         else if (event == GLFW_DISCONNECTED) {
-            Monitor::manager->event_post<MonitorDisconnectEvent>(new MonitorDisconnectEvent(monitor));
+            event_manager->EVENT_POST(MonitorDisconnectEvent, monitor);
         }
     }
 
-    Monitor Monitor::init(ocode::EventManager* m) {
+    Monitor Monitor::init() {
         glfwSetMonitorCallback(on_monitor_change);
-
-        Monitor::manager = m;
 
         return Monitor::get_primary();
     }

@@ -1,11 +1,13 @@
-#include "src/client.h"
-
 #include "src/mainmenu.h"
 
 int main(int argc, char** argv) {
-	client_init();
+	try {
+		engine::init();
 
-	client->window.set_icon(engine::Texture("icon.png"));
+		engine::start(new MainMenu());
+	}
+	catch (const char* error) {
+		printf("ERROR: %s\n", error);
+	}
 
-	client_run(new MainMenu());
 }
