@@ -2,30 +2,26 @@
 
 namespace engine {
     void on_window_resize(GLFWwindow* window, int event_width, int event_height) {
-        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
-
-        manager->EVENT_POST(WindowResizeEvent, { (uint32)event_width, (uint32)event_height });
+        event_manager->EVENT_POST(WindowResizeEvent, { event_width, event_height });
     }
 
     void on_window_move(GLFWwindow* window, int event_x, int event_y) {
-        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
-
-        manager->EVENT_POST(WindowMoveEvent, { event_x, event_y });
+        event_manager->EVENT_POST(WindowMoveEvent, { event_x, event_y });
     }
 
     void on_window_close(GLFWwindow* window) {
-        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
-
-        manager->EVENT_POST(WindowCloseEvent);
+        event_manager->EVENT_POST(WindowCloseEvent);
     }
 
     void on_window_focus(GLFWwindow* window, int focused) {
-        ocode::EventManager* manager = (ocode::EventManager*)glfwGetWindowUserPointer(window);
-
-        manager->EVENT_POST(WindowFocusEvent, { (bool)focused });
+        event_manager->EVENT_POST(WindowFocusEvent, focused);
     }
 
-    Window::Window(const std::string& name, glm::uvec2 size) : ocode::EventDevice(event_manager), window(NULL), last_size(size), last_pos({ 0, 0 }) {
+    void on_key_action(GLFWwindow* window, int key, int scancode, int action, int mods) {
+        event_manager->EVENT_POST(KeyActionEvent, key, scancode, action, mods);
+    }
+
+    Window::Window(const std::string& name, glm::uvec2 size) : window(NULL), last_size(size), last_pos({ 0, 0 }) {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -39,7 +35,7 @@ namespace engine {
         }
 
         glfwMakeContextCurrent(window);
-        glfwSetWindowUserPointer(window, event_manager);
+        //glfwSetWindowUserPointer(window, manager);
 
         glfwSetWindowSizeLimits(window, size.x, size.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
         glfwGetWindowPos(window, &last_pos.x, &last_pos.y);
@@ -52,6 +48,12 @@ namespace engine {
         //glfwSetWindowMaximizeCallback();
         //glfwSetWindowRefreshCallback();
         //glfwSetFramebufferSizeCallback();
+
+        glfwSetKeyCallback(window, on_key_action);
+
+        if (glfwRawMouseMotionSupported()) {
+            glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+        }
     }
 
     Window::~Window() {
@@ -72,7 +74,7 @@ namespace engine {
     }
 
     void Window::set_icon(const Texture& texture) {
-        glm::uvec2 size = texture.get_size();
+        glm::ivec2 size = texture.get_size();
 
         GLFWimage image = { size.x, size.y, (uint8*)texture.get_data() };
 
@@ -88,8 +90,8 @@ namespace engine {
 
         monitor.use(window);
 
-        EVENT_POST(WindowResizeEvent, monitor.get_size());
-        EVENT_POST(WindowMoveEvent, monitor.get_pos());
+        event_manager->EVENT_POST(WindowResizeEvent, monitor.get_size());
+        event_manager->EVENT_POST(WindowMoveEvent, monitor.get_pos());
 
         if (vsync) {
             glfwSwapInterval(1);
@@ -104,8 +106,8 @@ namespace engine {
 
         glfwSetWindowMonitor(window, nullptr, last_pos.x, last_pos.y, last_size.x, last_size.y, 0);
 
-        EVENT_POST(WindowResizeEvent, last_size);
-        EVENT_POST(WindowMoveEvent, last_pos);
+        event_manager->EVENT_POST(WindowResizeEvent, last_size);
+        event_manager->EVENT_POST(WindowMoveEvent, last_pos);
     }
 
     void Window::set_windowed(glm::uvec2 size, glm::ivec2 pos) {
@@ -116,8 +118,12 @@ namespace engine {
 
         glfwSetWindowMonitor(window, nullptr, pos.x, pos.y, size.x, size.y, 0);
 
-        EVENT_POST(WindowResizeEvent, size);
-        EVENT_POST(WindowMoveEvent, pos);
+        event_manager->EVENT_POST(WindowResizeEvent, size);
+        event_manager->EVENT_POST(WindowMoveEvent, pos);
+    }
+
+    void Window::set_mouse_type(int type) {
+        glfwSetInputMode(window, GLFW_CURSOR, type);
     }
 
     glm::ivec2 Window::get_size() {
@@ -126,39 +132,21 @@ namespace engine {
         return size;
     }
 
+    glm::vec2 Window::get_mouse_pos() {
+        glm::dvec2 size;
+        glfwGetCursorPos(window, &size.x, &size.y);
+        return size;
+    }
+
+    int Window::get_key(int key) {
+        return glfwGetKey(window, key);
+    }
+
     bool Window::on_monitor_disconnect(const MonitorDisconnectEvent* e) {
-        if (!monitor.is_null() && monitor == e->get_monitor()) {
+        if (!monitor.is_null() && monitor == e->monitor) {
             set_fullscreen(Monitor::get_primary(), true);
         }
 
         return false;
-    }
-
-    const glm::uvec2 WindowResizeEvent::get_size() const {
-        return event_size;
-    }
-
-    const uint32 WindowResizeEvent::get_width() const {
-        return event_size.x;
-    }
-
-    const uint32 WindowResizeEvent::get_height() const {
-        return event_size.y;
-    }
-
-    const glm::ivec2 WindowMoveEvent::get_pos() const {
-        return event_pos;
-    }
-
-    const int32 WindowMoveEvent::get_x() const {
-        return event_pos.x;
-    }
-
-    const int32 WindowMoveEvent::get_y() const {
-        return event_pos.y;
-    }
-
-    const bool WindowFocusEvent::get_focused() const {
-        return focused;
     }
 }

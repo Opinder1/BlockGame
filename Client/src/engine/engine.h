@@ -2,19 +2,25 @@
 
 #include <ocode.h>
 
-#include "shader.h"
-#include "material.h"
-#include "polygon2d.h"
-#include "polygon3d.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include "monitor.h"
 #include "window.h"
 
-#include "manager.h"
 #include "layer.h"
 
+#include "camera.h"
+#include "shader.h"
+#include "material.h"
+#include "model.h"
+
 namespace engine {
-	class Engine {
+	void init();
+
+	void start(Layer* initial_layer);
+
+	class Application {
 		friend void init();
 
 	public:
@@ -27,7 +33,7 @@ namespace engine {
 		LayerManager layers;
 
 	private:
-		Engine();
+		Application();
 		
 		void update();
 
@@ -35,14 +41,10 @@ namespace engine {
 		bool on_window_close(const WindowCloseEvent* e);
 
 	public:
-		~Engine();
+		~Application();
 
 		void run();
 	};
-
-	extern Engine* engine;
-
-	void init();
-
-	void start(Layer* initial_layer);
 }
+
+extern engine::Application* application;

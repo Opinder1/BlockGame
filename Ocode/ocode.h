@@ -9,7 +9,6 @@
 #include "src/events.h"
 #include "src/random.h"
 #include "src/timer.h"
-#include "src/uuid.h"
 #include "src/worker_thread.h"
 
 #include "src/filesystem/filesystem.h"

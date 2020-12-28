@@ -20,13 +20,10 @@ namespace ocode {
 	using ObserverId = uint32;
 	using EventType = size_t;
 
-	class Event {
-	public:
+	struct Event {
 		Event(const Event&) = delete;
 		Event() {}
 		virtual ~Event() {};
-
-		virtual const std::string to_string() const = 0;
 	};
 
 	class ObserverHandle {
@@ -76,11 +73,9 @@ namespace ocode {
 		}
 
 		void event_post(Event* event, EventType type) {
-			printf("Event posted %s\n", event->to_string().c_str());
-
 			if (observers.find(type) == observers.end()) {
 				return;
-				//throw new std::exception("Invalid post type");
+				//throw "Invalid post type";
 			}
 
 			for (auto&& observer : observers.at(type)) {

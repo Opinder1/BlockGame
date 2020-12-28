@@ -65,12 +65,4 @@ namespace engine {
 
         return pos;
     }
-
-    const Monitor MonitorConnectEvent::get_monitor() const {
-        return monitor;
-    }
-
-    const Monitor MonitorDisconnectEvent::get_monitor() const {
-        return monitor;
-    }
 }

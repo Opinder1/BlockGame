@@ -9,9 +9,11 @@
 
 class MainMenu : public engine::Layer {
 private:
+	engine::Camera camera;
+
 	engine::Material material;
 
-	engine::Polygon3D poly;
+	engine::Mesh poly;
 
 public:
 	MainMenu();
@@ -21,4 +23,7 @@ public:
 	void on_disconnect();
 
 	void update();
+
+	bool on_window_resize(const engine::WindowResizeEvent* e);
+	bool on_key_action(const engine::KeyActionEvent* e);
 };

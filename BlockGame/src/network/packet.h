@@ -18,7 +18,8 @@ struct Packet {
 };
 
 class PacketWriter {
-	friend class PacketSendEvent;
+	friend struct PacketSendEvent;
+	friend struct PacketBroadcastEvent;
 
 private:
 	PacketType type;
@@ -89,43 +90,22 @@ public:
 	}
 };
 
-class PacketSendEvent : ocode::Event {
-private:
+struct PacketSendEvent : ocode::Event {
 	ENetPeer* peer;
-
 	ENetPacket* packet;
 
-public:
 	PacketSendEvent(ENetPeer* peer, PacketWriter& writer) : peer(peer), packet(writer.to_packet()) {}
-
-	inline const std::string to_string() const override {
-		return std::string("PacketSendEvent: ");
-	}
-
-	ENetPeer* get_peer() const;
-	ENetPacket* get_packet() const;
 };
 
-class PacketBroadcastEvent : public PacketSendEvent {
-public:
-	PacketBroadcastEvent(PacketWriter& writer) : PacketSendEvent(NULL, writer) {}
+struct PacketBroadcastEvent : ocode::Event {
+	ENetPacket* packet;
 
-	const std::string to_string() const override;
+	PacketBroadcastEvent(PacketWriter& writer) : packet(writer.to_packet()) {}
 };
 
-class PacketReciveEvent : ocode::Event {
-private:
+struct PacketReciveEvent : ocode::Event {
 	ENetPeer* peer;
-
 	Packet packet;
 
-public:
 	PacketReciveEvent(ENetPeer* peer, PacketType type, uint8* data, uint32 data_size) : peer(peer), packet{ type, data, data_size } {}
-
-	inline const std::string to_string() const override {
-		return std::string("PacketReviceEvent: ") + std::to_string((uint8)packet.type) + std::string(packet.data, packet.data + packet.data_size);
-	}
-
-	ENetPeer* get_peer() const;
-	PacketReader get_packet() const;
 };

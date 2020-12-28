@@ -89,31 +89,35 @@ namespace engine {
         glUseProgram(program_id);
     }
 
+    int ShaderProgram::get_attribute(const char* name) {
+        return glGetAttribLocation(program_id, name);
+    }
+
     void ShaderProgram::set_float(const char* name, float value) {
         glUniform1f(glGetUniformLocation(program_id, name), value);
     }
 
-    void ShaderProgram::set_vec2(const char* name, glm::vec2 value) {
+    void ShaderProgram::set_vec2(const char* name, const glm::vec2& value) {
         glUniform2f(glGetUniformLocation(program_id, name), value.x, value.y);
     }
 
-    void ShaderProgram::set_vec3(const char* name, glm::vec3 value) {
+    void ShaderProgram::set_vec3(const char* name, const glm::vec3& value) {
         glUniform3f(glGetUniformLocation(program_id, name), value.x, value.y, value.z);
     }
 
-    void ShaderProgram::set_vec4(const char* name, glm::vec4 value) {
+    void ShaderProgram::set_vec4(const char* name, const glm::vec4& value) {
         glUniform4f(glGetUniformLocation(program_id, name), value.x, value.y, value.z, value.w);
     }
 
-    void ShaderProgram::set_mat2(const char* name, glm::mat2& value) {
+    void ShaderProgram::set_mat2(const char* name, const glm::mat2& value) {
         glUniformMatrix2fv(glGetUniformLocation(program_id, name), 1, GL_FALSE, glm::value_ptr(value));
     }
 
-    void ShaderProgram::set_mat3(const char* name, glm::mat3& value) {
+    void ShaderProgram::set_mat3(const char* name, const glm::mat3& value) {
         glUniformMatrix3fv(glGetUniformLocation(program_id, name), 1, GL_FALSE, glm::value_ptr(value));
     }
 
-    void ShaderProgram::set_mat4(const char* name, glm::mat4& value) {
+    void ShaderProgram::set_mat4(const char* name, const glm::mat4& value) {
         glUniformMatrix4fv(glGetUniformLocation(program_id, name), 1, GL_FALSE, glm::value_ptr(value));
     }
 }

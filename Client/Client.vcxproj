@@ -59,7 +59,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLEW_STATIC;GLM_FORCE_SWIZZLE;GLM_ENABLE_EXPERIMENTAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
@@ -104,10 +104,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="src\engine\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
-    <ClCompile Include="src\engine\polygon3d.cpp" />
+    <ClCompile Include="src\engine\input.cpp" />
+    <ClCompile Include="src\engine\mesh.cpp" />
+    <ClCompile Include="src\engine\model.cpp" />
     <ClCompile Include="src\engine\shader.cpp" />
-    <ClCompile Include="src\engine\polygon2d.cpp" />
     <ClCompile Include="src\engine\material.cpp" />
     <ClCompile Include="src\engine\texture.cpp" />
     <ClCompile Include="src\engine\layer.cpp" />
@@ -117,12 +119,14 @@
     <ClCompile Include="src\engine\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\camera.h" />
     <ClInclude Include="src\engine\engine.h" />
-    <ClInclude Include="src\engine\manager.h" />
-    <ClInclude Include="src\engine\polygon3d.h" />
-    <ClInclude Include="src\engine\renderer.h" />
+    <ClInclude Include="src\engine\gpumemory.h" />
+    <ClInclude Include="src\engine\input.h" />
+    <ClInclude Include="src\engine\mesh.h" />
+    <ClInclude Include="src\engine\model.h" />
+    <ClInclude Include="src\engine\object.h" />
     <ClInclude Include="src\engine\shader.h" />
-    <ClInclude Include="src\engine\polygon2d.h" />
     <ClInclude Include="src\engine\material.h" />
     <ClInclude Include="src\engine\texture.h" />
     <ClInclude Include="src\engine\layer.h" />

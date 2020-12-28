@@ -57,9 +57,6 @@
     <ClCompile Include="src\events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\uuid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\datafile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -354,9 +351,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\events.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\uuid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\typedef.h">

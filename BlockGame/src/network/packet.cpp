@@ -21,23 +21,3 @@ ENetPacket* PacketWriter::to_packet() {
 bool PacketReader::reached_end() {
 	return reader_pos == packet.data_size;
 }
-
-ENetPeer* PacketSendEvent::get_peer() const {
-	return peer;
-}
-
-ENetPacket* PacketSendEvent::get_packet() const {
-	return packet;
-}
-
-const std::string PacketBroadcastEvent::to_string() const {
-	return std::string("PacketBroadcastEvent: ");
-}
-
-ENetPeer* PacketReciveEvent::get_peer() const {
-    return peer;
-}
-
-PacketReader PacketReciveEvent::get_packet() const {
-    return PacketReader(packet);
-}

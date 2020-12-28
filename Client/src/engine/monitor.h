@@ -1,14 +1,16 @@
 #pragma once
 
+#include <ocode.h>
+
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-#include "manager.h"
-
 namespace engine {
+	extern ocode::EventManager* event_manager;
+
 	class Monitor {
-		friend class MonitorConnectEvent;
-		friend class MonitorDisconnectEvent;
+		friend struct MonitorConnectEvent;
+		friend struct MonitorDisconnectEvent;
 
 	private:
 		GLFWmonitor* monitor;
@@ -30,31 +32,15 @@ namespace engine {
 		const glm::ivec2 get_pos();
 	};
 
-	class MonitorConnectEvent : ocode::Event {
-	private:
+	struct MonitorConnectEvent : ocode::Event {
 		Monitor monitor;
 
-	public:
 		MonitorConnectEvent(GLFWmonitor* monitor) : monitor(Monitor(monitor)) {}
-
-		inline const std::string to_string() const override {
-			return std::string("MonitorConnect: ") + glfwGetMonitorName(monitor.monitor);
-		}
-
-		const Monitor get_monitor() const;
 	};
 
-	class MonitorDisconnectEvent : ocode::Event {
-	private:
+	struct MonitorDisconnectEvent : ocode::Event {
 		Monitor monitor;
 
-	public:
 		MonitorDisconnectEvent(GLFWmonitor* monitor) : monitor(Monitor(monitor)) {}
-
-		inline const std::string to_string() const override {
-			return std::string("MonitorDisconnect: ") + glfwGetMonitorName(monitor.monitor);
-		}
-
-		const Monitor get_monitor() const;
 	};
 }

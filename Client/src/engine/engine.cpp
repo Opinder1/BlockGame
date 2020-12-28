@@ -1,7 +1,8 @@
 #include "engine.h"
+    
+engine::Application* application;
 
 namespace engine {
-    Engine* engine;
 
     ocode::EventManager* event_manager;
 
@@ -12,7 +13,7 @@ namespace engine {
 
         event_manager = new ocode::EventManager();
 
-        engine = new Engine();
+        application = new Application();
 
         if (glewInit() != GLEW_OK) {
             throw "Failed to initialise glew";
@@ -21,20 +22,20 @@ namespace engine {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glEnable(GL_DEPTH_TEST);
 
-        engine->window.set_icon(engine::Texture("icon.png"));
+        application->window.set_icon(engine::Texture("icon.png"));
     }
 
     void start(Layer* initial_layer) {
-        engine->layers.insert(initial_layer);
+        application->layers.insert(initial_layer);
 
-        engine->run();
+        application->run();
 
-        delete engine;
+        delete application;
 
         delete event_manager;
     }
 
-    Engine::Engine() :
+    Application::Application() :
         running(true),
         log("client"),
         config("client"),
@@ -56,21 +57,21 @@ namespace engine {
             throw "Window failure";
         }
 
-        event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, Engine::on_window_resize);
-        event_manager->EVENT_SUBSCRIBE(engine::WindowCloseEvent, Engine::on_window_close);
+        event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, Application::on_window_resize);
+        event_manager->EVENT_SUBSCRIBE(engine::WindowCloseEvent, Application::on_window_close);
     }
 
-    Engine::~Engine() {
+    Application::~Application() {
 
     }
 
-    void Engine::run() {
+    void Application::run() {
         while (running) {
             update();
         }
     }
 
-    void Engine::update() {
+    void Application::update() {
         layers.update();
 
         window.update();
@@ -78,12 +79,13 @@ namespace engine {
         glfwPollEvents();
     }
 
-    bool Engine::on_window_resize(const WindowResizeEvent* e) {
-        glViewport(0, 0, e->get_width(), e->get_height());
+    bool Application::on_window_resize(const WindowResizeEvent* e) {
+        glViewport(0, 0, e->size.x, e->size.y);
+
         return false;
     }
 
-    bool Engine::on_window_close(const WindowCloseEvent* e) {
+    bool Application::on_window_close(const WindowCloseEvent* e) {
         running = false;
 
         return false;

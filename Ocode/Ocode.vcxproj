@@ -34,7 +34,6 @@
     <ClCompile Include="src\error.cpp" />
     <ClCompile Include="src\random.cpp" />
     <ClCompile Include="src\timer.cpp" />
-    <ClCompile Include="src\uuid.cpp" />
     <ClCompile Include="src\worker_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,7 +135,6 @@
     <ClInclude Include="src\error.h" />
     <ClInclude Include="src\random.h" />
     <ClInclude Include="src\timer.h" />
-    <ClInclude Include="src\uuid.h" />
     <ClInclude Include="src\typedef.h" />
     <ClInclude Include="src\worker_thread.h" />
   </ItemGroup>

@@ -95,32 +95,20 @@ NetServer::~NetServer() {
 }
 
 bool NetServer::on_packet_send(const PacketSendEvent* e) {
-    enet_peer_send(e->get_peer(), 0, e->get_packet());
+    enet_peer_send(e->peer, 0, e->packet);
 
     return true;
 }
 
 
 bool NetServer::on_packet_broadcast(const PacketBroadcastEvent* e) {
-    enet_host_broadcast(host, 0, e->get_packet());
+    enet_host_broadcast(host, 0, e->packet);
 
     return true;
 }
 
 bool NetClient::on_packet_send(const PacketSendEvent* e) {
-    enet_peer_send(server, 0, e->get_packet());
+    enet_peer_send(server, 0, e->packet);
 
     return true;
-}
-
-const ENetPeer* PeerConnectEvent::get_peer() const {
-    return peer;
-}
-
-const ENetPeer* PeerDisconnectEvent::get_peer() const {
-    return peer;
-}
-
-const uint32 PeerDisconnectEvent::get_reason() const {
-    return reason;
 }

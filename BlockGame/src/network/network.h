@@ -66,33 +66,15 @@ public:
     bool on_packet_broadcast(const PacketBroadcastEvent* e);
 };
 
-class PeerConnectEvent : ocode::Event {
-private:
+struct PeerConnectEvent : ocode::Event {
     ENetPeer* peer;
 
-public:
     PeerConnectEvent(ENetPeer* peer) : peer(peer) {}
-
-    inline const std::string to_string() const override {
-        return std::string("PeerConnect: ");
-    }
-
-    const ENetPeer* get_peer() const;
 };
 
-class PeerDisconnectEvent : ocode::Event {
-private:
+struct PeerDisconnectEvent : ocode::Event {
     ENetPeer* peer;
     uint32 reason;
 
-public:
     PeerDisconnectEvent(ENetPeer* peer, uint32 reason) : peer(peer), reason(reason) {}
-
-    inline const std::string to_string() const override {
-        return std::string("PeerDisconnect: ") + std::to_string(reason);
-    }
-
-    const ENetPeer* get_peer() const;
-    const uint32 get_reason() const;
-
 };

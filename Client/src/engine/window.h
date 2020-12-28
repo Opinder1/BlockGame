@@ -1,15 +1,18 @@
 #pragma once
 
+#include <ocode.h>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-#include "manager.h"
 #include "monitor.h"
 #include "texture.h"
 
 namespace engine {
-	class Window : ocode::EventDevice {
+	extern ocode::EventManager* event_manager;
+
+	class Window {
 	private:
 		GLFWwindow* window;
 
@@ -32,63 +35,40 @@ namespace engine {
 		void set_windowed();
 		void set_windowed(glm::uvec2 size, glm::ivec2 pos);
 
+		void set_mouse_type(int type);
+
 		glm::ivec2 get_size();
+		glm::vec2 get_mouse_pos();
+		int get_key(int key);
 
 		bool on_monitor_disconnect(const MonitorDisconnectEvent* e);
 	};
 
-	class WindowResizeEvent : ocode::Event {
-	private:
-		glm::uvec2 event_size;
+	struct WindowResizeEvent : ocode::Event {
+		glm::uvec2 size;
 
-	public:
-		WindowResizeEvent(glm::uvec2 size) : event_size(size) {}
-
-		inline const std::string to_string() const override {
-			return std::string("WindowResize: ") + std::to_string(event_size.x) + " " + std::to_string(event_size.y);
-		}
-
-		const glm::uvec2 get_size() const;
-		const uint32 get_width() const;
-		const uint32 get_height() const;
+		WindowResizeEvent(glm::uvec2 size) : size(size) {}
 	};
 
-	class WindowMoveEvent : ocode::Event {
-	private:
-		glm::ivec2 event_pos;
+	struct WindowMoveEvent : ocode::Event {
+		glm::ivec2 pos;
 
-	public:
-		WindowMoveEvent(glm::ivec2 pos) : event_pos(pos) {}
-
-		inline const std::string to_string() const override {
-			return std::string("WindowMove: ") + std::to_string(event_pos.x) + " " + std::to_string(event_pos.y);
-		}
-
-		const glm::ivec2 get_pos() const;
-		const int32 get_x() const;
-		const int32 get_y() const;
+		WindowMoveEvent(glm::ivec2 pos) : pos(pos) {}
 	};
 
-	class WindowCloseEvent : ocode::Event {
-	public:
-		WindowCloseEvent() {}
+	struct WindowCloseEvent : ocode::Event {
 
-		inline const std::string to_string() const override {
-			return std::string("WindowCloseEvent: ");
-		};
 	};
 
-	class WindowFocusEvent : ocode::Event {
-	private:
+	struct WindowFocusEvent : ocode::Event {
 		bool focused;
 
-	public:
 		WindowFocusEvent(bool focused) : focused(focused) {}
+	};
 
-		inline const std::string to_string() const override {
-			return std::string("WindowFocusEvent: focused: ") + std::to_string(focused);
-		};
+	struct KeyActionEvent : ocode::Event {
+		int key, scancode, action, mods;
 
-		const bool get_focused() const;
+		KeyActionEvent(int key, int scancode, int action, int mods) : key(key), scancode(scancode), action(action), mods(mods) {}
 	};
 }
