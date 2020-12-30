@@ -5,12 +5,12 @@
 #include <vector>
 #include <string>
 
+#include "object.h"
 #include "mesh.h"
 #include "material.h"
-#include "texture.h"
 
 namespace engine {
-	class Model {
+	class Model : public Object {
 	private:
 		std::vector<Mesh> meshes;
 

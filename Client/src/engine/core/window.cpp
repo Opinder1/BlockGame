@@ -101,6 +101,10 @@ namespace engine {
         }
     }
 
+    void Window::set_fullscreen(bool vsync) {
+        set_fullscreen(Monitor::get_primary(), vsync);
+    }
+
     void Window::set_windowed() {
         monitor = Monitor();
 

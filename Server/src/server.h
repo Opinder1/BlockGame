@@ -23,7 +23,7 @@ public:
 	ocode::Config config;
 
 private:
-	bool on_tick(const TickEvent* e);
+	bool on_tick(const ocode::TickEvent* e);
 
 	bool on_player_join(const PlayerJoinEvent* e);
 	bool on_player_leave(const PlayerLeaveEvent* e);

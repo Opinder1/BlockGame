@@ -7,10 +7,10 @@
 
 #include "engine/engine.h"
 
+#include "game.h"
+
 class MainMenu : public engine::Layer {
 private:
-	engine::Camera camera;
-
 	engine::Material material;
 
 	engine::Mesh poly;
@@ -19,11 +19,8 @@ public:
 	MainMenu();
 	~MainMenu();
 
-	void on_connect();
-	void on_disconnect();
+	void on_connect() override;
+	void on_disconnect() override;
 
-	void update();
-
-	bool on_window_resize(const engine::WindowResizeEvent* e);
-	bool on_key_action(const engine::KeyActionEvent* e);
+	void update() override;
 };

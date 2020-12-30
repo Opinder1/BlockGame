@@ -14,5 +14,4 @@ private:
 
 public:
 	Scene(ocode::EventManager* manager) : ocode::EventDevice(manager) {}
-	virtual ~Scene() = 0;
 };

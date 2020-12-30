@@ -104,36 +104,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="src\engine\camera.cpp" />
+    <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
-    <ClCompile Include="src\engine\input.cpp" />
-    <ClCompile Include="src\engine\mesh.cpp" />
-    <ClCompile Include="src\engine\model.cpp" />
-    <ClCompile Include="src\engine\shader.cpp" />
-    <ClCompile Include="src\engine\material.cpp" />
-    <ClCompile Include="src\engine\texture.cpp" />
-    <ClCompile Include="src\engine\layer.cpp" />
+    <ClCompile Include="src\engine\scene\mesh.cpp" />
+    <ClCompile Include="src\engine\scene\model.cpp" />
+    <ClCompile Include="src\engine\renderer\shader.cpp" />
+    <ClCompile Include="src\engine\scene\material.cpp" />
+    <ClCompile Include="src\engine\renderer\texture.cpp" />
+    <ClCompile Include="src\engine\core\layer.cpp" />
     <ClCompile Include="src\mainmenu.cpp" />
     <ClCompile Include="src\game.cpp" />
-    <ClCompile Include="src\engine\monitor.cpp" />
-    <ClCompile Include="src\engine\window.cpp" />
+    <ClCompile Include="src\engine\core\monitor.cpp" />
+    <ClCompile Include="src\engine\core\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\camera.h" />
+    <ClInclude Include="src\engine\scene\camera.h" />
     <ClInclude Include="src\engine\engine.h" />
-    <ClInclude Include="src\engine\gpumemory.h" />
-    <ClInclude Include="src\engine\input.h" />
-    <ClInclude Include="src\engine\mesh.h" />
-    <ClInclude Include="src\engine\model.h" />
-    <ClInclude Include="src\engine\object.h" />
-    <ClInclude Include="src\engine\shader.h" />
-    <ClInclude Include="src\engine\material.h" />
-    <ClInclude Include="src\engine\texture.h" />
-    <ClInclude Include="src\engine\layer.h" />
+    <ClInclude Include="src\engine\renderer\gpumemory.h" />
+    <ClInclude Include="src\engine\scene\mesh.h" />
+    <ClInclude Include="src\engine\scene\model.h" />
+    <ClInclude Include="src\engine\scene\object.h" />
+    <ClInclude Include="src\engine\renderer\shader.h" />
+    <ClInclude Include="src\engine\scene\material.h" />
+    <ClInclude Include="src\engine\renderer\texture.h" />
+    <ClInclude Include="src\engine\core\layer.h" />
     <ClInclude Include="src\mainmenu.h" />
     <ClInclude Include="src\game.h" />
-    <ClInclude Include="src\engine\monitor.h" />
-    <ClInclude Include="src\engine\window.h" />
+    <ClInclude Include="src\engine\core\monitor.h" />
+    <ClInclude Include="src\engine\core\window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

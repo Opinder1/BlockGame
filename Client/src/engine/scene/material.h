@@ -6,8 +6,8 @@
 #include <GL/glew.h>
 #include <rapidjson/document.h>
 
-#include "shader.h"
-#include "texture.h"
+#include "../renderer/shader.h"
+#include "../renderer/texture.h"
 
 namespace engine {
 	class Material : public ShaderProgram {

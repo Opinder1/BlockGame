@@ -5,17 +5,17 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "monitor.h"
-#include "window.h"
+#include "core/monitor.h"
+#include "core/window.h"
+#include "core/layer.h"
 
-#include "layer.h"
-
-#include "camera.h"
-#include "shader.h"
-#include "material.h"
-#include "model.h"
+#include "scene/camera.h"
+#include "scene/material.h"
+#include "scene/model.h"
 
 namespace engine {
+	extern ocode::EventManager* event_manager;
+
 	void init();
 
 	void start(Layer* initial_layer);

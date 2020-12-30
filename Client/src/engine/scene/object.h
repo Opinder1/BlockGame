@@ -1,27 +1,16 @@
 #pragma once
 
-#include <ocode.h>
-
 #include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
-
-#include "object.h"
 
 namespace engine {
-	class Camera : public Object {
-	private:
-		glm::mat4 projection;
+	struct Object {
+		glm::vec3 position;
+		glm::vec3 rotation;
+		glm::vec3 scale;
 
-	public:
-		Camera(float fov, float width, float height, float near, float far);
-		~Camera();
+		Object() : position(0), rotation(0), scale(1) {}
 
-		void set_perspective(float fov, float width, float height, float near, float far);
-
-		void translate(glm::vec3 translation);
-		void rotate(float rotation, glm::vec3 axis);
-
-		const glm::mat4& get_projection();
+		Object(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : position(position), rotation(rotation), scale(scale) {}
 
 		inline glm::mat3 get_a() {
 			return glm::mat3(1, 0, 0, 0, cos(rotation.x), sin(rotation.x), 0, -sin(rotation.x), cos(rotation.x));

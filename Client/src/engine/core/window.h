@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 
 #include "monitor.h"
-#include "texture.h"
+#include "../renderer/texture.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;
@@ -31,7 +31,10 @@ namespace engine {
 		void close();
 
 		void set_icon(const Texture& texture);
+
 		void set_fullscreen(Monitor monitor, bool vsync);
+		void set_fullscreen(bool vsync);
+
 		void set_windowed();
 		void set_windowed(glm::uvec2 size, glm::ivec2 pos);
 

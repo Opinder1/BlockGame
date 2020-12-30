@@ -43,26 +43,48 @@ namespace engine {
 		}
 
 		template<class Type>
-		void buffer_sub_data(GLenum type, size_t pos, Type* data) {
-			glGetBufferSubData(type, sizeof(Type) * pos, sizeof(Type), data);
+		void buffer_sub_data(GLenum type, size_t pos, size_t size, Type* data) {
+			glBufferSubData(type, sizeof(Type) * pos, sizeof(Type) * size, data + pos);
 		}
 
-		template<uint32 Size>
+		template<class Type>
+		void buffer_type(uint32 index, GLenum type) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index, 1, type, GL_FALSE, sizeof(Type), 0);
+		}
+
+		template<class Type, uint32 Size>
 		void buffer_type_vec(uint32 index, GLenum type) {
 			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, Size, type, GL_FALSE, Size * sizeof(float), 0);
+			glVertexAttribPointer(index, Size, type, GL_FALSE, Size * sizeof(Type), 0);
 		}
 
-		template<uint32 SizeX, uint32 SizeY>
+		template<class Type, uint32 SizeX, uint32 SizeY>
 		void buffer_type_mat(uint32 index, GLenum type) {
 			for (int i = 0; i < SizeY; i++) {
 				glEnableVertexAttribArray(index + i);
-				glVertexAttribPointer(index + i, SizeX, type, GL_FALSE, SizeX * SizeY * sizeof(float), (void*)(i * SizeX * sizeof(float)));
-				glVertexAttribDivisor(index + i, 1); // NO NO NO
+				glVertexAttribPointer(index + i, SizeX, type, GL_FALSE, SizeX * SizeY * sizeof(Type), (void*)(i * SizeX * sizeof(Type)));
 			}
 		}
 
-		void draw(GLenum type, size_t vertexes) {
+		template<class Type>
+		void buffer_divisor(uint32 index, uint32 divisor) {
+			glVertexAttribDivisor(index, divisor);
+		}
+
+		template<class Type, uint32 Size>
+		void buffer_divisor_vec(uint32 index, uint32 divisor) {
+			glVertexAttribDivisor(index, divisor);
+		}
+
+		template<class Type, uint32 SizeX, uint32 SizeY>
+		void buffer_divisor_mat(uint32 index, uint32 divisor) {
+			for (int i = 0; i < SizeY; i++) {
+				glVertexAttribDivisor(index + i, divisor);
+			}
+		}
+
+		void draw_one(GLenum type, size_t vertexes) {
 			glDrawArrays(type, 0, (uint32)vertexes);
 		}
 

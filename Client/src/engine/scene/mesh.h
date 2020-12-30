@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 #include <GLM/glm.hpp>
 
-#include "gpumemory.h"
+#include "../renderer/gpumemory.h"
 #include "material.h"
 
 namespace engine {
