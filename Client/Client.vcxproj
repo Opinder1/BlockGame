@@ -119,10 +119,10 @@
     <ClCompile Include="src\engine\core\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\renderer\gpumemory_old.h" />
+    <ClInclude Include="src\engine\renderer\gpuarray.h" />
     <ClInclude Include="src\engine\scene\camera.h" />
     <ClInclude Include="src\engine\engine.h" />
-    <ClInclude Include="src\engine\renderer\gpumemory.h" />
+    <ClInclude Include="src\engine\renderer\gpubuffer.h" />
     <ClInclude Include="src\engine\scene\mesh.h" />
     <ClInclude Include="src\engine\scene\model.h" />
     <ClInclude Include="src\engine\scene\object.h" />

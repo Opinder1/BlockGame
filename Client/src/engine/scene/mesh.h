@@ -7,15 +7,16 @@
 #include <GL/glew.h>
 #include <GLM/glm.hpp>
 
-#include "../renderer/gpumemory.h"
+#include "../renderer/gpuarray.h"
+#include "../renderer/gpubuffer.h"
 #include "material.h"
 
 namespace engine {
 	class Mesh {
 	private:
-		GPUObject object;
-		GPUBuffer vertex_buffer;
-		GPUBuffer instance_buffer;
+		GPUArray array;
+		GPUArrayBuffer<float, 3> vertex_array;
+		GPUArrayBuffer<float, 4, 4, 1> instance_array;
 
 		std::vector<glm::vec3> vertexes;
 
