@@ -11,8 +11,12 @@
 #include "material.h"
 
 namespace engine {
-	class Mesh : private GPUMemory<2> {
+	class Mesh {
 	private:
+		GPUObject object;
+		GPUBuffer vertex_buffer;
+		GPUBuffer instance_buffer;
+
 		std::vector<glm::vec3> vertexes;
 
 		std::vector<glm::mat4> instance_translations;

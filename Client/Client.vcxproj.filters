@@ -98,5 +98,8 @@
     <ClInclude Include="src\engine\core\layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\renderer\gpumemory_old.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

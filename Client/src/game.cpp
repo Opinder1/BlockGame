@@ -82,20 +82,15 @@ void Game::update() {
 
     poly.draw();
 
-    {
+    for (int i = 0; i < 100; i++) {
         glm::mat4 model = glm::mat4(1.0f);
 
-        float time = glfwGetTime() * 10.0f;
-
-        model = glm::translate(model, glm::vec3(cos(time) * time, 0, sin(time) * time));
+        model = glm::translate(model, glm::vec3(cos(tick) * sqrt(tick), -10, sin(tick) * sqrt(tick)));
         model = glm::scale(model, glm::vec3(1.0f));
         model = glm::rotate(model, float(r.new_int32() % 360), glm::vec3(r.new_int32() / 1000.0f, r.new_int32() / 1000.0f, r.new_int32() / 1000.0f));
 
         poly.new_instance(model);
 
-        if (tick % 2 == 1) {
-            poly.delete_instance(poly.instance_count() / 2);
-        }
         tick++;
     }
 }
