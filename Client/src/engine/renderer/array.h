@@ -5,41 +5,10 @@
 #include <GL/glew.h>
 #include <GLM/glm.hpp>
 
+#include "buffer.h"
+
 namespace engine {
-	class GPUBuffer {
-	private:
-		uint32 buffer_id;
-		uint32 buffer_type;
-
-		void bind() {
-			glBindBuffer(buffer_type, buffer_id);
-		}
-
-	public:
-		GPUBuffer(const GPUBuffer& buffer) = delete;
-
-		GPUBuffer(uint32 type) : buffer_type(type) {
-			glGenBuffers(1, &buffer_id);
-			bind();
-		}
-
-		~GPUBuffer() {
-			glDeleteBuffers(1, &buffer_id);
-		}
-
-		template<class Type>
-		void data(size_t size, Type* data, uint32 method) {
-			bind();
-			glBufferData(buffer_type, size * sizeof(Type), data, method);
-		}
-
-		template<class Type>
-		void sub_data(size_t pos, size_t size, Type* data) {
-			bind();
-			glBufferSubData(buffer_type, pos * sizeof(Type), size * sizeof(Type), data + pos);
-		}
-	};
-
+	// Function to convert template type into opengl type constant at compile time
 	template<class T> constexpr GLenum gl_type() = delete;
 
 	template<> constexpr GLenum gl_type<int8>() { return GL_BYTE; }
@@ -51,17 +20,47 @@ namespace engine {
 	template<> constexpr GLenum gl_type<float>() { return GL_FLOAT; }
 	template<> constexpr GLenum gl_type<double>() { return GL_DOUBLE; }
 
-	template<class Type, uint32 SizeX = 1, uint32 SizeY = 1, uint32 Divisor = 0>
-	class GPUArrayBuffer : public GPUBuffer {
+	class Array {
+	private:
+		uint32 vertex_array_id;
+
+		void bind();
+
 	public:
-		GPUArrayBuffer(uint32 index) : GPUBuffer(GL_ARRAY_BUFFER) {
+		Array(const Array&) = delete;
+		Array();
+		~Array();
+
+		void draw(GLenum type, size_t vertexes);
+		void draw_elements(GLenum type, size_t elements);
+
+		void draw_instanced(GLenum type, size_t vertexes, size_t instances);
+		void draw_elements_instanced(GLenum type, size_t elements, size_t instances);
+	};
+
+	// Array buffer object wrapper that can handle vectors, matricies and divisors
+	template<class Type, uint32 SizeX = 1, uint32 SizeY = 1, uint32 Divisor = 0>
+	class ArrayBuffer : public Buffer {
+	public:
+		ArrayBuffer(uint32 index) : Buffer(GL_ARRAY_BUFFER) {
+			// If SizeY is 1 then optimiser will get rid of this loop
 			for (int i = 0; i < SizeY; i++) {
+				// Sets the format for the buffer using the index provided
 				glEnableVertexAttribArray(index + i);
 				glVertexAttribPointer(index + i, SizeX, gl_type<Type>(), GL_FALSE, SizeX * SizeY * sizeof(Type), (void*)(i * SizeY * sizeof(Type)));
+
+				// If divisor is 0 then optimiser will get rid of this function
 				if (Divisor) {
 					glVertexAttribDivisor(index + i, Divisor);
 				}
 			}
+		}
+	};
+
+	class ElementBuffer : public Buffer {
+	public:
+		ElementBuffer() : Buffer(GL_ELEMENT_ARRAY_BUFFER) {
+
 		}
 	};
 }

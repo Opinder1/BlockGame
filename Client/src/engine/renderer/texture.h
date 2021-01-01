@@ -12,6 +12,7 @@ namespace engine {
 		uint8 r, g, b, a;
 	};
 
+	//template<class PixelType = Pixel>
 	class Texture {
 	private:
 		Pixel* data;

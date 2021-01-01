@@ -105,6 +105,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="src\engine\renderer\array.cpp" />
+    <ClCompile Include="src\engine\renderer\buffer.cpp" />
     <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\scene\mesh.cpp" />
@@ -119,10 +121,10 @@
     <ClCompile Include="src\engine\core\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\renderer\gpuarray.h" />
+    <ClInclude Include="src\engine\renderer\array.h" />
     <ClInclude Include="src\engine\scene\camera.h" />
     <ClInclude Include="src\engine\engine.h" />
-    <ClInclude Include="src\engine\renderer\gpubuffer.h" />
+    <ClInclude Include="src\engine\renderer\buffer.h" />
     <ClInclude Include="src\engine\scene\mesh.h" />
     <ClInclude Include="src\engine\scene\model.h" />
     <ClInclude Include="src\engine\scene\object.h" />

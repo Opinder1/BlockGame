@@ -6,7 +6,7 @@ float map(float n, float a1, float b1, float a2, float b2) {
 
 Game::Game() : client(engine::event_manager, "localhost", 1234), scene(engine::event_manager), camera(70.0f), material("polygon3d"), poly(&material) {
 
-    int count = 0;
+    int count = pow(2, 24);
 
     for (int i = 0; i < count; i++) {
         glm::mat4 model = glm::mat4(1.0f);
@@ -82,10 +82,10 @@ void Game::update() {
 
     poly.draw();
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 0; i++) {
         glm::mat4 model = glm::mat4(1.0f);
 
-        model = glm::translate(model, glm::vec3(cos(tick) * sqrt(tick), -10, sin(tick) * sqrt(tick)));
+        model = glm::translate(model, glm::vec3(cos(tick) * sqrt(tick) * 2, -10, sin(tick) * sqrt(tick) * 2));
         model = glm::scale(model, glm::vec3(1.0f));
         model = glm::rotate(model, float(r.new_int32() % 360), glm::vec3(r.new_int32() / 1000.0f, r.new_int32() / 1000.0f, r.new_int32() / 1000.0f));
 
