@@ -13,4 +13,8 @@ namespace engine {
 	void Buffer::bind() {
 		glBindBuffer(buffer_type, buffer_id);
 	}
+
+	const uint32 Buffer::get_size() {
+		return buffer_size;
+	}
 }

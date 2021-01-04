@@ -2,9 +2,6 @@
 
 #include <blockgame.h>
 
-#include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
-
 #include "engine/engine.h"
 
 class Game : public engine::Layer {
@@ -14,12 +11,6 @@ private:
 
 	engine::FPSCamera camera;
 
-	engine::Material material;
-
-	engine::Mesh poly;
-
-	ocode::Random r;
-	
 public:
 	Game();
 	~Game();
@@ -28,9 +19,4 @@ public:
 	void on_disconnect() override;
 
 	void update() override;
-
-	void move_camera(glm::vec3 translation);
-
-private:
-	bool on_key_action(const engine::KeyActionEvent* e);
 };

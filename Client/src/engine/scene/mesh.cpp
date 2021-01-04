@@ -15,18 +15,7 @@ std::vector<glm::vec3> cube = {
 	{0.5f, 0.5f, 0.5f}, {-0.5f, 0.5f, 0.5f}, {0.5f, -0.5f, 0.5f}
 };
 
-std::vector<glm::vec3> cube_vertexes = {
-	{-0.5f, -0.5f, -0.5f},
-	{-0.5f, -0.5f, 0.5f},
-	{-0.5f, 0.5f, -0.5f},
-	{-0.5f, 0.5f, 0.5f},
-	{0.5f, -0.5f, -0.5f},
-	{0.5f, -0.5f, 0.5f},
-	{0.5f, 0.5f, -0.5f},
-	{0.5f, 0.5f, 0.5f}
-};
-
-std::vector<uint32> cube_elements = {
+std::vector<uint8> cube_elements = {
 	0, 1, 2,
 	3, 1, 2,
 	4, 0, 5,
@@ -41,58 +30,31 @@ std::vector<uint32> cube_elements = {
 	7, 5, 6
 };
 
-namespace engine {
-	Mesh::Mesh(Material* material) : Mesh(cube_vertexes, cube_elements, material) {}
+std::vector<glm::vec3> cube_vertexes = {
+	{-0.5f, -0.5f, -0.5f},
+	{-0.5f, -0.5f, 0.5f},
+	{-0.5f, 0.5f, -0.5f},
+	{-0.5f, 0.5f, 0.5f},
+	{0.5f, -0.5f, -0.5f},
+	{0.5f, -0.5f, 0.5f},
+	{0.5f, 0.5f, -0.5f},
+	{0.5f, 0.5f, 0.5f}
+};
 
-	Mesh::Mesh(std::vector<glm::vec3> vertexes, std::vector<uint32> elements, Material* material) :
-		array(),
-		element_array(),
-		vertex_array(material->get_attribute("vertex_position")),
-		instance_array(material->get_attribute("instance_translation")),
-		elements(elements.size())
-	{
-		vertex_array.data(vertexes.size(), vertexes.data(), GL_STATIC_DRAW);
-		element_array.data(elements.size(), elements.data(), GL_STATIC_DRAW);
-		instance_array.data(0, vertexes.data(), GL_DYNAMIC_DRAW);
+namespace engine {
+	Mesh::Mesh(Material* material) : Mesh(cube_elements, cube_vertexes, material) {}
+
+	Mesh::Mesh(std::vector<uint8> elements, std::vector<glm::vec3> vertexes, Material* material) {
+		vertex_array.format<float, 3>(material->get_attribute("vertex_position"));
+
+		array.data((uint32)elements.size(), elements.data(), BufferType::STATIC);
+		vertex_array.data((uint32)vertexes.size(), vertexes.data(), BufferType::STATIC);
 	}
 
 	Mesh::~Mesh() {
-
 	}
 
-	void Mesh::draw() {
-		array.draw_elements_instanced(GL_TRIANGLES, elements, instance_translations.size());
-	}
-
-	uint32 Mesh::new_instance(glm::mat4 translation) {
-		size_t size = instance_translations.capacity();
-		instance_translations.push_back(translation);
-
-		if (instance_translations.capacity() != size) {
-			instance_array.data(instance_translations.capacity(), instance_translations.data(), GL_DYNAMIC_DRAW);
-		}
-		else {
-			instance_array.sub_data(instance_translations.size() - 1, 1, instance_translations.data());
-		}
-
-		return (uint32)instance_translations.size() - 1;
-	}
-
-	void Mesh::delete_instance(uint32 index) {
-		size_t size = instance_translations.capacity();
-
-		instance_translations.erase(instance_translations.begin() + index);
-
-		instance_array.sub_data(index, instance_translations.size() - index, instance_translations.data());
-	}
-
-	void Mesh::update_instance(uint32 index, glm::mat4 translation) {
-		instance_translations.at(index) = translation;
-
-		instance_array.sub_data(index, 1, instance_translations.data());
-	}
-
-	uint64 Mesh::instance_count() {
-		return instance_translations.size();
+	void Mesh::draw(uint32 instance_count) {
+		array.draw_elements_instanced((uint32)array.get_size(), instance_count);
 	}
 }

@@ -14,23 +14,23 @@ namespace engine {
 		glBindVertexArray(vertex_array_id);
 	}
 
-	void Array::draw(GLenum type, size_t vertexes) {
+	void Array::draw(uint32 type, uint32 vertexes) {
 		bind();
-		glDrawArrays(type, 0, (uint32)vertexes);
+		glDrawArrays(type, 0, vertexes);
 	}
 
-	void Array::draw_elements(GLenum type, size_t elements) {
+	void Array::draw_instanced(uint32 type, uint32 vertexes, uint32 instances) {
 		bind();
-		glDrawElements(type, (uint32)elements, GL_UNSIGNED_INT, 0);
+		glDrawArraysInstanced(type, 0, vertexes, instances);
 	}
 
-	void Array::draw_instanced(GLenum type, size_t vertexes, size_t instances) {
-		bind();
-		glDrawArraysInstanced(type, 0, (uint32)vertexes, (uint32)instances);
+	void ElementArray::draw_elements(uint32 elements) {
+		Array::bind();
+		glDrawElements(GL_TRIANGLES, elements, element_type, 0);
 	}
 
-	void Array::draw_elements_instanced(GLenum type, size_t elements, size_t instances) {
-		bind();
-		glDrawElementsInstanced(type, (uint32)elements, GL_UNSIGNED_INT, 0, (uint32)instances);
+	void ElementArray::draw_elements_instanced(uint32 elements, uint32 instances) {
+		Array::bind();
+		glDrawElementsInstanced(GL_TRIANGLES, elements, element_type, 0, instances);
 	}
 }

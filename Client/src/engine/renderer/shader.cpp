@@ -1,14 +1,14 @@
 #include "shader.h"
 
 namespace engine {
-    Shader::Shader(ShaderType type, const char* code_data, int32 code_size) : shader_id(glCreateShader((uint32)type)) {
+    Shader::Shader(ShaderType type, const char* code_data, int32 code_size) : shader_id(glCreateShader((GLenum)type)) {
         glShaderSource(shader_id, 1, &code_data, &code_size);
 
         glCompileShader(shader_id);
     }
 
     Shader::Shader(ShaderType type, const std::string& name) {
-        shader_id = glCreateShader((uint32)type);
+        shader_id = glCreateShader((GLenum)type);
 
         std::string file_name = "resources\\" + name;
 

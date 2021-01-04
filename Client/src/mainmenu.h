@@ -7,6 +7,7 @@
 
 #include "engine/engine.h"
 
+#include "cubescene.h"
 #include "game.h"
 
 class MainMenu : public engine::Layer {

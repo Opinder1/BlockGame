@@ -8,22 +8,11 @@
 #include "buffer.h"
 
 namespace engine {
-	// Function to convert template type into opengl type constant at compile time
-	template<class T> constexpr GLenum gl_type() = delete;
-
-	template<> constexpr GLenum gl_type<int8>() { return GL_BYTE; }
-	template<> constexpr GLenum gl_type<uint8>() { return GL_UNSIGNED_BYTE; }
-	template<> constexpr GLenum gl_type<int16>() { return GL_SHORT; }
-	template<> constexpr GLenum gl_type<uint16>() { return GL_UNSIGNED_SHORT; }
-	template<> constexpr GLenum gl_type<int32>() { return GL_INT; }
-	template<> constexpr GLenum gl_type<uint32>() { return GL_UNSIGNED_INT; }
-	template<> constexpr GLenum gl_type<float>() { return GL_FLOAT; }
-	template<> constexpr GLenum gl_type<double>() { return GL_DOUBLE; }
-
 	class Array {
 	private:
 		uint32 vertex_array_id;
 
+	protected:
 		void bind();
 
 	public:
@@ -31,36 +20,26 @@ namespace engine {
 		Array();
 		~Array();
 
-		void draw(GLenum type, size_t vertexes);
-		void draw_elements(GLenum type, size_t elements);
-
-		void draw_instanced(GLenum type, size_t vertexes, size_t instances);
-		void draw_elements_instanced(GLenum type, size_t elements, size_t instances);
+		void draw(uint32 type, uint32 vertexes);
+		void draw_instanced(uint32 type, uint32 vertexes, uint32 instances);
 	};
 
-	// Array buffer object wrapper that can handle vectors, matricies and divisors
-	template<class Type, uint32 SizeX = 1, uint32 SizeY = 1, uint32 Divisor = 0>
-	class ArrayBuffer : public Buffer {
+	class ElementArray : public Array, public ElementBuffer {
 	public:
-		ArrayBuffer(uint32 index) : Buffer(GL_ARRAY_BUFFER) {
-			// If SizeY is 1 then optimiser will get rid of this loop
-			for (int i = 0; i < SizeY; i++) {
-				// Sets the format for the buffer using the index provided
-				glEnableVertexAttribArray(index + i);
-				glVertexAttribPointer(index + i, SizeX, gl_type<Type>(), GL_FALSE, SizeX * SizeY * sizeof(Type), (void*)(i * SizeY * sizeof(Type)));
+		ElementArray() : Array() {}
 
-				// If divisor is 0 then optimiser will get rid of this function
-				if (Divisor) {
-					glVertexAttribDivisor(index + i, Divisor);
-				}
-			}
-		}
+		void draw_elements(uint32 elements);
+		void draw_elements_instanced(uint32 elements, uint32 instances);
 	};
 
-	class ElementBuffer : public Buffer {
+	class MultiElementArray : ElementArray, public DrawCallBuffer {
 	public:
-		ElementBuffer() : Buffer(GL_ELEMENT_ARRAY_BUFFER) {
+		MultiElementArray() : ElementArray() {}
 
-		}
+		void new_object();
+		void delete_object(); // Will have to update whole buffer as well as draw call buffer
+
+		void multi_draw_elements(uint32 elements);
+		void multi_draw_elements_instanced(uint32 elements, uint32 instances);
 	};
 }
