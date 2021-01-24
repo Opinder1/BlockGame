@@ -2,8 +2,7 @@
 
 #include <ocode.h>
 
-#include <GL/glew.h>
-#include <GLM/glm.hpp>
+#include "opengl.h"
 
 #include "buffer.h"
 
@@ -28,18 +27,7 @@ namespace engine {
 	public:
 		ElementArray() : Array() {}
 
-		void draw_elements(uint32 elements);
-		void draw_elements_instanced(uint32 elements, uint32 instances);
-	};
-
-	class MultiElementArray : ElementArray, public DrawCallBuffer {
-	public:
-		MultiElementArray() : ElementArray() {}
-
-		void new_object();
-		void delete_object(); // Will have to update whole buffer as well as draw call buffer
-
-		void multi_draw_elements(uint32 elements);
-		void multi_draw_elements_instanced(uint32 elements, uint32 instances);
+		void draw(uint32 elements);
+		void draw_instanced(uint32 elements, uint32 instances);
 	};
 }

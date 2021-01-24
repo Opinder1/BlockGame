@@ -24,12 +24,12 @@ namespace engine {
 		glDrawArraysInstanced(type, 0, vertexes, instances);
 	}
 
-	void ElementArray::draw_elements(uint32 elements) {
+	void ElementArray::draw(uint32 elements) {
 		Array::bind();
 		glDrawElements(GL_TRIANGLES, elements, element_type, 0);
 	}
 
-	void ElementArray::draw_elements_instanced(uint32 elements, uint32 instances) {
+	void ElementArray::draw_instanced(uint32 elements, uint32 instances) {
 		Array::bind();
 		glDrawElementsInstanced(GL_TRIANGLES, elements, element_type, 0, instances);
 	}

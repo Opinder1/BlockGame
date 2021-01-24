@@ -2,11 +2,10 @@
 
 #include <ocode.h>
 
-#include <GL/glew.h>
-#include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
-
 #include <rapidjson/document.h>
+
+#include "opengl.h"
+#include "texture.h"
 
 namespace engine {
     enum class ShaderType : uint32 {
@@ -43,7 +42,7 @@ namespace engine {
         void attach(const Shader& shader);
         void link();
 
-        void use_program();
+        void use();
 
     public:
         ShaderProgram(const ShaderProgram&) = delete;

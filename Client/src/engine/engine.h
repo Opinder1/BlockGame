@@ -2,18 +2,15 @@
 
 #include <ocode.h>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
-
-#include "core/monitor.h"
-#include "core/window.h"
-#include "core/layer.h"
-
-#include "scene/camera.h"
 #include "scene/material.h"
-#include "scene/model.h"
+#include "scene/mesh.h"
+#include "scene/sprite.h"
+#include "scene/camera.h"
+
+#include "core/window.h"
+#include "core/monitor.h"
+
+#include "core/layer.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;
@@ -47,6 +44,7 @@ namespace engine {
 
 		void run();
 	};
+
 }
 
 extern engine::Application* application;

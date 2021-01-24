@@ -12,15 +12,18 @@
 
 namespace engine {
 	class Mesh {
-	private:
+	protected:
 		ElementArray array;
 		ArrayBuffer vertex_array;
+		ArrayBuffer normal_array;
+		ArrayBuffer texcoord_array;
 
 	public:
-		Mesh(Material* material);
-		Mesh(std::vector<uint8> elements, std::vector<glm::vec3> vertexes, Material* material);
+		Mesh();
+		Mesh(std::vector<uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords);
 		~Mesh();
 
-		void draw(uint32 instance_count);
+		void draw();
+		void draw_instanced(uint32 instance_count);
 	};
 }

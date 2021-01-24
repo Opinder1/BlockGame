@@ -2,6 +2,8 @@
 
 #include <ocode.h>
 
+#include "opengl.h"
+
 namespace engine {
 	class FrameBuffer {
 	private:

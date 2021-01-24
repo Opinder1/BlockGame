@@ -2,60 +2,43 @@
 
 #include <ocode.h>
 
-#include <GL/glew.h>
-#include <GLM/glm.hpp>
+#include <vector>
+
+#include "opengl.h"
+#include "texture.h"
 
 namespace engine {
-	// Function to convert template type into opengl type constant at compile time
-	template<class T> constexpr GLenum gl_type() = delete;
-
-	template<> constexpr GLenum gl_type<int8>() { return GL_BYTE; }
-	template<> constexpr GLenum gl_type<uint8>() { return GL_UNSIGNED_BYTE; }
-	template<> constexpr GLenum gl_type<int16>() { return GL_SHORT; }
-	template<> constexpr GLenum gl_type<uint16>() { return GL_UNSIGNED_SHORT; }
-	template<> constexpr GLenum gl_type<int32>() { return GL_INT; }
-	template<> constexpr GLenum gl_type<uint32>() { return GL_UNSIGNED_INT; }
-	template<> constexpr GLenum gl_type<float>() { return GL_FLOAT; }
-	template<> constexpr GLenum gl_type<double>() { return GL_DOUBLE; }
-
-	enum class BufferType : uint32 {
-		STATIC = GL_STATIC_DRAW,
-		DYNAMIC = GL_DYNAMIC_DRAW,
-		STREAM = GL_STREAM_DRAW
-	};
-
-	struct DrawElementsIndirectCommand {
-		uint32  count;
-		uint32  primCount;
-		uint32  firstIndex;
-		uint32  baseVertex;
-		uint32  baseInstance;
-	};
-
 	class Buffer {
 	private:
 		uint32 buffer_id;
 		uint32 buffer_type; // Can probally be worked out at compile time unless buffers can change type
-
 		uint32 buffer_size;
 
 	protected:
+		// Wrapper around opengl binding function
 		void bind();
 
+		// Get read only id for buffer subclass
+		const uint32 get_id();
+
 	public:
+		// Opengl object should not be copied or moved, only pointed to
 		Buffer(const Buffer&) = delete;
 		Buffer(uint32 type);
 		~Buffer();
 
+		// Get the size of the buffer last set using data()
 		const uint32 get_size();
 
+		// Allocate buffer memory and fill it
 		template<class Type>
-		void data(uint32 size, Type* data, BufferType method) {
+		void data(uint32 size, Type* data, BufferType usage) {
 			bind();
 			buffer_size = size;
-			glBufferData(buffer_type, size * sizeof(Type), data, (GLenum)method);
+			glBufferData(buffer_type, size * sizeof(Type), data, (GLenum)usage);
 		}
 
+		// Update section of buffer with new data
 		template<class Type>
 		void sub_data(uint32 pos, uint32 size, Type* data) {
 			bind();
@@ -68,6 +51,7 @@ namespace engine {
 	public:
 		ArrayBuffer() : Buffer(GL_ARRAY_BUFFER) {}
 
+		// Set the buffer layout for array attribute
 		template<class Type, uint32 SizeX = 1, uint32 SizeY = 1, uint32 Divisor = 0>
 		void format(uint32 index) {
 			bind();
@@ -87,6 +71,51 @@ namespace engine {
 		}
 	};
 
+	template<class T>
+	class InstanceBuffer : private ArrayBuffer {
+	private:
+		std::vector<T> instances;
+
+	public:
+		template<class Type, uint32 SizeX = 1, uint32 SizeY = 1, uint32 Divisor = 0>
+		void format(uint32 index) {
+			ArrayBuffer::format<Type, SizeX, SizeY, Divisor>(index);
+		}
+
+		uint32 new_instance(const T& value) {
+			size_t size = instances.capacity();
+			instances.push_back(value);
+
+			if (instances.capacity() != size) {
+				data((uint32)instances.capacity(), instances.data(), BufferType::DYNAMIC);
+			}
+			else {
+				sub_data((uint32)instances.size() - 1, 1, instances.data());
+			}
+
+			return (uint32)instances.size() - 1;
+		}
+
+		void delete_instance(uint32 index){
+			size_t size = instances.capacity();
+
+			instances.erase(instances.begin() + index);
+
+			sub_data(index, (uint32)instances.size() - index, instances.data());
+		}
+
+		void update_instance(uint32 index, const T& value) {
+			instances.at(index) = value;
+
+			sub_data(index, 1, instances.data());
+		}
+
+		uint32 instance_count() {
+			return (uint32)instances.size();
+		}
+	};
+
+	// Element buffer object wrapper that can handle element datatype
 	class ElementBuffer : public Buffer {
 	protected:
 		GLenum element_type;
@@ -94,24 +123,33 @@ namespace engine {
 	public:
 		ElementBuffer() : Buffer(GL_ELEMENT_ARRAY_BUFFER), element_type(GL_UNSIGNED_INT) {}
 
+		// Overriding data method to also update element type
 		template<class Type>
-		void data(uint32 size, Type* data, BufferType method) {
+		void data(uint32 size, Type* data, BufferType usage) {
 			element_type = gl_type<Type>();
 
-			Buffer::data(size, data, method);
+			Buffer::data(size, data, usage);
 		}
 	};
 
-	class DrawCallBuffer : public Buffer {
+	// Global buffer object wrapper for creating global uniform groups for all shaders
+	class GlobalBuffer : public Buffer {
 	public:
-		typedef DrawElementsIndirectCommand Command;
+		GlobalBuffer(uint32 id);
+	};
 
-		DrawCallBuffer() : Buffer(GL_DRAW_INDIRECT_BUFFER) {}
+	class TextureBuffer {
+	private:
+		uint32 buffer_id;
 
-		void data(uint32 size, Command* data, BufferType method);
-		//Buffer::data(size, data, method);
+	public:
+		TextureBuffer(const TextureBuffer&) = delete;
+		TextureBuffer();
+		~TextureBuffer();
 
-		void sub_data(uint32 pos, uint32 size, Command* data);
-		//Buffer::sub_data(pos, size, data);
+		void bind();
+		void use(uint32 index);
+
+		void data(const Texture& texture);
 	};
 }

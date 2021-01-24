@@ -47,6 +47,6 @@ namespace engine {
     }
 
     void Material::use() {
-        use_program();
+        ShaderProgram::use();
     }
 }

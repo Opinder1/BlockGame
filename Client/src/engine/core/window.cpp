@@ -28,6 +28,8 @@ namespace engine {
 
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
+        glfwWindowHint(GLFW_SAMPLES, 4);
+
         window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
 
         if (!window) {
@@ -66,7 +68,6 @@ namespace engine {
 
     void Window::update() {
         glfwSwapBuffers(window);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void Window::close() {

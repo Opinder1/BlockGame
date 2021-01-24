@@ -3,9 +3,9 @@
 #include <ocode.h>
 
 #include <string>
-
-#include <glm/glm.hpp>
 #include <rapidjson/document.h>
+
+#include <GLM/glm.hpp>
 
 namespace engine {
 	struct Pixel {

@@ -1,24 +1,14 @@
 #include "cubescene.h"
 
-void GLAPIENTRY
-MessageCallback(GLenum source,
-    GLenum type,
-    GLuint id,
-    GLenum severity,
-    GLsizei length,
-    const GLchar* message,
-    const void* userParam)
-{
-    //fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n", (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
-}
+CubeScene::CubeScene() : camera(70.0f), cube_material("cube"), cube_poly(), camera_buf(0) {
+    application->window.set_mouse_type(GLFW_CURSOR_DISABLED);
 
-CubeScene::CubeScene() : camera(70.0f), material("polygon3d"), poly("none", &material) {
-    printf("GL Version: %s\n", glGetString(GL_VERSION));
-    glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(MessageCallback, 0);
+    camera_buf.data<glm::mat4>(1, nullptr, engine::BufferType::STATIC);
 
-    int count = 10000000;
-    float size = sqrt(count) * 2;
+    engine::event_manager->EVENT_SUBSCRIBE(engine::KeyActionEvent, CubeScene::on_key_action);
+
+    int count = 100000;
+    float size = (float)sqrt(count) * 2;
 
     for (int i = 0; i < count; i++) {
         glm::mat4 model = glm::mat4(1.0f);
@@ -30,12 +20,8 @@ CubeScene::CubeScene() : camera(70.0f), material("polygon3d"), poly("none", &mat
         model = glm::scale(model, glm::vec3(1.0f));
         model = glm::rotate(model, float(r.new_int32() % 360), glm::vec3(r.new_int32() / 1000.0f, r.new_int32() / 1000.0f, r.new_int32() / 1000.0f));
 
-        poly.new_instance(model);
+        transforms.push_back(model);
     }
-
-    application->window.set_mouse_type(GLFW_CURSOR_DISABLED);
-
-    engine::event_manager->EVENT_SUBSCRIBE(engine::KeyActionEvent, CubeScene::on_key_action);
 }
 
 CubeScene::~CubeScene() {
@@ -86,22 +72,15 @@ void CubeScene::update() {
 
     camera.update(application->window.get_mouse_pos());
 
-    material.use();
+    glm::mat4 p = camera.get_projection();
+    camera_buf.sub_data(0, 1, &p);
 
-    material.set_mat4("camera", camera.get_projection());
+    cube_material.use();
 
-    poly.draw();
+    for (auto& transform : transforms) {
+        cube_material.set_mat4("transform", transform);
 
-    for (int i = 0; i < 0; i++) {
-        glm::mat4 model = glm::mat4(1.0f);
-
-        model = glm::translate(model, glm::vec3(cos(tick) * sqrt(tick) * 2, -10, sin(tick) * sqrt(tick) * 2));
-        model = glm::scale(model, glm::vec3(1.0f));
-        model = glm::rotate(model, float(r.new_int32() % 360), glm::vec3(r.new_int32() / 1000.0f, r.new_int32() / 1000.0f, r.new_int32() / 1000.0f));
-
-        poly.new_instance(model);
-
-        tick++;
+        cube_poly.draw();
     }
 }
 

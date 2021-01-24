@@ -2,8 +2,13 @@
 
 #include <vector>
 
+#include "../renderer/framebuffer.h"
+
 namespace engine {
 	class Layer {
+	private:
+		//FrameBuffer frame;
+
 	public:
 		virtual ~Layer() {};
 

@@ -5,13 +5,13 @@
 #include <GLM/glm.hpp>
 #include <GLM/ext.hpp>
 
-#include "object.h"
+#include "transform.h"
 #include "../core/window.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;
 
-	class Camera : public Object {
+	class Camera : public Transform3D {
 	protected:
 		glm::mat4 projection;
 

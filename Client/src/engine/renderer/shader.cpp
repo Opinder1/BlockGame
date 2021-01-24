@@ -10,7 +10,7 @@ namespace engine {
     Shader::Shader(ShaderType type, const std::string& name) {
         shader_id = glCreateShader((GLenum)type);
 
-        std::string file_name = "resources\\" + name;
+        std::string file_name = "resources\\shaders\\" + name;
 
         if (!ocode::file_exists(file_name)) {
             printf("File %s does not exist\n", file_name.c_str());
@@ -85,7 +85,7 @@ namespace engine {
         glLinkProgram(program_id);
     }
 
-    void ShaderProgram::use_program() {
+    void ShaderProgram::use() {
         glUseProgram(program_id);
     }
 

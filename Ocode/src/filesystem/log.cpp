@@ -14,7 +14,7 @@ namespace ocode {
     }
 
     void LogFile::printraw(const void* buffer, uint32 buffer_size) {
-        fprintf(file, "[PRINTRAW] ");
+        //fprintf(file, "[PRINTRAW] ");
 
         fwrite(buffer, 1, buffer_size, stdout);
         fwrite("\n", 1, 1, stdout);
@@ -24,7 +24,7 @@ namespace ocode {
     }
 
     void LogFile::print(const char* format, ...) {
-        fprintf(file, "[PRINTLN] ");
+        //fprintf(file, "[PRINTLN] ");
 
         va_list args, fargs;
         va_start(args, format);
@@ -38,7 +38,7 @@ namespace ocode {
     }
 
     void LogFile::println(const char* format, ...) {
-        fprintf(file, "[PRINTLN] ");
+        //fprintf(file, "[PRINTLN] ");
 
         va_list args, fargs;
         va_start(args, format);

@@ -9,7 +9,7 @@ namespace engine {
 	}
 
 	Texture::Texture(const std::string& name) : size(0, 0), data(NULL) {
-		std::string file_name = "resources\\" + name;
+		std::string file_name = "resources\\textures\\" + name;
 
 		if (!ocode::file_exists(file_name)) {
 			printf("File %s does not exist\n", file_name.c_str());
@@ -20,7 +20,7 @@ namespace engine {
 		data = (Pixel*)stbi_load(file_name.c_str(), (int*)&size.x, (int*)&size.y, &n, 4);
 
 		if (n != 4) {
-			//Error
+			throw "Could not load image";
 		}
 	}
 

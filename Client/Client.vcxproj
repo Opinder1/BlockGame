@@ -109,38 +109,43 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="src\engine\renderer\array.cpp" />
     <ClCompile Include="src\engine\renderer\buffer.cpp" />
+    <ClCompile Include="src\engine\renderer\opengl.cpp" />
     <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\scene\mesh.cpp" />
-    <ClCompile Include="src\engine\scene\model.cpp" />
     <ClCompile Include="src\engine\renderer\shader.cpp" />
     <ClCompile Include="src\engine\scene\material.cpp" />
     <ClCompile Include="src\engine\renderer\texture.cpp" />
     <ClCompile Include="src\engine\core\layer.cpp" />
-    <ClCompile Include="src\mainmenu.cpp" />
+    <ClCompile Include="src\engine\scene\sprite.cpp" />
+    <ClCompile Include="src\mainmenu\mainmenu.cpp" />
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\core\monitor.cpp" />
     <ClCompile Include="src\engine\core\window.cpp" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\mainmenu\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\renderer\array.h" />
     <ClInclude Include="src\engine\renderer\framebuffer.h" />
+    <ClInclude Include="src\engine\renderer\opengl.h" />
     <ClInclude Include="src\engine\scene\camera.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\renderer\buffer.h" />
     <ClInclude Include="src\engine\scene\mesh.h" />
-    <ClInclude Include="src\engine\scene\model.h" />
     <ClInclude Include="src\engine\scene\object.h" />
     <ClInclude Include="src\engine\renderer\shader.h" />
     <ClInclude Include="src\engine\scene\material.h" />
     <ClInclude Include="src\engine\renderer\texture.h" />
     <ClInclude Include="src\engine\core\layer.h" />
+    <ClInclude Include="src\engine\scene\sprite.h" />
+    <ClInclude Include="src\engine\scene\transform.h" />
     <ClInclude Include="src\game.h" />
-    <ClInclude Include="src\mainmenu.h" />
+    <ClInclude Include="src\mainmenu\mainmenu.h" />
     <ClInclude Include="src\cubescene.h" />
     <ClInclude Include="src\engine\core\monitor.h" />
     <ClInclude Include="src\engine\core\window.h" />
+    <ClInclude Include="src\mainmenu\ui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

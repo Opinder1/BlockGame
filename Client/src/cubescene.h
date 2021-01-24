@@ -2,8 +2,7 @@
 
 #include <blockgame.h>
 
-#include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
+#include <vector>
 
 #include "engine/engine.h"
 
@@ -16,13 +15,17 @@ class CubeScene : public engine::Layer {
 private:
 	engine::FPSCamera camera;
 
-	engine::Material material;
-	engine::Model poly;
+	engine::GlobalBuffer camera_buf;
+
+	engine::Material cube_material;
+	engine::Mesh cube_poly;
 
 	ocode::Random r;
 
 	int tick = 0;
 	bool mouse_toggle = false;
+
+	std::vector<glm::mat4> transforms;
 	
 public:
 	CubeScene();

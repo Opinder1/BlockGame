@@ -2,19 +2,16 @@
 
 #include <blockgame.h>
 
-#include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
+#include "../engine/engine.h"
 
-#include "engine/engine.h"
+#include "../cubescene.h"
+#include "../game.h"
 
-#include "cubescene.h"
-#include "game.h"
+#include "ui.h"
 
 class MainMenu : public engine::Layer {
 private:
-	engine::Material material;
-
-	engine::Mesh poly;
+	engine::Sprite title;
 
 public:
 	MainMenu();

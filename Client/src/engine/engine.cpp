@@ -1,5 +1,5 @@
 #include "engine.h"
-    
+
 engine::Application* application;
 
 namespace engine {
@@ -15,14 +15,9 @@ namespace engine {
 
         application = new Application();
 
-        if (glewInit() != GLEW_OK) {
-            throw "Failed to initialise glew";
-        }
-
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glEnable(GL_DEPTH_TEST);
-
         application->window.set_icon(engine::Texture("icon.png"));
+
+        gl_init();
     }
 
     void start(Layer* initial_layer) {
@@ -72,14 +67,16 @@ namespace engine {
     }
 
     void Application::update() {
-        layers.update();
-
         window.update();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        layers.update();
 
         glfwPollEvents();
     }
 
     bool Application::on_window_resize(const WindowResizeEvent* e) {
+        // Put into some glviewport function
         glViewport(0, 0, e->size.x, e->size.y);
 
         return false;
