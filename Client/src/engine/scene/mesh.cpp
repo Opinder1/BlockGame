@@ -52,15 +52,15 @@ std::vector<glm::vec2> cube_texcoords = {
 namespace engine {
 	Mesh::Mesh() : Mesh(cube_elements, cube_vertexes, cube_normals, cube_texcoords) {}
 
-	Mesh::Mesh(std::vector<uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords) {
-		vertex_array.format<float, 3>(0);
-		normal_array.format<float, 3>(1);
-		texcoord_array.format<float, 3>(2);
+	Mesh::Mesh(std::vector<uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords) : array(Type::uint16) {
+		array.set_attribute(0, vertex_array, Type::float32, 3);
+		array.set_attribute(1, normal_array, Type::float32, 3);
+		array.set_attribute(2, texcoord_array, Type::float32, 3);
 
-		array.data((uint32)elements.size(), elements.data(), BufferType::STATIC);
-		vertex_array.data((uint32)vertexes.size(), vertexes.data(), BufferType::STATIC);
-		normal_array.data((uint32)normals.size(), normals.data(), BufferType::STATIC);
-		texcoord_array.data((uint32)texcoords.size(), texcoords.data(), BufferType::STATIC);
+		array.data(elements.size(), elements.data(), BufferType::Static);
+		vertex_array.data(vertexes.size(), vertexes.data(), BufferType::Static);
+		normal_array.data(normals.size(), normals.data(), BufferType::Static);
+		texcoord_array.data(texcoords.size(), texcoords.data(), BufferType::Static);
 	}
 
 	Mesh::~Mesh() {

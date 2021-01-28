@@ -1,38 +1,16 @@
 #include "layer.h"
 
 namespace engine {
-	LayerManager::LayerManager() {
+	Layer::Layer() : buffer({ 800, 600 }), sprite(buffer), frame(buffer) {
 
 	}
 
-	LayerManager::~LayerManager() {
-		for (auto layer : layers) {
-			layer->on_disconnect();
-			delete layer;
-		}
+	void Layer::bind() {
+		frame.use();
 	}
 
-	void LayerManager::update() {
-		for (auto layer : layers) {
-			layer->update();
-		}
-	}
-
-	void LayerManager::insert(Layer* layer) {
-		layers.push_back(layer);
-		layer->on_connect();
-	}
-
-	void LayerManager::insert_overlay(Layer* layer) {
-		layers.emplace(layers.begin(), layer);
-		layer->on_connect();
-	}
-
-	void LayerManager::pop(Layer* layer) {
-		auto it = std::find(layers.begin(), layers.end(), layer);
-		if (it != layers.end()) {
-			layers.erase(it);
-		}
-		layer->on_disconnect();
+	void Layer::render() {
+		sprite.set_scale({ 2, 2 });
+		sprite.draw();
 	}
 }

@@ -1,16 +1,18 @@
 #include "opengl.h"
 
 namespace engine {
-    template<> uint32 gl_type<int8>() { return GL_BYTE; }
-    template<> GLenum gl_type<uint8>() { return GL_UNSIGNED_BYTE; }
-    template<> GLenum gl_type<int16>() { return GL_SHORT; }
-    template<> GLenum gl_type<uint16>() { return GL_UNSIGNED_SHORT; }
-    template<> GLenum gl_type<int32>() { return GL_INT; }
-    template<> GLenum gl_type<uint32>() { return GL_UNSIGNED_INT; }
-    template<> GLenum gl_type<float>() { return GL_FLOAT; }
-    template<> GLenum gl_type<double>() { return GL_DOUBLE; }
+    GLenum gl_types[] = { GL_BYTE, GL_UNSIGNED_BYTE, GL_SHORT, GL_UNSIGNED_SHORT, GL_INT, GL_UNSIGNED_INT, GL_FLOAT, GL_DOUBLE };
+    uint32 type_sizes[] = { 1, 1, 2, 2, 4, 4, 4, 8 };
 
-    void glCheckError_(const char* file, int line) {
+    uint32 gl_type(Type type) {
+        return gl_types[(uint32)type];
+    }
+
+    uint32 type_size(Type type) {
+        return type_sizes[(uint32)type];
+    }
+
+    void glCheckError(const char* file, int line) {
         GLenum errorCode;
         while ((errorCode = glGetError()) != GL_NO_ERROR) {
             const char* error;
@@ -73,23 +75,9 @@ namespace engine {
             throw "Failed to initialise glew";
         }
 
-        ocode::println("GL Version: %s\n", glGetString(GL_VERSION));
-
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        glEnable(GL_DEPTH_TEST);
-
         glEnable(GL_DEBUG_OUTPUT);
         //glDebugMessageCallback(gl_debug_callback, 0);
 
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-        glEnable(GL_MULTISAMPLE);
+        ocode::println("GL Version: %s\n", glGetString(GL_VERSION));
     }
 }

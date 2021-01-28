@@ -8,4 +8,7 @@ typedef unsigned __int16 uint16;
 typedef unsigned __int32 uint32;
 typedef unsigned __int64 uint64;
 
+typedef float float32;
+typedef double float64;
+
 #define bool_to_string(bool) bool ? "true" : "false"

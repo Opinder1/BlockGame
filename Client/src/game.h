@@ -15,8 +15,5 @@ public:
 	Game();
 	~Game();
 
-	void on_connect() override;
-	void on_disconnect() override;
-
 	void update() override;
 };

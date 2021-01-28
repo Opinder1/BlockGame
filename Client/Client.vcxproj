@@ -70,6 +70,7 @@
       <AssemblerOutput>NoListing</AssemblerOutput>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +110,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="src\engine\renderer\array.cpp" />
     <ClCompile Include="src\engine\renderer\buffer.cpp" />
+    <ClCompile Include="src\engine\renderer\framebuffer.cpp" />
     <ClCompile Include="src\engine\renderer\opengl.cpp" />
     <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />

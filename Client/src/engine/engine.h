@@ -29,7 +29,7 @@ namespace engine {
 		ocode::Config config;
 
 		Window window;
-		LayerManager layers;
+		std::vector<Layer*> layers;
 
 	private:
 		Application();

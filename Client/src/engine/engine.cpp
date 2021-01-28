@@ -14,14 +14,10 @@ namespace engine {
         event_manager = new ocode::EventManager();
 
         application = new Application();
-
-        application->window.set_icon(engine::Texture("icon.png"));
-
-        gl_init();
     }
 
     void start(Layer* initial_layer) {
-        application->layers.insert(initial_layer);
+        application->layers.push_back(initial_layer);
 
         application->run();
 
@@ -41,23 +37,31 @@ namespace engine {
         }
 
         if (!config.initialized()) {
-            log.println("Config could not be loaded\n");
             throw "Config could not be loaded";
         }
 
-        config.save();
-
         if (!window.initialized()) {
-            log.println("Window failure\n");
             throw "Window failure";
         }
 
         event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, Application::on_window_resize);
         event_manager->EVENT_SUBSCRIBE(engine::WindowCloseEvent, Application::on_window_close);
+
+        config.save();
+        
+        window.set_icon(engine::Texture("icon.png"));
+
+        gl_init();
+
+        engine::Sprite::init();
     }
 
     Application::~Application() {
+        engine::Sprite::deinit();
 
+        for (auto* layer : layers) {
+            delete layer;
+        }
     }
 
     void Application::run() {
@@ -67,10 +71,19 @@ namespace engine {
     }
 
     void Application::update() {
-        window.update();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        for (auto* layer : layers) {
+            layer->bind();
+            layer->update();
+        }
 
-        layers.update();
+        window.use();
+
+        Sprite::set_material(default_sprite_material);
+        for (auto* layer : layers) {
+            layer->render();
+        }
+
+        window.update();
 
         glfwPollEvents();
     }

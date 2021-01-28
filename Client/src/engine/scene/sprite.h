@@ -6,19 +6,22 @@
 #include <GLM/glm.hpp>
 
 #include "../renderer/array.h"
+#include "../renderer/framebuffer.h"
 #include "material.h"
 
 namespace engine {
+	extern Material* default_sprite_material;
+	
 	class Sprite {
 	protected:
-		TextureBuffer texture;
+		TextureBuffer& texture;
 
 	public:
 		static void init();
 		static void deinit();
-		static void start_draw();
+		static void set_material(Material* material);
 
-		Sprite(const std::string& file_name);
+		Sprite(TextureBuffer& texture);
 		~Sprite();
 
 		void set_position(const glm::vec2& position);

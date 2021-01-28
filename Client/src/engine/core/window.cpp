@@ -28,7 +28,7 @@ namespace engine {
 
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
-        glfwWindowHint(GLFW_SAMPLES, 4);
+        //glfwWindowHint(GLFW_SAMPLES, 4);
 
         window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
 
@@ -56,6 +56,8 @@ namespace engine {
         if (glfwRawMouseMotionSupported()) {
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
         }
+
+        glfwSwapInterval(0);
     }
 
     Window::~Window() {
@@ -64,6 +66,18 @@ namespace engine {
 
     bool Window::initialized() {
         return window != NULL;
+    }
+
+    void Window::use() {
+        //glfwMakeContextCurrent(window);
+        FrameBuffer::use_screen();
+
+        FrameBuffer::clear({ 1.0, 1.0, 0.0, 1.0 });
+        FrameBuffer::set_depthtest(false);
+        FrameBuffer::set_alphatest(true);
+        FrameBuffer::set_polymode(PolyMode::Fill);
+        FrameBuffer::set_culling(Culling::Disabled);
+        FrameBuffer::set_multisample(false);
     }
 
     void Window::update() {

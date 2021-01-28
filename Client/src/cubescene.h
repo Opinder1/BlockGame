@@ -31,9 +31,6 @@ public:
 	CubeScene();
 	~CubeScene();
 
-	void on_connect() override;
-	void on_disconnect() override;
-
 	void update() override;
 
 	void move_camera(glm::vec3 translation);

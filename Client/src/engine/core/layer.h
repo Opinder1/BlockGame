@@ -2,35 +2,22 @@
 
 #include <vector>
 
-#include "../renderer/framebuffer.h"
+#include "../scene/sprite.h"
 
 namespace engine {
 	class Layer {
 	private:
-		//FrameBuffer frame;
+		TextureBuffer buffer;
+		Sprite sprite;
+		FrameBufferT frame;
 
 	public:
+		Layer();
 		virtual ~Layer() {};
 
-		virtual void on_connect() = 0;
-		virtual void on_disconnect() = 0;
+		void bind();
+		void render();
 
 		virtual void update() = 0;
-	};
-
-	class LayerManager {
-	private:
-		std::vector<Layer*> layers;
-
-	public:
-		LayerManager();
-		~LayerManager();
-
-		void update();
-
-		void insert(Layer* layer);
-		void insert_overlay(Layer* layer);
-
-		void pop(Layer* layer);
 	};
 }

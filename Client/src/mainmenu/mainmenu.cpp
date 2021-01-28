@@ -1,35 +1,28 @@
  #include "mainmenu.h"
 
-MainMenu::MainMenu() : title("test.png") {
-	//application->layers.insert(new CubeScene());
+MainMenu::MainMenu() : texture(engine::Texture("test.png")), title(texture) {
+	application->layers.push_back(new CubeScene());
 	//application->layers.insert(new Game());
-
-	engine::Sprite::init();
 }
 
 MainMenu::~MainMenu() {
-	engine::Sprite::deinit();
-}
-
-void MainMenu::on_connect() {
-
-}
-
-void MainMenu::on_disconnect() {
 
 }
 
 float r = 0;
 void MainMenu::update() {
-	engine::Sprite::start_draw();
+	engine::FrameBuffer::clear({ 1.0, 0.0, 0.0, 0.0 });
+	engine::FrameBuffer::set_depthtest(false);
+	engine::FrameBuffer::set_alphatest(true);
+	engine::FrameBuffer::set_multisample(true);
+
+	engine::Sprite::set_material(engine::default_sprite_material);
 
 	r += 0.01;
 
-	title.set_scale({ 0.01, 0.01 });
-	for (int x = 0; x < 200; x++) {
-		for (int y = 0; y < 200; y++) {
-			title.set_position({ 0.01 * x - 1, 0.01 * y - 1 });
-			title.draw();
-		}
-	}
+	title.draw({ 0, 0 }, { 0.5, 0.5 }, r);
+
+	title.draw({ 0.2, 0 }, { 0.5, 0.5 }, r);
+	title.draw({ 0.4, 0 }, { 0.5, 0.5 }, r);
+	title.draw({ 0.6, 0 }, { 0.5, 0.5 }, r);
 }

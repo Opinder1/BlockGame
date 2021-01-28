@@ -8,8 +8,8 @@ Game::~Game() {
 
 }
 
+/*
 void Game::on_connect() {
-    /*
     bool connected = false;
 
     for (uint8 i = 0; i < options.connect_attempts; i++) {
@@ -39,12 +39,8 @@ void Game::on_connect() {
     log.println("Joined server");
 
     return connected;
-    */
 }
-
-void Game::on_disconnect() {
-
-}
+*/
 
 void Game::update() {
 

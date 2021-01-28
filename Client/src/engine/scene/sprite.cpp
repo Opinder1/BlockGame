@@ -8,35 +8,39 @@ namespace engine {
 		{1, 1}
 	};
 
-	static Array* array;
-	static ArrayBuffer* vertex_array;
-	static Material* material;
+	Array* array;
+	ArrayBuffer* vertex_array;
+	Material* sprite_material;
+
+	Material* default_sprite_material;
 
 	void Sprite::init() {
 		array = new Array();
 		vertex_array = new ArrayBuffer();
-		material = new Material("sprite");
 
-		vertex_array->format<uint8, 2>(0);
+		array->set_attribute(0, *vertex_array, Type::uint8, 2);
 
-		vertex_array->data((uint32)square_vertexes.size(), square_vertexes.data(), BufferType::STATIC);
+		vertex_array->data(square_vertexes.size(), square_vertexes.data(), BufferType::Static);
+
+		default_sprite_material = new Material("sprite");
 	}
 
 	void Sprite::deinit() {
 		delete array;
 		delete vertex_array;
-		delete material;
+		delete default_sprite_material;
 	}
 
-	void Sprite::start_draw() {
-		material->use();
-		material->set_vec2("pos", { 0, 0 });
-		material->set_vec2("scale", { 1, 1 });
-		material->set_float("rot", 0);
+	void Sprite::set_material(Material* material) {
+		sprite_material = material;
+		sprite_material->use();
+		sprite_material->set_vec2("pos", { 0, 0 });
+		sprite_material->set_vec2("scale", { 1, 1 });
+		sprite_material->set_float("rot", 0);
 	}
 
-	Sprite::Sprite(const std::string& file_name) {
-		texture.data(Texture(file_name));
+	Sprite::Sprite(TextureBuffer& texture) : texture(texture) {
+
 	}
 
 	Sprite::~Sprite() {
@@ -44,20 +48,20 @@ namespace engine {
 	}
 
 	void Sprite::set_position(const glm::vec2& position) {
-		material->set_vec2("pos", position);
+		sprite_material->set_vec2("pos", position);
 	}
 
 	void Sprite::set_scale(const glm::vec2& scale) {
-		material->set_vec2("scale", scale);
+		sprite_material->set_vec2("scale", scale);
 	}
 
 	void Sprite::set_rotation(float rotation) {
-		material->set_float("rot", rotation);
+		sprite_material->set_float("rot", rotation);
 	}
 
 	void Sprite::draw() {
-		texture.use(0);
-		array->draw(GL_TRIANGLE_STRIP, 6);
+		texture.activate_slot(0);
+		array->draw(GL_TRIANGLE_STRIP, 4);
 	}
 
 	void Sprite::draw(const glm::vec2& position, const glm::vec2& scale, float rotation) {
@@ -69,6 +73,6 @@ namespace engine {
 	}
 
 	void Sprite::draw_multiple(uint32 count) {
-		array->draw(GL_TRIANGLE_STRIP, 6);
+		array->draw(GL_TRIANGLE_STRIP, 4);
 	}
 }

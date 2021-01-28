@@ -11,14 +11,12 @@
 
 class MainMenu : public engine::Layer {
 private:
+	engine::TextureBuffer texture;
 	engine::Sprite title;
 
 public:
 	MainMenu();
 	~MainMenu();
-
-	void on_connect() override;
-	void on_disconnect() override;
 
 	void update() override;
 };

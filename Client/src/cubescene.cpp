@@ -3,7 +3,7 @@
 CubeScene::CubeScene() : camera(70.0f), cube_material("cube"), cube_poly(), camera_buf(0) {
     application->window.set_mouse_type(GLFW_CURSOR_DISABLED);
 
-    camera_buf.data<glm::mat4>(1, nullptr, engine::BufferType::STATIC);
+    camera_buf.data<glm::mat4>(1, nullptr, engine::BufferType::Static);
 
     engine::event_manager->EVENT_SUBSCRIBE(engine::KeyActionEvent, CubeScene::on_key_action);
 
@@ -28,15 +28,13 @@ CubeScene::~CubeScene() {
 
 }
 
-void CubeScene::on_connect() {
-
-}
-
-void CubeScene::on_disconnect() {
-
-}
-
 void CubeScene::update() {
+    //frame.use();
+
+    engine::FrameBuffer::clear({ 0.0, 0.0, 1.0, 0.0 });
+    engine::FrameBuffer::set_depthtest(true);
+    engine::FrameBuffer::set_multisample(true);
+
     int speed = 1;
     if (application->window.get_key(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         speed *= 5;
@@ -82,6 +80,8 @@ void CubeScene::update() {
 
         cube_poly.draw();
     }
+
+    //frame.blit();
 }
 
 void CubeScene::move_camera(glm::vec3 translation) {
