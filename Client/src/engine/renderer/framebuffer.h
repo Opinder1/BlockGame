@@ -15,36 +15,50 @@ namespace engine {
 	class TextureBuffer {
 		friend class FrameBufferT;
 
-	protected:
+	private:
 		uint32 buffer_id;
+
+		glm::uvec2 size;
 
 		void use();
 
 	public:
 		TextureBuffer(const TextureBuffer&) = delete;
-		TextureBuffer(const Texture& texture);
 		TextureBuffer(glm::ivec2 size);
+		TextureBuffer(const Texture& texture);
+		TextureBuffer(const std::string& name) : TextureBuffer(Texture(name)) {}
 		virtual ~TextureBuffer();
 
-		void activate_slot(uint32 index);
+		const glm::uvec2 get_size();
+
+		void activate_slot(uint32 slot);
 
 		void data(const Texture& texture);
-		void data(glm::ivec2 size);
+		void data(glm::uvec2 size);
 	};
 
 	class MSTextureBuffer {
 		friend class FrameBufferM;
 
-	protected:
+	private:
 		uint32 buffer_id;
+
+		glm::uvec2 size;
+		uint32 samples;
 
 		void use();
 
 	public:
-		MSTextureBuffer(glm::ivec2 size, uint32 samples);
+		MSTextureBuffer(const MSTextureBuffer&) = delete;
+		MSTextureBuffer(glm::uvec2 size, uint32 samples);
 		~MSTextureBuffer();
 
-		void resize(glm::ivec2 size, uint32 samples);
+		const glm::uvec2 get_size();
+		const uint32 get_samples();
+
+		void activate_slot(uint32 slot);
+
+		void resize(glm::uvec2 size, uint32 samples);
 	};
 
 	class DepthBuffer {
@@ -53,21 +67,27 @@ namespace engine {
 	private:
 		uint32 buffer_id;
 
-	public:
-		DepthBuffer(const DepthBuffer&) = delete;
-		DepthBuffer(glm::ivec2 size, uint32 samples);
-		~DepthBuffer();
+		glm::uvec2 size;
+		uint32 samples;
 
 		void use();
 
-		void resize(glm::ivec2 size, uint32 samples);
+	public:
+		DepthBuffer(const DepthBuffer&) = delete;
+		DepthBuffer(glm::uvec2 size, uint32 samples = 1);
+		~DepthBuffer();
+
+		void resize(glm::uvec2 size, uint32 samples = 1);
 	};
 
 	class FrameBuffer {
-	protected:
+	private:
 		uint32 buffer_id;
 
-		FrameBuffer();
+	protected:
+		glm::uvec2 size;
+
+		FrameBuffer(glm::uvec2 size);
 
 	public:
 		FrameBuffer(const FrameBuffer&) = delete;
@@ -75,6 +95,10 @@ namespace engine {
 
 		static void use_screen();
 		void use();
+		void resize(glm::uvec2 size);
+
+		void blit(FrameBuffer& buffer);
+		void blit();
 
 		static void clear(glm::vec4 color);
 
@@ -90,23 +114,21 @@ namespace engine {
 	};
 
 	class FrameBufferT : public FrameBuffer {
+	private:
+		TextureBuffer& texture;
+
 	public:
-		FrameBufferT(const TextureBuffer& buffer);
+		FrameBufferT(TextureBuffer& buffer);
 	};
 
 	class FrameBufferM : public FrameBuffer {
 	private:
-		MSTextureBuffer texture;
+		MSTextureBuffer& texture;
 		DepthBuffer depth;
 
-		glm::ivec2 size;
-		uint32 samples;
-
 	public:
-		FrameBufferM(glm::ivec2 size, uint32 samples = 1);
+		FrameBufferM(MSTextureBuffer& texture);
 
-		void resize(glm::ivec2 size, uint32 samples = 1);
-
-		void blit();
+		void resize(glm::uvec2 size, uint32 samples = 1);
 	};
 }

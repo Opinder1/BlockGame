@@ -10,16 +10,16 @@ namespace engine {
 	uint32 current_renderbuffer = 0;
 	uint32 current_framebuffer = 0;
 
-	TextureBuffer::TextureBuffer(const Texture& texture) {
-		glGenTextures(1, &buffer_id);
-
-		data(texture);
-	}
-
 	TextureBuffer::TextureBuffer(glm::ivec2 size) {
 		glGenTextures(1, &buffer_id);
 
 		data(size);
+	}
+
+	TextureBuffer::TextureBuffer(const Texture& texture) {
+		glGenTextures(1, &buffer_id);
+
+		data(texture);
 	}
 
 	TextureBuffer::~TextureBuffer() {
@@ -33,8 +33,12 @@ namespace engine {
 		}
 	}
 
-	void TextureBuffer::activate_slot(uint32 index) {
-		glActiveTexture(texture_index[index]);
+	const glm::uvec2 TextureBuffer::get_size() {
+		return size;
+	}
+
+	void TextureBuffer::activate_slot(uint32 slot) {
+		glActiveTexture(texture_index[slot]);
 		use();
 	}
 
@@ -44,12 +48,14 @@ namespace engine {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glm::uvec2 size = texture.get_size();
+		size = texture.get_size();
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, gl_type(Type::uint8), texture.get_data());
 	}
 
-	void TextureBuffer::data(glm::ivec2 size) {
+	void TextureBuffer::data(glm::uvec2 size) {
 		use();
+
+		this->size = size;
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -57,7 +63,7 @@ namespace engine {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, gl_type(Type::uint8), nullptr);
 	}
 
-	MSTextureBuffer::MSTextureBuffer(glm::ivec2 size, uint32 samples) {
+	MSTextureBuffer::MSTextureBuffer(glm::uvec2 size, uint32 samples) {
 		glGenTextures(1, &buffer_id);
 
 		resize(size, samples);
@@ -74,12 +80,27 @@ namespace engine {
 		}
 	}
 
-	void MSTextureBuffer::resize(glm::ivec2 size, uint32 samples) {
+	const glm::uvec2 MSTextureBuffer::get_size() {
+		return size;
+	}
+
+	const uint32 MSTextureBuffer::get_samples() {
+		return samples;
+	}
+
+	void MSTextureBuffer::activate_slot(uint32 slot) {
+		glActiveTexture(texture_index[slot]);
 		use();
+	}
+
+	void MSTextureBuffer::resize(glm::uvec2 size, uint32 samples) {
+		use();
+		this->size = size;
+		this->samples = samples;
 		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGBA, size.x, size.y, GL_TRUE);
 	}
 
-	DepthBuffer::DepthBuffer(glm::ivec2 size, uint32 samples) {
+	DepthBuffer::DepthBuffer(glm::uvec2 size, uint32 samples) {
 		glGenRenderbuffers(1, &buffer_id);
 		resize(size, samples);
 	}
@@ -95,7 +116,7 @@ namespace engine {
 		}
 	}
 
-	void DepthBuffer::resize(glm::ivec2 size, uint32 samples) {
+	void DepthBuffer::resize(glm::uvec2 size, uint32 samples) {
 		use();
 		if (samples > 1) {
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, size.x, size.y);
@@ -105,7 +126,7 @@ namespace engine {
 		}
 	}
 
-	FrameBuffer::FrameBuffer() {
+	FrameBuffer::FrameBuffer(glm::uvec2 size) : size(size) {
 		glGenFramebuffers(1, &buffer_id);
 	}
 
@@ -123,8 +144,25 @@ namespace engine {
 	void FrameBuffer::use() {
 		if (current_framebuffer != buffer_id) {
 			glBindFramebuffer(GL_FRAMEBUFFER, buffer_id);
+			glViewport(0, 0, size.x, size.y);
 			current_framebuffer = buffer_id;
 		}
+	}
+
+	void FrameBuffer::resize(glm::uvec2 size) {
+		this->size = size;
+	}
+
+	void FrameBuffer::blit(FrameBuffer& buffer) {
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, buffer.buffer_id);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer_id);
+		glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+	}
+
+	void FrameBuffer::blit() {
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer_id);
+		glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 	}
 
 	void FrameBuffer::clear(glm::vec4 color) {
@@ -174,27 +212,20 @@ namespace engine {
 		}
 	}
 
-	FrameBufferT::FrameBufferT(const TextureBuffer& buffer) {
+	FrameBufferT::FrameBufferT(TextureBuffer& buffer) : FrameBuffer(buffer.size), texture(buffer) {
 		use();
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, buffer.buffer_id, 0);
 	}
 
-	FrameBufferM::FrameBufferM(glm::ivec2 size, uint32 samples) : size(size), samples(samples), texture(size, samples), depth(size, samples) {
+	FrameBufferM::FrameBufferM(MSTextureBuffer& buffer) : FrameBuffer(buffer.size), texture(buffer), depth(buffer.size, buffer.samples) {
 		use();
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, texture.buffer_id, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, buffer.buffer_id, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth.buffer_id);
 	}
 
-	void FrameBufferM::resize(glm::ivec2 size, uint32 samples) {
-		this->size = size;
-		this->samples = samples;
+	void FrameBufferM::resize(glm::uvec2 size, uint32 samples) {
+		FrameBuffer::resize(size);
 		texture.resize(size, samples);
 		depth.resize(size, samples);
-	}
-
-	void FrameBufferM::blit() {
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer_id);
-		glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 	}
 }

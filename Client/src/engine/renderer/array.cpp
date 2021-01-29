@@ -3,6 +3,8 @@
 #include "opengl.h"
 
 namespace engine {
+	GLenum drawtype_index[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_PATCHES };
+
 	uint32 current_array = 0;
 
 	Array::Array() {
@@ -26,7 +28,7 @@ namespace engine {
 
 		for (uint32 i = 0; i < height; i++) {
 			glEnableVertexAttribArray(pos + i);
-			glVertexAttribPointer(pos + i, width, gl_type(type), GL_FALSE, width * height * type_size(type), (void*)(i * height * type_size(type)));
+			glVertexAttribPointer(pos + i, width, gl_type(type), GL_FALSE, width * height * type_size(type), (void*)uint64(i * height * type_size(type)));
 
 			if (divisor) {
 				glVertexAttribDivisor(pos + i, divisor);
@@ -34,14 +36,14 @@ namespace engine {
 		}
 	}
 
-	void Array::draw(uint32 type, uint32 vertexes) {
+	void Array::draw(DrawType type, uint32 vertexes) {
 		use();
-		glDrawArrays(type, 0, vertexes);
+		glDrawArrays(drawtype_index[(uint32)type], 0, vertexes);
 	}
 
-	void Array::draw_instanced(uint32 type, uint32 vertexes, uint32 instances) {
+	void Array::draw_instanced(DrawType type, uint32 vertexes, uint32 instances) {
 		use();
-		glDrawArraysInstanced(type, 0, vertexes, instances);
+		glDrawArraysInstanced(drawtype_index[(uint32)type], 0, vertexes, instances);
 	}
 
 	void ElementArray::draw(uint32 elements) {

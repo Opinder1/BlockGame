@@ -18,6 +18,14 @@ namespace engine {
 		}
 	}
 
+	void Buffer::new_data(uint64 size, void* data, BufferType usage) {
+		glBufferData(buffer_type, size, data, (GLenum)usage);
+	}
+
+	void Buffer::sub_data(uint64 pos, uint64 size, void* data) {
+		glBufferSubData(buffer_type, pos, size, data);
+	}
+
 	const uint32 Buffer::get_id() {
 		return buffer_id;
 	}
@@ -26,7 +34,19 @@ namespace engine {
 		return buffer_size;
 	}
 
-	GlobalBuffer::GlobalBuffer(uint32 id) : Buffer(GL_UNIFORM_BUFFER) {
-		glBindBufferBase(GL_UNIFORM_BUFFER, id, get_id());
+	ArrayBuffer::ArrayBuffer() : Buffer(GL_ARRAY_BUFFER) {
+
+	}
+	
+	ElementBuffer::ElementBuffer() : Buffer(GL_ELEMENT_ARRAY_BUFFER) {
+
+	}
+
+	GlobalBuffer::GlobalBuffer(uint32 slot) : Buffer(GL_UNIFORM_BUFFER) {
+		glBindBufferBase(GL_UNIFORM_BUFFER, slot, get_id());
+	}
+
+	void GlobalBuffer::activate_slot(uint32 slot) {
+		glBindBufferBase(GL_UNIFORM_BUFFER, slot, get_id());
 	}
 }

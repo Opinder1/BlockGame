@@ -11,7 +11,7 @@ MainMenu::~MainMenu() {
 
 float r = 0;
 void MainMenu::update() {
-	engine::FrameBuffer::clear({ 1.0, 0.0, 0.0, 0.0 });
+	engine::FrameBuffer::clear({ 1.0, 1.0, 1.0, 0.0 });
 	engine::FrameBuffer::set_depthtest(false);
 	engine::FrameBuffer::set_alphatest(true);
 	engine::FrameBuffer::set_multisample(true);
@@ -20,9 +20,12 @@ void MainMenu::update() {
 
 	r += 0.01;
 
-	title.draw({ 0, 0 }, { 0.5, 0.5 }, r);
+	title.set_scale({ 0.2, 0.2 });
+	title.set_rotation(r);
 
-	title.draw({ 0.2, 0 }, { 0.5, 0.5 }, r);
-	title.draw({ 0.4, 0 }, { 0.5, 0.5 }, r);
-	title.draw({ 0.6, 0 }, { 0.5, 0.5 }, r);
+	title.draw({ 0, -0.8 });
+
+	title.draw({ 0.2, -0.8 });
+	title.draw({ 0.4, -0.8 });
+	title.draw({ 0.6, -0.8 });
 }

@@ -7,14 +7,15 @@
 namespace engine {
 	class Layer {
 	private:
-		TextureBuffer buffer;
-		Sprite sprite;
-		FrameBufferT frame;
+		MSTextureBuffer texture;
+		MSSprite sprite;
+		FrameBufferM frame;
 
 	public:
 		Layer();
 		virtual ~Layer() {};
 
+		void resize(glm::uvec2 size);
 		void bind();
 		void render();
 

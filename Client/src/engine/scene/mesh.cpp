@@ -57,10 +57,10 @@ namespace engine {
 		array.set_attribute(1, normal_array, Type::float32, 3);
 		array.set_attribute(2, texcoord_array, Type::float32, 3);
 
-		array.data(elements.size(), elements.data(), BufferType::Static);
-		vertex_array.data(vertexes.size(), vertexes.data(), BufferType::Static);
-		normal_array.data(normals.size(), normals.data(), BufferType::Static);
-		texcoord_array.data(texcoords.size(), texcoords.data(), BufferType::Static);
+		array.set_data(elements.size(), elements.data(), BufferType::Static);
+		vertex_array.set_data(vertexes.size(), vertexes.data(), BufferType::Static);
+		normal_array.set_data(normals.size(), normals.data(), BufferType::Static);
+		texcoord_array.set_data(texcoords.size(), texcoords.data(), BufferType::Static);
 	}
 
 	Mesh::~Mesh() {

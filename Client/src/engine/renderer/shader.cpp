@@ -1,8 +1,8 @@
 #include "shader.h"
 
 namespace engine {
-    Shader::Shader(ShaderType type, const char* code_data, int32 code_size) : shader_id(glCreateShader((GLenum)type)) {
-        glShaderSource(shader_id, 1, &code_data, &code_size);
+    Shader::Shader(ShaderType type, const char* code_data, uint32 code_size) : shader_id(glCreateShader((GLenum)type)) {
+        glShaderSource(shader_id, 1, &code_data, (int32*)&code_size);
 
         glCompileShader(shader_id);
     }
@@ -20,9 +20,9 @@ namespace engine {
         const auto f = ocode::load_file(file_name);
 
         const char* data = (const char*)f.get_data();
-        int32 size = (int32)f.get_size();
+        uint32 size = f.get_size();
 
-        glShaderSource(shader_id, 1, &data, &size);
+        glShaderSource(shader_id, 1, &data, (int32*)&size);
 
         glCompileShader(shader_id);
 
@@ -91,6 +91,10 @@ namespace engine {
 
     int ShaderProgram::get_attribute(const char* name) {
         return glGetAttribLocation(program_id, name);
+    }
+
+    void ShaderProgram::set_int32(const char* name, int32 value) {
+        glUniform1i(glGetUniformLocation(program_id, name), value);
     }
 
     void ShaderProgram::set_float(const char* name, float value) {

@@ -22,13 +22,11 @@ namespace engine {
     }
 
     Window::Window(const std::string& name, glm::uvec2 size) : window(NULL), last_size(size), last_pos({ 0, 0 }) {
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-
-        //glfwWindowHint(GLFW_SAMPLES, 4);
 
         window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
 
@@ -56,8 +54,6 @@ namespace engine {
         if (glfwRawMouseMotionSupported()) {
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
         }
-
-        glfwSwapInterval(0);
     }
 
     Window::~Window() {
@@ -72,7 +68,7 @@ namespace engine {
         //glfwMakeContextCurrent(window);
         FrameBuffer::use_screen();
 
-        FrameBuffer::clear({ 1.0, 1.0, 0.0, 1.0 });
+        FrameBuffer::clear({ 0.0, 0.0, 0.0, 1.0 });
         FrameBuffer::set_depthtest(false);
         FrameBuffer::set_alphatest(true);
         FrameBuffer::set_polymode(PolyMode::Fill);

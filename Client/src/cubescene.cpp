@@ -3,13 +3,13 @@
 CubeScene::CubeScene() : camera(70.0f), cube_material("cube"), cube_poly(), camera_buf(0) {
     application->window.set_mouse_type(GLFW_CURSOR_DISABLED);
 
-    camera_buf.data<glm::mat4>(1, nullptr, engine::BufferType::Static);
+    camera_buf.set_data<glm::mat4>(1, nullptr, engine::BufferType::Static);
 
     engine::event_manager->EVENT_SUBSCRIBE(engine::KeyActionEvent, CubeScene::on_key_action);
 
-    int count = 100000;
+    int count = 10000;
     float size = (float)sqrt(count) * 2;
-
+     
     for (int i = 0; i < count; i++) {
         glm::mat4 model = glm::mat4(1.0f);
 
@@ -24,18 +24,18 @@ CubeScene::CubeScene() : camera(70.0f), cube_material("cube"), cube_poly(), came
     }
 }
 
-CubeScene::~CubeScene() {
-
-}
+CubeScene::~CubeScene() { 
+     
+} 
 
 void CubeScene::update() {
-    //frame.use();
-
-    engine::FrameBuffer::clear({ 0.0, 0.0, 1.0, 0.0 });
-    engine::FrameBuffer::set_depthtest(true);
+    engine::FrameBuffer::clear({ 0.0, 0.0, 0.0, 0.0 });
+    engine::FrameBuffer::set_depthtest(false);
+    engine::FrameBuffer::set_alphatest(true);
     engine::FrameBuffer::set_multisample(true);
+    engine::FrameBuffer::set_culling(engine::Culling::Back);
 
-    int speed = 1;
+    float speed = 0.2;
     if (application->window.get_key(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         speed *= 5;
     }
@@ -71,7 +71,7 @@ void CubeScene::update() {
     camera.update(application->window.get_mouse_pos());
 
     glm::mat4 p = camera.get_projection();
-    camera_buf.sub_data(0, 1, &p);
+    camera_buf.modify_data(0, 1, &p);
 
     cube_material.use();
 
@@ -80,8 +80,6 @@ void CubeScene::update() {
 
         cube_poly.draw();
     }
-
-    //frame.blit();
 }
 
 void CubeScene::move_camera(glm::vec3 translation) {

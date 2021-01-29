@@ -20,6 +20,12 @@ namespace engine {
 		// Get read only id for buffer subclass
 		const uint32 get_id();
 
+		// Allocate buffer memory and fill it
+		void new_data(uint64 size, void* data, BufferType usage);
+
+		// Update section of buffer with new data
+		void sub_data(uint64 pos, uint64 size, void* data);
+
 	public:
 		// Opengl object should not be copied or moved, only pointed to
 		Buffer(const Buffer&) = delete;
@@ -29,19 +35,19 @@ namespace engine {
 		// Get the size of the buffer last set using data()
 		const uint64 get_size();
 
-		// Allocate buffer memory and fill it
+		// Memory allocation wrapper
 		template<class T>
-		void data(uint64 size, T* data, BufferType usage) {
+		void set_data(uint64 size, T* data, BufferType usage) {
 			use();
 			buffer_size = size;
-			glBufferData(buffer_type, size * sizeof(T), data, (GLenum)usage);
+			new_data(size * sizeof(T), data, usage);
 		}
 
-		// Update section of buffer with new data
+		// Memory modification wrapper
 		template<class T>
-		void sub_data(uint64 pos, uint64 size, T* data) {
+		void modify_data(uint64 pos, uint64 size, T* data) {
 			use();
-			glBufferSubData(buffer_type, pos * sizeof(T), size * sizeof(T), data + pos);
+			sub_data(pos * sizeof(T), size * sizeof(T), data + pos);
 		}
 	};
 
@@ -50,13 +56,13 @@ namespace engine {
 		friend class Array;
 
 	public:
-		ArrayBuffer() : Buffer(GL_ARRAY_BUFFER) {}
+		ArrayBuffer();
 	};
 
 	// Element buffer object wrapper that can handle element datatype
 	class ElementBuffer : public Buffer {
 	public:
-		ElementBuffer() : Buffer(GL_ELEMENT_ARRAY_BUFFER) {}
+		ElementBuffer();
 	};
 
 	template<class T>
@@ -75,10 +81,10 @@ namespace engine {
 			instances.push_back(value);
 
 			if (instances.capacity() != size) {
-				data((uint32)instances.capacity(), instances.data(), BufferType::Dynamic);
+				set_data((uint32)instances.capacity(), instances.data(), BufferType::Dynamic);
 			}
 			else {
-				sub_data((uint32)instances.size() - 1, 1, instances.data());
+				modify_data((uint32)instances.size() - 1, 1, instances.data());
 			}
 
 			return (uint32)instances.size() - 1;
@@ -89,13 +95,13 @@ namespace engine {
 
 			instances.erase(instances.begin() + index);
 
-			sub_data(index, (uint32)instances.size() - index, instances.data());
+			modify_data(index, (uint32)instances.size() - index, instances.data());
 		}
 
 		void update_instance(uint32 index, const T& value) {
 			instances.at(index) = value;
 
-			sub_data(index, 1, instances.data());
+			modify_data(index, 1, instances.data());
 		}
 
 		uint32 instance_count() {
@@ -106,6 +112,8 @@ namespace engine {
 	// Global buffer object wrapper for creating global uniform groups for all shaders
 	class GlobalBuffer : public Buffer {
 	public:
-		GlobalBuffer(uint32 id);
+		GlobalBuffer(uint32 slot);
+
+		void activate_slot(uint32 slot);
 	};
 }

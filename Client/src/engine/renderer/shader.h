@@ -23,7 +23,7 @@ namespace engine {
 
     public:
         Shader(const Shader&) = delete;
-        Shader(ShaderType type, const char* code_data, int32 code_size);
+        Shader(ShaderType type, const char* code_data, uint32 code_size);
         Shader(ShaderType type, const std::string& name);
         ~Shader();
 
@@ -51,7 +51,9 @@ namespace engine {
 
         int get_attribute(const char* name);
 
-        void set_float(const char* name, float x);
+        void set_int32(const char* name, int32 value);
+
+        void set_float(const char* name, float value);
 
         void set_vec2(const char* name, const glm::vec2& value);
         void set_vec3(const char* name, const glm::vec3& value);

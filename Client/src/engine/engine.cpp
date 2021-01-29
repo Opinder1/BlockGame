@@ -78,7 +78,7 @@ namespace engine {
 
         window.use();
 
-        Sprite::set_material(default_sprite_material);
+        Sprite::set_material(default_mssprite_material);
         for (auto* layer : layers) {
             layer->render();
         }
@@ -89,8 +89,12 @@ namespace engine {
     }
 
     bool Application::on_window_resize(const WindowResizeEvent* e) {
-        // Put into some glviewport function
+        FrameBuffer::use_screen();
         glViewport(0, 0, e->size.x, e->size.y);
+
+        for (auto* layer : layers) {
+            layer->resize(e->size);
+        }
 
         return false;
     }
