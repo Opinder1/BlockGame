@@ -1,6 +1,8 @@
 #include "camera.h"
 
 namespace engine {
+	//GlobalBuffer* camera_buf;
+
 	Camera::Camera(float fov, float width, float height) {
 		set_perspective(fov, width, height);
 	}
@@ -12,6 +14,16 @@ namespace engine {
 	void Camera::set_perspective(float fov, float width, float height) {
 		//projection = glm::infinitePerspective(fov, width / height, near);
 		projection = glm::perspectiveFov(glm::radians(fov), width, height, 0.1f, 1000000.0f);
+	}
+
+	glm::mat4 Camera::get_projection() {
+		glm::mat4 view = glm::lookAt(
+			position,
+			position + look_direction(),
+			up_direction()
+		);
+
+		return projection * view;
 	}
 
 	FPSCamera::FPSCamera(float fov) : Camera(fov, 1, 1), fov(fov), last_mouse_pos(0, 0) {
@@ -37,16 +49,6 @@ namespace engine {
 
 	glm::vec3 FPSCamera::left_direction() {
 		return glm::normalize(glm::cross(look_direction(), up_direction()));
-	}
-
-	glm::mat4 FPSCamera::get_projection() {
-		glm::mat4 view = glm::lookAt(
-			position,
-			position + look_direction(),
-			up_direction()
-		);
-
-		return projection * view;
 	}
 
 	bool FPSCamera::on_window_resize(const WindowResizeEvent* e) {

@@ -1,17 +1,6 @@
 #include "opengl.h"
 
 namespace engine {
-    GLenum gl_types[] = { GL_BYTE, GL_UNSIGNED_BYTE, GL_SHORT, GL_UNSIGNED_SHORT, GL_INT, GL_UNSIGNED_INT, GL_FLOAT, GL_DOUBLE };
-    uint32 type_sizes[] = { 1, 1, 2, 2, 4, 4, 4, 8 };
-
-    uint32 gl_type(Type type) {
-        return gl_types[(uint32)type];
-    }
-
-    uint32 type_size(Type type) {
-        return type_sizes[(uint32)type];
-    }
-
     void glCheckError(const char* file, int line) {
         GLenum errorCode;
         while ((errorCode = glGetError()) != GL_NO_ERROR) {
@@ -26,7 +15,7 @@ namespace engine {
             case GL_INVALID_FRAMEBUFFER_OPERATION: error = "INVALID_FRAMEBUFFER_OPERATION"; break;
             default:                               error = "NONE";
             }
-            ocode::println("%s | %s (%i)", error, file, line);
+            printf("%s | %s (%i)", error, file, line);
         }
     }
 
@@ -66,18 +55,22 @@ namespace engine {
         default:                             severity_str = "Severity: ";
         }
 
-        ocode::println("Debug message (%i) %s", id, message);
-        ocode::println("%s\n%s\n%s\n", source_str, type_str, severity_str);
+        printf("Debug message (%i) %s", id, message);
+        printf("%s\n%s\n%s\n", source_str, type_str, severity_str);
     }
 
-    void gl_init() {
+    void renderer_init() {
         if (glewInit() != GLEW_OK) {
             throw "Failed to initialise glew";
         }
 
-        glEnable(GL_DEBUG_OUTPUT);
+        //glEnable(GL_DEBUG_OUTPUT);
         //glDebugMessageCallback(gl_debug_callback, 0);
 
-        ocode::println("GL Version: %s\n", glGetString(GL_VERSION));
+        printf("GL Version: %s\n", glGetString(GL_VERSION));
+    }
+
+    void renderer_deinit() {
+
     }
 }

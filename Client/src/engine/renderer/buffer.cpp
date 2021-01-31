@@ -1,6 +1,10 @@
 #include "buffer.h"
 
+#include "opengl.h"
+
 namespace engine {
+	GLenum buffertype_index[] = { GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW };
+
 	uint32 current_buffer = 0;
 
 	Buffer::Buffer(uint32 type) : buffer_type(type), buffer_size(0) {
@@ -19,7 +23,7 @@ namespace engine {
 	}
 
 	void Buffer::new_data(uint64 size, void* data, BufferType usage) {
-		glBufferData(buffer_type, size, data, (GLenum)usage);
+		glBufferData(buffer_type, size, data, buffertype_index[(uint32)usage]);
 	}
 
 	void Buffer::sub_data(uint64 pos, uint64 size, void* data) {
@@ -45,8 +49,12 @@ namespace engine {
 	GlobalBuffer::GlobalBuffer(uint32 slot) : Buffer(GL_UNIFORM_BUFFER) {
 		glBindBufferBase(GL_UNIFORM_BUFFER, slot, get_id());
 	}
-
+ 
 	void GlobalBuffer::activate_slot(uint32 slot) {
 		glBindBufferBase(GL_UNIFORM_BUFFER, slot, get_id());
+	}
+
+	void GlobalBuffer::set_range(uint32 slot, uint64 pos, uint64 size) {
+		glBindBufferRange(GL_UNIFORM_BUFFER, slot, get_id(), pos, size);
 	}
 }

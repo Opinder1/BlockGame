@@ -1,6 +1,10 @@
 #include "shader.h"
 
+#include "opengl.h"
+
 namespace engine {
+    GLenum shadertype_index[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER,  GL_GEOMETRY_SHADER, GL_COMPUTE_SHADER };
+
     Shader::Shader(ShaderType type, const char* code_data, uint32 code_size) : shader_id(glCreateShader((GLenum)type)) {
         glShaderSource(shader_id, 1, &code_data, (int32*)&code_size);
 
@@ -8,7 +12,7 @@ namespace engine {
     }
 
     Shader::Shader(ShaderType type, const std::string& name) {
-        shader_id = glCreateShader((GLenum)type);
+        shader_id = glCreateShader(shadertype_index[(uint32)type]);
 
         std::string file_name = "resources\\shaders\\" + name;
 

@@ -2,6 +2,7 @@
 
 #include <ocode.h>
 
+#include "gl.h"
 #include "buffer.h"
 
 namespace engine {

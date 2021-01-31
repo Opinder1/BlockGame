@@ -1,5 +1,7 @@
 #include "framebuffer.h"
 
+#include "opengl.h"
+
 namespace engine {
 	GLenum texture_index[] = { GL_TEXTURE0, GL_TEXTURE1, GL_TEXTURE2, GL_TEXTURE3, GL_TEXTURE4, GL_TEXTURE5, GL_TEXTURE6, GL_TEXTURE7, GL_TEXTURE8, GL_TEXTURE9, GL_TEXTURE10, GL_TEXTURE11, GL_TEXTURE12, GL_TEXTURE13, GL_TEXTURE14, GL_TEXTURE15, GL_TEXTURE16, GL_TEXTURE17, GL_TEXTURE18, GL_TEXTURE19, GL_TEXTURE20, GL_TEXTURE21, GL_TEXTURE22, GL_TEXTURE23, GL_TEXTURE24, GL_TEXTURE25, GL_TEXTURE26, GL_TEXTURE27, GL_TEXTURE28, GL_TEXTURE29, GL_TEXTURE30, GL_TEXTURE31 };
 	GLenum culltype_index[] = { 0, GL_BACK, GL_FRONT, GL_FRONT_AND_BACK };
@@ -118,12 +120,7 @@ namespace engine {
 
 	void DepthBuffer::resize(glm::uvec2 size, uint32 samples) {
 		use();
-		if (samples > 1) {
-			glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, size.x, size.y);
-		}
-		else {
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.x, size.y);
-		}
+		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, size.x, size.y);
 	}
 
 	FrameBuffer::FrameBuffer(glm::uvec2 size) : size(size) {

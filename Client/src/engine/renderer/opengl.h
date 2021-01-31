@@ -1,34 +1,22 @@
 #pragma once
 
-#include <ocode.h>
-
 #include <GL/glew.h>
-#include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
+
+#include "gl.h"
 
 namespace engine {
-    enum class Type : uint32 {
-        int8,
-        uint8,
-        int16,
-        uint16,
-        int32,
-        uint32,
-        float32,
-        float64
-    };
+    void glCheckError(const char* file, int line);
 
-	GLenum gl_type(Type type);
-    uint32 type_size(Type type);
+    constexpr GLenum gl_types[] = { GL_BYTE, GL_UNSIGNED_BYTE, GL_SHORT, GL_UNSIGNED_SHORT, GL_INT, GL_UNSIGNED_INT, GL_FLOAT, GL_DOUBLE };
+    constexpr uint32 type_sizes[] = { 1, 1, 2, 2, 4, 4, 4, 8 };
 
-    enum class BufferType : GLenum {
-        Static = GL_STATIC_DRAW,
-        Dynamic = GL_DYNAMIC_DRAW,
-        Stream = GL_STREAM_DRAW
-    };
+    constexpr GLenum gl_type(Type type) {
+        return gl_types[(uint32)type];
+    }
 
-	void glCheckError(const char* file, int line);
-	#define check_error() glCheckError(__FILE__, __LINE__)
-
-    void gl_init();
+    constexpr uint32 type_size(Type type) {
+        return type_sizes[(uint32)type];
+    }
 }
+
+#define check_error() glCheckError(__FILE__, __LINE__)

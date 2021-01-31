@@ -9,7 +9,6 @@
 
 #include "core/window.h"
 #include "core/monitor.h"
-
 #include "core/layer.h"
 
 namespace engine {

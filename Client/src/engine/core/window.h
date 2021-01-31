@@ -2,12 +2,10 @@
 
 #include <ocode.h>
 
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "monitor.h"
 #include "../renderer/framebuffer.h"
-#include "../renderer/texture.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;

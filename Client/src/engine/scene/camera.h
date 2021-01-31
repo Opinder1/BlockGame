@@ -7,6 +7,7 @@
 
 #include "transform.h"
 #include "../core/window.h"
+#include "../renderer/buffer.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;
@@ -21,7 +22,11 @@ namespace engine {
 		Camera(float fov, float width, float height);
 		~Camera();
 
-		virtual glm::mat4 get_projection() = 0;
+		virtual glm::vec3 look_direction() = 0;
+		virtual glm::vec3 up_direction() = 0;
+		virtual glm::vec3 left_direction() = 0;
+
+		glm::mat4 get_projection();
 	};
 
 	class FPSCamera : public Camera {
@@ -34,12 +39,15 @@ namespace engine {
 
 		void update(glm::vec2 mouse_pos);
 
-		glm::vec3 look_direction();
-		glm::vec3 up_direction();
-		glm::vec3 left_direction();
-		glm::mat4 get_projection() override;
+		glm::vec3 look_direction() override;
+		glm::vec3 up_direction() override;
+		glm::vec3 left_direction() override;
 
 	private:
 		bool on_window_resize(const WindowResizeEvent* e);
+	};
+
+	class SpaceCamera : public Camera {
+	
 	};
 }

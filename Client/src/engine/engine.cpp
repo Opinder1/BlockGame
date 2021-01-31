@@ -51,13 +51,15 @@ namespace engine {
         
         window.set_icon(engine::Texture("icon.png"));
 
-        gl_init();
+        renderer_init();
 
         engine::Sprite::init();
     }
 
     Application::~Application() {
         engine::Sprite::deinit();
+
+        renderer_deinit();
 
         for (auto* layer : layers) {
             delete layer;

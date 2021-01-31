@@ -30,7 +30,7 @@ CubeScene::~CubeScene() {
 
 void CubeScene::update() {
     engine::FrameBuffer::clear({ 0.0, 0.0, 0.0, 0.0 });
-    engine::FrameBuffer::set_depthtest(false);
+    engine::FrameBuffer::set_depthtest(true);
     engine::FrameBuffer::set_alphatest(true);
     engine::FrameBuffer::set_multisample(true);
     engine::FrameBuffer::set_culling(engine::Culling::Back);
@@ -66,6 +66,14 @@ void CubeScene::update() {
 
     if (application->window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         application->running = false;
+    }
+
+    if (application->window.get_key(GLFW_KEY_Q) == GLFW_PRESS) {
+        camera.rotation.z += 0.1;
+    }
+
+    if (application->window.get_key(GLFW_KEY_E) == GLFW_PRESS) {
+        camera.rotation.z -= 0.1;
     }
 
     camera.update(application->window.get_mouse_pos());

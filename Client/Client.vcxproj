@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="src\engine\renderer\array.h" />
     <ClInclude Include="src\engine\renderer\framebuffer.h" />
+    <ClInclude Include="src\engine\renderer\gl.h" />
     <ClInclude Include="src\engine\renderer\opengl.h" />
     <ClInclude Include="src\engine\scene\camera.h" />
     <ClInclude Include="src\engine\engine.h" />

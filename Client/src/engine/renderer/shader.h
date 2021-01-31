@@ -4,15 +4,15 @@
 
 #include <rapidjson/document.h>
 
-#include "opengl.h"
+#include "gl.h"
 #include "texture.h"
 
 namespace engine {
     enum class ShaderType : uint32 {
-        VERTEX = GL_VERTEX_SHADER,
-        FRAGMENT = GL_FRAGMENT_SHADER,
-        GEOMETRY = GL_GEOMETRY_SHADER,
-        COMPUTE = GL_COMPUTE_SHADER
+        VERTEX,
+        FRAGMENT,
+        GEOMETRY,
+        COMPUTE
     };
 
     class Shader {

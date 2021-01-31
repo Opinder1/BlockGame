@@ -4,9 +4,15 @@
 
 #include <vector>
 
-#include "opengl.h"
+#include "gl.h"
 
 namespace engine {
+	enum class BufferType : uint32 {
+		Static,
+		Dynamic,
+		Stream
+	};
+
 	class Buffer {
 	private:
 		uint32 buffer_id;
@@ -115,5 +121,6 @@ namespace engine {
 		GlobalBuffer(uint32 slot);
 
 		void activate_slot(uint32 slot);
+		void set_range(uint32 slot, uint64 pos, uint64 size);
 	};
 }
