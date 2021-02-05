@@ -1,0 +1,5 @@
+{
+    "vertex": "sprite.vert",
+    "fragment": "sprite.frag",
+	  "mesh": "sprite.mesh"
+}

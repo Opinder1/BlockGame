@@ -1,8 +1,6 @@
 #include "camera.h"
 
 namespace engine {
-	//GlobalBuffer* camera_buf;
-
 	Camera::Camera(float fov, float width, float height) {
 		set_perspective(fov, width, height);
 	}

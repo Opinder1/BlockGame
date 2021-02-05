@@ -29,11 +29,11 @@ CubeScene::~CubeScene() {
 } 
 
 void CubeScene::update() {
-    engine::FrameBuffer::clear({ 0.0, 0.0, 0.0, 0.0 });
-    engine::FrameBuffer::set_depthtest(true);
-    engine::FrameBuffer::set_alphatest(true);
-    engine::FrameBuffer::set_multisample(true);
-    engine::FrameBuffer::set_culling(engine::Culling::Back);
+    frame.clear({ 0.0, 0.0, 0.0, 0.0 });
+    frame.set_depthtest(true);
+    frame.set_alphatest(true);
+    frame.set_multisample(true);
+    frame.set_culling(engine::Culling::Back);
 
     float speed = 0.2;
     if (application->window.get_key(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
@@ -84,7 +84,7 @@ void CubeScene::update() {
     cube_material.use();
 
     for (auto& transform : transforms) {
-        cube_material.set_mat4("transform", transform);
+        cube_material.set("transform", transform);
 
         cube_poly.draw();
     }

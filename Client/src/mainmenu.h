@@ -1,13 +1,6 @@
 #pragma once
 
-#include <blockgame.h>
-
-#include "../engine/engine.h"
-
-#include "../cubescene.h"
-#include "../game.h"
-
-#include "ui.h"
+#include "application.h"
 
 class MainMenu : public engine::Layer {
 private:

@@ -14,36 +14,25 @@
 namespace engine {
 	extern ocode::EventManager* event_manager;
 
-	void init();
-
-	void start(Layer* initial_layer);
-
 	class Application {
-		friend void init();
-
 	public:
 		bool running;
 
-		ocode::LogFile log;
-		ocode::Config config;
-
 		Window window;
+		FrameBufferS frame;
+
 		std::vector<Layer*> layers;
 
-	private:
-		Application();
-		
-		void update();
+	protected:
+		virtual void update() = 0;
 
 		bool on_window_resize(const WindowResizeEvent* e);
 		bool on_window_close(const WindowCloseEvent* e);
 
 	public:
+		Application();
 		~Application();
 
 		void run();
 	};
-
 }
-
-extern engine::Application* application;

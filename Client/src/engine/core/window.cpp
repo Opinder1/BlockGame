@@ -21,7 +21,11 @@ namespace engine {
         event_manager->EVENT_POST(KeyActionEvent, key, scancode, action, mods);
     }
 
-    Window::Window(const std::string& name, glm::uvec2 size) : window(NULL), last_size(size), last_pos({ 0, 0 }) {
+    Window::Window(const std::string& name, glm::uvec2 size) : window(NULL), last_size({ 0, 0 }), last_pos({ 0, 0 }) {
+        if (!glfwInit()) {
+            throw "Failed to initialise glfw";
+        }
+
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -31,8 +35,11 @@ namespace engine {
         window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
 
         if (!window) {
-            throw "Failed to create window";
+            throw "Failed to initialise window";
         }
+
+        last_size = size;
+        last_pos = { 0, 0 };
 
         glfwMakeContextCurrent(window);
         //glfwSetWindowUserPointer(window, manager);
@@ -54,26 +61,18 @@ namespace engine {
         if (glfwRawMouseMotionSupported()) {
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
         }
+
+        if (!renderer_init()) {
+            throw "Failed to initialise renderer";
+        }
     }
 
     Window::~Window() {
         glfwDestroyWindow(window);
     }
 
-    bool Window::initialized() {
-        return window != NULL;
-    }
-
     void Window::use() {
         //glfwMakeContextCurrent(window);
-        FrameBuffer::use_screen();
-
-        FrameBuffer::clear({ 0.0, 0.0, 0.0, 1.0 });
-        FrameBuffer::set_depthtest(false);
-        FrameBuffer::set_alphatest(true);
-        FrameBuffer::set_polymode(PolyMode::Fill);
-        FrameBuffer::set_culling(Culling::Disabled);
-        FrameBuffer::set_multisample(false);
     }
 
     void Window::update() {

@@ -1,0 +1,5 @@
+{
+    "vertex": "sprite.vert",
+    "fragment": "multisample_sprite.frag",
+	  "mesh": "sprite.mesh"
+}

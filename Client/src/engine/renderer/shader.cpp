@@ -5,6 +5,8 @@
 namespace engine {
     GLenum shadertype_index[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER,  GL_GEOMETRY_SHADER, GL_COMPUTE_SHADER };
 
+    uint32 current_program = 0;
+
     Shader::Shader(ShaderType type, const char* code_data, uint32 code_size) : shader_id(glCreateShader((GLenum)type)) {
         glShaderSource(shader_id, 1, &code_data, (int32*)&code_size);
 
@@ -14,7 +16,7 @@ namespace engine {
     Shader::Shader(ShaderType type, const std::string& name) {
         shader_id = glCreateShader(shadertype_index[(uint32)type]);
 
-        std::string file_name = "resources\\shaders\\" + name;
+        std::string file_name = std::string("C:\\VisualStudio\\BlockGame\\Client\\") + "resources\\shaders\\" + name;
 
         if (!ocode::file_exists(file_name)) {
             printf("File %s does not exist\n", file_name.c_str());
@@ -90,42 +92,17 @@ namespace engine {
     }
 
     void ShaderProgram::use() {
-        glUseProgram(program_id);
+        if (current_program != program_id) {
+            glUseProgram(program_id);
+            current_program = program_id;
+        }
     }
 
-    int ShaderProgram::get_attribute(const char* name) {
+    uint32 ShaderProgram::get_attribute_location(const char* name) {
         return glGetAttribLocation(program_id, name);
     }
 
-    void ShaderProgram::set_int32(const char* name, int32 value) {
-        glUniform1i(glGetUniformLocation(program_id, name), value);
-    }
-
-    void ShaderProgram::set_float(const char* name, float value) {
-        glUniform1f(glGetUniformLocation(program_id, name), value);
-    }
-
-    void ShaderProgram::set_vec2(const char* name, const glm::vec2& value) {
-        glUniform2f(glGetUniformLocation(program_id, name), value.x, value.y);
-    }
-
-    void ShaderProgram::set_vec3(const char* name, const glm::vec3& value) {
-        glUniform3f(glGetUniformLocation(program_id, name), value.x, value.y, value.z);
-    }
-
-    void ShaderProgram::set_vec4(const char* name, const glm::vec4& value) {
-        glUniform4f(glGetUniformLocation(program_id, name), value.x, value.y, value.z, value.w);
-    }
-
-    void ShaderProgram::set_mat2(const char* name, const glm::mat2& value) {
-        glUniformMatrix2fv(glGetUniformLocation(program_id, name), 1, GL_FALSE, glm::value_ptr(value));
-    }
-
-    void ShaderProgram::set_mat3(const char* name, const glm::mat3& value) {
-        glUniformMatrix3fv(glGetUniformLocation(program_id, name), 1, GL_FALSE, glm::value_ptr(value));
-    }
-
-    void ShaderProgram::set_mat4(const char* name, const glm::mat4& value) {
-        glUniformMatrix4fv(glGetUniformLocation(program_id, name), 1, GL_FALSE, glm::value_ptr(value));
+    uint32 ShaderProgram::get_uniform_location(const char* name) {
+        return glGetUniformLocation(program_id, name);
     }
 }

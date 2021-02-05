@@ -6,7 +6,7 @@
 
 namespace engine {
 	class Layer {
-	private:
+	protected:
 		MSTextureBuffer texture;
 		MSSprite sprite;
 		FrameBufferM frame;

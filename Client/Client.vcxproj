@@ -108,10 +108,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine\renderer\array.cpp" />
     <ClCompile Include="src\engine\renderer\buffer.cpp" />
     <ClCompile Include="src\engine\renderer\framebuffer.cpp" />
-    <ClCompile Include="src\engine\renderer\opengl.cpp" />
+    <ClCompile Include="src\engine\renderer\gl.cpp" />
+    <ClCompile Include="src\engine\renderer\shaderuniform.cpp" />
     <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\scene\mesh.cpp" />
@@ -120,7 +122,7 @@
     <ClCompile Include="src\engine\renderer\texture.cpp" />
     <ClCompile Include="src\engine\core\layer.cpp" />
     <ClCompile Include="src\engine\scene\sprite.cpp" />
-    <ClCompile Include="src\mainmenu\mainmenu.cpp" />
+    <ClCompile Include="src\mainmenu.cpp" />
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\core\monitor.cpp" />
     <ClCompile Include="src\engine\core\window.cpp" />
@@ -128,6 +130,7 @@
     <ClCompile Include="src\mainmenu\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\application.h" />
     <ClInclude Include="src\engine\renderer\array.h" />
     <ClInclude Include="src\engine\renderer\framebuffer.h" />
     <ClInclude Include="src\engine\renderer\gl.h" />
@@ -144,7 +147,7 @@
     <ClInclude Include="src\engine\scene\sprite.h" />
     <ClInclude Include="src\engine\scene\transform.h" />
     <ClInclude Include="src\game.h" />
-    <ClInclude Include="src\mainmenu\mainmenu.h" />
+    <ClInclude Include="src\mainmenu.h" />
     <ClInclude Include="src\cubescene.h" />
     <ClInclude Include="src\engine\core\monitor.h" />
     <ClInclude Include="src\engine\core\window.h" />

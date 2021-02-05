@@ -25,7 +25,7 @@ namespace engine {
 		virtual glm::vec3 look_direction() = 0;
 		virtual glm::vec3 up_direction() = 0;
 		virtual glm::vec3 left_direction() = 0;
-
+		
 		glm::mat4 get_projection();
 	};
 

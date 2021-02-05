@@ -17,7 +17,5 @@ namespace engine {
 		float64
 	};
 
-    void renderer_init();
-
-	void renderer_deinit();
+    bool renderer_init();
 }

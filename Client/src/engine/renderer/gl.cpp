@@ -59,18 +59,16 @@ namespace engine {
         printf("%s\n%s\n%s\n", source_str, type_str, severity_str);
     }
 
-    void renderer_init() {
+    bool renderer_init() {
         if (glewInit() != GLEW_OK) {
-            throw "Failed to initialise glew";
+            return false;
         }
 
         //glEnable(GL_DEBUG_OUTPUT);
         //glDebugMessageCallback(gl_debug_callback, 0);
 
         printf("GL Version: %s\n", glGetString(GL_VERSION));
-    }
 
-    void renderer_deinit() {
-
+        return true;
     }
 }

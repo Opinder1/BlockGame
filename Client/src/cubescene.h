@@ -1,10 +1,8 @@
 #pragma once
 
-#include <blockgame.h>
-
 #include <vector>
 
-#include "engine/engine.h"
+#include "application.h"
 
 template<class T>
 T map(T n, T a1, T b1, T a2, T b2) {

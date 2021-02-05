@@ -1,57 +1,15 @@
 #include "engine.h"
 
-engine::Application* application;
-
 namespace engine {
+    ocode::EventManager* event_manager = NULL;
 
-    ocode::EventManager* event_manager;
-
-    void init() {
-        if (!glfwInit()) {
-            throw "Failed to initialise glfw";
-        }
-
+    Application::Application() : running(true), window("game"), frame(window.get_size()) {
         event_manager = new ocode::EventManager();
-
-        application = new Application();
-    }
-
-    void start(Layer* initial_layer) {
-        application->layers.push_back(initial_layer);
-
-        application->run();
-
-        delete application;
-
-        delete event_manager;
-    }
-
-    Application::Application() :
-        running(true),
-        log("client"),
-        config("client"),
-        window("test")
-    {
-        if (!log.initialized()) {
-            throw "Log could not be initialized";
-        }
-
-        if (!config.initialized()) {
-            throw "Config could not be loaded";
-        }
-
-        if (!window.initialized()) {
-            throw "Window failure";
-        }
 
         event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, Application::on_window_resize);
         event_manager->EVENT_SUBSCRIBE(engine::WindowCloseEvent, Application::on_window_close);
-
-        config.save();
         
         window.set_icon(engine::Texture("icon.png"));
-
-        renderer_init();
 
         engine::Sprite::init();
     }
@@ -59,7 +17,7 @@ namespace engine {
     Application::~Application() {
         engine::Sprite::deinit();
 
-        renderer_deinit();
+        delete event_manager;
 
         for (auto* layer : layers) {
             delete layer;
@@ -68,31 +26,33 @@ namespace engine {
 
     void Application::run() {
         while (running) {
-            update();
+            for (auto* layer : layers) {
+;               layer->bind();
+                layer->update();
+            }
+
+            frame.use();
+
+            frame.clear({ 0.0, 0.0, 0.0, 0.0 });
+            frame.set_depthtest(false);
+            frame.set_alphatest(true);
+            frame.set_polymode(PolyMode::Fill);
+            frame.set_culling(Culling::Disabled);
+            frame.set_multisample(false);
+
+            Sprite::set_material(MSSprite::default_material);
+            for (auto* layer : layers) {
+                layer->render();
+            }
+
+            window.update();
+
+            glfwPollEvents();
         }
-    }
-
-    void Application::update() {
-        for (auto* layer : layers) {
-            layer->bind();
-            layer->update();
-        }
-
-        window.use();
-
-        Sprite::set_material(default_mssprite_material);
-        for (auto* layer : layers) {
-            layer->render();
-        }
-
-        window.update();
-
-        glfwPollEvents();
     }
 
     bool Application::on_window_resize(const WindowResizeEvent* e) {
-        FrameBuffer::use_screen();
-        glViewport(0, 0, e->size.x, e->size.y);
+        window.use();
 
         for (auto* layer : layers) {
             layer->resize(e->size);

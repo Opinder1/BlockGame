@@ -49,18 +49,15 @@ namespace engine {
         ShaderProgram();
         ~ShaderProgram();
 
-        int get_attribute(const char* name);
+        uint32 get_attribute_location(const char* name);
+        uint32 get_uniform_location(const char* name);
 
-        void set_int32(const char* name, int32 value);
+        template<class T>
+        void set(uint32 location, const T& value);
 
-        void set_float(const char* name, float value);
-
-        void set_vec2(const char* name, const glm::vec2& value);
-        void set_vec3(const char* name, const glm::vec3& value);
-        void set_vec4(const char* name, const glm::vec4& value);
-
-        void set_mat2(const char* name, const glm::mat2& value);
-        void set_mat3(const char* name, const glm::mat3& value);
-        void set_mat4(const char* name, const glm::mat4& value);
+        template<class T>
+        void set(const char* name, const T& value) {
+            set(get_uniform_location(name), value);
+        }
     };
 }

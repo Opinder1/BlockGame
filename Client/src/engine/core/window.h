@@ -24,7 +24,6 @@ namespace engine {
 		Window(const std::string& name, glm::uvec2 size = { 800, 600 });
 		~Window();
 
-		bool initialized();
 		void use();
 		void update();
 		void close();

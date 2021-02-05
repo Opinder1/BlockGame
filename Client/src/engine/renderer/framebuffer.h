@@ -87,30 +87,34 @@ namespace engine {
 	protected:
 		glm::uvec2 size;
 
-		FrameBuffer(glm::uvec2 size);
+		FrameBuffer(glm::uvec2 size, bool is_default = false);
 
 	public:
 		FrameBuffer(const FrameBuffer&) = delete;
 		~FrameBuffer();
 
-		static void use_screen();
 		void use();
 		void resize(glm::uvec2 size);
 
 		void blit(FrameBuffer& buffer);
 		void blit();
 
-		static void clear(glm::vec4 color);
+		void clear(glm::vec4 color);
 
-		static void set_depthtest(bool enabled);
+		void set_depthtest(bool enabled);
 
-		static void set_alphatest(bool enabled);
+		void set_alphatest(bool enabled);
 
-		static void set_culling(Culling type);
+		void set_culling(Culling type);
 
-		static void set_polymode(PolyMode type);
+		void set_polymode(PolyMode type);
 
-		static void set_multisample(bool enabled);
+		void set_multisample(bool enabled);
+	};
+
+	class FrameBufferS : public FrameBuffer {
+	public:
+		FrameBufferS(glm::uvec2 size);
 	};
 
 	class FrameBufferT : public FrameBuffer {

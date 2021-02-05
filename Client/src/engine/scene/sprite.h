@@ -10,23 +10,25 @@
 #include "material.h"
 
 namespace engine {
-	extern Material* default_sprite_material;
-	extern Material* default_mssprite_material;
-
 	class QuadRenderer {
+	protected:
+		void draw();
+
 	public:
 		static void init();
 		static void deinit();
+
 		static void set_material(Material* material);
 
 		void set_position(const glm::vec2& position);
 		void set_scale(const glm::vec2& scale);
 		void set_rotation(float rotation);
-
-		void draw();
 	};
 	
 	class Sprite : public QuadRenderer {
+	public:
+		static Material* default_material;
+
 	protected:
 		TextureBuffer& texture;
 
@@ -39,6 +41,9 @@ namespace engine {
 	};
 
 	class MSSprite : public QuadRenderer {
+	public:
+		static Material* default_material;
+
 	protected:
 		MSTextureBuffer& texture;
 

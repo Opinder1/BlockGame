@@ -123,19 +123,17 @@ namespace engine {
 		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, size.x, size.y);
 	}
 
-	FrameBuffer::FrameBuffer(glm::uvec2 size) : size(size) {
-		glGenFramebuffers(1, &buffer_id);
+	FrameBuffer::FrameBuffer(glm::uvec2 size, bool is_default) : size(size) {
+		if (is_default) {
+			buffer_id = 0;
+		}
+		else {
+			glGenFramebuffers(1, &buffer_id);
+		}
 	}
 
 	FrameBuffer::~FrameBuffer() {
 		glDeleteFramebuffers(1, &buffer_id);
-	}
-
-	void FrameBuffer::use_screen() {
-		if (current_framebuffer != 0) {
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			current_framebuffer = 0;
-		}
 	}
 
 	void FrameBuffer::use() {
@@ -163,11 +161,13 @@ namespace engine {
 	}
 
 	void FrameBuffer::clear(glm::vec4 color) {
+		use();
 		glClearColor(color.r, color.g, color.b, color.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
 	void FrameBuffer::set_depthtest(bool enabled) {
+		use();
 		if (enabled) {
 			glEnable(GL_DEPTH_TEST);
 		}
@@ -177,6 +177,7 @@ namespace engine {
 	}
 	
 	void FrameBuffer::set_alphatest(bool enabled) {
+		use();
 		if (enabled) {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -187,6 +188,7 @@ namespace engine {
 	}
 
 	void FrameBuffer::set_culling(Culling type) {
+		use();
 		if (type != Culling::Disabled) {
 			glEnable(GL_CULL_FACE);
 			glCullFace(culltype_index[(uint32)type]);
@@ -197,10 +199,12 @@ namespace engine {
 	}
 
 	void FrameBuffer::set_polymode(PolyMode type) {
+		use();
 		glPolygonMode(GL_FRONT_AND_BACK, polymode_index[(uint32)type]);
 	}
 
 	void FrameBuffer::set_multisample(bool enabled) {
+		use();
 		if (enabled) {
 			glEnable(GL_MULTISAMPLE);
 		}
@@ -209,12 +213,16 @@ namespace engine {
 		}
 	}
 
-	FrameBufferT::FrameBufferT(TextureBuffer& buffer) : FrameBuffer(buffer.size), texture(buffer) {
+	FrameBufferS::FrameBufferS(glm::uvec2 size) : FrameBuffer(size, true) {
+
+	}
+
+	FrameBufferT::FrameBufferT(TextureBuffer& buffer) : FrameBuffer(buffer.size, false), texture(buffer) {
 		use();
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, buffer.buffer_id, 0);
 	}
 
-	FrameBufferM::FrameBufferM(MSTextureBuffer& buffer) : FrameBuffer(buffer.size), texture(buffer), depth(buffer.size, buffer.samples) {
+	FrameBufferM::FrameBufferM(MSTextureBuffer& buffer) : FrameBuffer(buffer.size, false), texture(buffer), depth(buffer.size, buffer.samples) {
 		use();
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, buffer.buffer_id, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth.buffer_id);
