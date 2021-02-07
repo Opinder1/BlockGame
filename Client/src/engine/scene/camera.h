@@ -6,8 +6,8 @@
 #include <GLM/ext.hpp>
 
 #include "transform.h"
-#include "../core/window.h"
-#include "../renderer/buffer.h"
+#include "../window.h"
+#include "renderer/buffer.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;

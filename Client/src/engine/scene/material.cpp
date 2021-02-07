@@ -6,7 +6,7 @@ namespace engine {
     }
 
     Material::Material(const std::string& name) : texture(NULL) {
-        std::string file_name = std::string("C:\\VisualStudio\\BlockGame\\Client\\") + "resources\\" + name + ".material";
+        std::string file_name = std::string(PROJECT_DIR) + "resources\\" + name + ".material";
 
         if (!ocode::file_exists(file_name)) {
             printf("File %s does not exist\n", file_name.c_str());

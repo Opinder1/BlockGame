@@ -1,7 +1,7 @@
 #include "opengl.h"
 
 namespace engine {
-    void glCheckError(const char* file, int line) {
+    void _glCheckError(const char* file, int line) {
         GLenum errorCode;
         while ((errorCode = glGetError()) != GL_NO_ERROR) {
             const char* error;
@@ -67,8 +67,62 @@ namespace engine {
         //glEnable(GL_DEBUG_OUTPUT);
         //glDebugMessageCallback(gl_debug_callback, 0);
 
-        printf("GL Version: %s\n", glGetString(GL_VERSION));
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         return true;
+    }
+
+    const char* get_renderer_version() {
+        return (const char*)glGetString(GL_VERSION);
+    }
+
+    const char* get_adapter_vendor() {
+        return (const char*)glGetString(GL_VENDOR);
+    }
+
+    const char* get_video_adapter() {
+        return (const char*)glGetString(GL_RENDERER);
+    }
+
+    void set_multisample(bool enabled) {
+        if (enabled) {
+            glEnable(GL_MULTISAMPLE);
+        }
+        else {
+            glDisable(GL_MULTISAMPLE);
+        }
+    }
+
+    void set_depthtest(bool enabled) {
+        if (enabled) {
+            glEnable(GL_DEPTH_TEST);
+        }
+        else {
+            glDisable(GL_DEPTH_TEST);
+        }
+    }
+
+    void set_alphatest(bool enabled) {
+        if (enabled) {
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+        else {
+            glDisable(GL_BLEND);
+        }
+    }
+
+    void set_culling(GLenum type) {
+        if (type != 0) {
+            glEnable(GL_CULL_FACE);
+            glCullFace(type);
+        }
+        else {
+            glDisable(GL_CULL_FACE);
+        }
+    }
+
+    void set_polymode(GLenum type) {
+        glPolygonMode(GL_FRONT_AND_BACK, type);
     }
 }

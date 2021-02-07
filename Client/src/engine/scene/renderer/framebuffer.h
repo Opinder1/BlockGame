@@ -13,7 +13,7 @@ namespace engine {
 	};
 
 	class TextureBuffer {
-		friend class FrameBufferT;
+		friend class FrameBuffer;
 
 	private:
 		uint32 buffer_id;
@@ -24,7 +24,7 @@ namespace engine {
 
 	public:
 		TextureBuffer(const TextureBuffer&) = delete;
-		TextureBuffer(glm::ivec2 size);
+		TextureBuffer(glm::uvec2 size);
 		TextureBuffer(const Texture& texture);
 		TextureBuffer(const std::string& name) : TextureBuffer(Texture(name)) {}
 		virtual ~TextureBuffer();
@@ -38,7 +38,7 @@ namespace engine {
 	};
 
 	class MSTextureBuffer {
-		friend class FrameBufferM;
+		friend class MSFrameBuffer;
 
 	private:
 		uint32 buffer_id;
@@ -62,13 +62,10 @@ namespace engine {
 	};
 
 	class DepthBuffer {
-		friend class FrameBufferM;
+		friend class MSFrameBuffer;
 
 	private:
 		uint32 buffer_id;
-
-		glm::uvec2 size;
-		uint32 samples;
 
 		void use();
 
@@ -80,58 +77,60 @@ namespace engine {
 		void resize(glm::uvec2 size, uint32 samples = 1);
 	};
 
-	class FrameBuffer {
+	class FrameBufferBase {
 	private:
 		uint32 buffer_id;
 
 	protected:
 		glm::uvec2 size;
 
-		FrameBuffer(glm::uvec2 size, bool is_default = false);
+		bool multisample;
+		bool depthtest;
+		bool alphatest;
+		Culling culltype;
+		PolyMode polymode;
+
+		FrameBufferBase(glm::uvec2 size, bool is_default = false);
 
 	public:
-		FrameBuffer(const FrameBuffer&) = delete;
-		~FrameBuffer();
+		FrameBufferBase(const FrameBufferBase&) = delete;
+		~FrameBufferBase();
 
 		void use();
+		void use_cleared();
+
 		void resize(glm::uvec2 size);
 
-		void blit(FrameBuffer& buffer);
+		void blit(FrameBufferBase& buffer);
 		void blit();
 
-		void clear(glm::vec4 color);
-
-		void set_depthtest(bool enabled);
-
-		void set_alphatest(bool enabled);
-
-		void set_culling(Culling type);
-
-		void set_polymode(PolyMode type);
-
-		void set_multisample(bool enabled);
+		void set_multisample(bool value);
+		void set_depthtest(bool value);
+		void set_alphatest(bool value);
+		void set_culling(Culling value);
+		void set_polymode(PolyMode value);
 	};
 
-	class FrameBufferS : public FrameBuffer {
+	class WindowFrameBuffer : public FrameBufferBase {
 	public:
-		FrameBufferS(glm::uvec2 size);
+		WindowFrameBuffer(glm::uvec2 size);
 	};
 
-	class FrameBufferT : public FrameBuffer {
+	class FrameBuffer : public FrameBufferBase {
 	private:
 		TextureBuffer& texture;
 
 	public:
-		FrameBufferT(TextureBuffer& buffer);
+		FrameBuffer(TextureBuffer& buffer);
 	};
 
-	class FrameBufferM : public FrameBuffer {
+	class MSFrameBuffer : public FrameBufferBase {
 	private:
 		MSTextureBuffer& texture;
 		DepthBuffer depth;
 
 	public:
-		FrameBufferM(MSTextureBuffer& texture);
+		MSFrameBuffer(MSTextureBuffer& texture);
 
 		void resize(glm::uvec2 size, uint32 samples = 1);
 	};

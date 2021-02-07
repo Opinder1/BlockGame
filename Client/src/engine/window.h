@@ -3,9 +3,10 @@
 #include <ocode.h>
 
 #include <GLFW/glfw3.h>
+#include <GLM/glm.hpp>
 
 #include "monitor.h"
-#include "../renderer/framebuffer.h"
+#include "scene/renderer/texture.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;
@@ -21,7 +22,7 @@ namespace engine {
 
 	public:
 		Window(const Window&) = delete;
-		Window(const std::string& name, glm::uvec2 size = { 800, 600 });
+		Window(const std::string& name, glm::uvec2 size);
 		~Window();
 
 		void use();
@@ -36,13 +37,15 @@ namespace engine {
 		void set_windowed();
 		void set_windowed(glm::uvec2 size, glm::ivec2 pos);
 
+		void set_title(const std::string& name);
+
 		void set_mouse_type(int type);
 
 		glm::ivec2 get_size();
 		glm::vec2 get_mouse_pos();
 		int get_key(int key);
 
-		bool on_monitor_disconnect(const MonitorDisconnectEvent* e);
+		void on_monitor_disconnect(const MonitorDisconnectEvent* e);
 	};
 
 	struct WindowResizeEvent : ocode::Event {

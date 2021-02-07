@@ -29,11 +29,10 @@ CubeScene::~CubeScene() {
 } 
 
 void CubeScene::update() {
-    frame.clear({ 0.0, 0.0, 0.0, 0.0 });
-    frame.set_depthtest(true);
-    frame.set_alphatest(true);
-    frame.set_multisample(true);
-    frame.set_culling(engine::Culling::Back);
+    application->frame.use();
+    application->frame.set_depthtest(true);
+    application->frame.set_alphatest(true);
+    application->frame.set_culling(engine::Culling::Back);
 
     float speed = 0.2;
     if (application->window.get_key(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
@@ -96,7 +95,7 @@ void CubeScene::move_camera(glm::vec3 translation) {
     camera.position += translation;
 }
 
-bool CubeScene::on_key_action(const engine::KeyActionEvent* e) {
+void CubeScene::on_key_action(const engine::KeyActionEvent* e) {
     //application->log.println("key action: %i %i %i %i\n", e->key, e->scancode, e->action, e->mods);
 
     if (e->key == GLFW_KEY_C && e->action == GLFW_PRESS) {
@@ -109,6 +108,4 @@ bool CubeScene::on_key_action(const engine::KeyActionEvent* e) {
             mouse_toggle = true;
         }
     }
-
-    return false;
 }

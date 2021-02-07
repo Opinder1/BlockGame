@@ -1,6 +1,7 @@
  #include "mainmenu.h"
 
-MainMenu::MainMenu() : texture(engine::Texture("test.png")), title(texture) {
+MainMenu::MainMenu() : load_texture(engine::Texture("test.png")), title(load_texture) {
+	application->modules.push_back(new CubeScene());
 }
 
 MainMenu::~MainMenu() {
@@ -9,10 +10,10 @@ MainMenu::~MainMenu() {
 
 float r = 0;
 void MainMenu::update() {
-	frame.clear({ 0.0, 0.0, 0.0, 0.0 });
-	frame.set_depthtest(false);
-	frame.set_alphatest(true);
-	frame.set_multisample(true);
+	application->frame.use();
+	application->frame.set_depthtest(false);
+	application->frame.set_alphatest(true);
+	application->frame.set_culling(engine::Culling::Disabled);
 
 	engine::Sprite::set_material(engine::Sprite::default_material);
 

@@ -18,4 +18,10 @@ namespace engine {
 	};
 
     bool renderer_init();
+
+	const char* get_renderer_version();
+
+	const char* get_adapter_vendor();
+
+	const char* get_video_adapter();
 }

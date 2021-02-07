@@ -16,9 +16,9 @@
 
 namespace ocode {
 	template<class T>
-	using HandleType = std::function<bool(const T*)>;
+	using HandleType = std::function<void(const T*)>;
 	using ObserverId = uint32;
-	using EventType = size_t;
+	using EventType = uint64;
 
 	struct Event {
 		Event(const Event&) = delete;
@@ -52,7 +52,7 @@ namespace ocode {
 		};
 
 	private:
-		ObserverId next_id = 0;
+		ObserverId next_id;
 
 		std::unordered_map<EventType, std::vector<Observer>> observers;
 
@@ -60,7 +60,7 @@ namespace ocode {
 
 	public:
 		EventManager(const EventManager&) = delete;
-		EventManager() {}
+		EventManager() : next_id(0) {}
 
 		template<class T>
 		ObserverHandle event_subscribe(HandleType<T> handle) {
@@ -72,20 +72,7 @@ namespace ocode {
 			return { type, next_id };
 		}
 
-		void event_post(Event* event, EventType type) {
-			if (observers.find(type) == observers.end()) {
-				return;
-				//throw "Invalid post type";
-			}
-
-			for (auto&& observer : observers.at(type)) {
-				if (observer.handle(event)) {
-					break;
-				}
-			}
-
-			delete event;
-		}
+		void event_post(Event* event, EventType type);
 
 		template<class T>
 		void event_post(T* event) {
@@ -110,8 +97,6 @@ namespace ocode {
 			manager->event_post(event);
 		}
 
-		inline void disconnect(const ObserverHandle& handle) {
-			manager->event_unsubscribe(handle.type, handle.id);
-		}
+		void disconnect(const ObserverHandle& handle);
 	};
 }

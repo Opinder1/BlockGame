@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 #include <GLM/glm.hpp>
 
-#include "../renderer/array.h"
+#include "renderer/array.h"
 #include "material.h"
 
 namespace engine {

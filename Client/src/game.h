@@ -4,16 +4,30 @@
 
 #include "engine/engine.h"
 
-class Game : public engine::Layer {
-private:
-	NetClient client;
-	Scene scene;
+class Module {
+public:
+	virtual void update() = 0;
+};
 
-	engine::FPSCamera camera;
+class Game : public engine::Application {
+public:
+	ocode::LogFile log;
+	ocode::Config config;
+
+	engine::MSTextureBuffer texture;
+	engine::MSFrameBuffer frame;
+	engine::MSSprite sprite;
+
+	std::vector<Module*> modules;
+
+private:
+	void update();
+
+	void resize(glm::uvec2 size);
 
 public:
 	Game();
 	~Game();
-
-	void update() override;
 };
+
+extern Game* application;

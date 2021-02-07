@@ -39,7 +39,6 @@ namespace engine {
         }
 
         last_size = size;
-        last_pos = { 0, 0 };
 
         glfwMakeContextCurrent(window);
         //glfwSetWindowUserPointer(window, manager);
@@ -57,6 +56,8 @@ namespace engine {
         //glfwSetFramebufferSizeCallback();
 
         glfwSetKeyCallback(window, on_key_action);
+
+        event_manager->EVENT_SUBSCRIBE(MonitorDisconnectEvent, Window::on_monitor_disconnect);
 
         if (glfwRawMouseMotionSupported()) {
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
@@ -136,6 +137,10 @@ namespace engine {
         event_manager->EVENT_POST(WindowMoveEvent, pos);
     }
 
+    void Window::set_title(const std::string& name) {
+        glfwSetWindowTitle(window, name.c_str());
+    }
+
     void Window::set_mouse_type(int type) {
         glfwSetInputMode(window, GLFW_CURSOR, type);
     }
@@ -156,11 +161,9 @@ namespace engine {
         return glfwGetKey(window, key);
     }
 
-    bool Window::on_monitor_disconnect(const MonitorDisconnectEvent* e) {
+    void Window::on_monitor_disconnect(const MonitorDisconnectEvent* e) {
         if (!monitor.is_null() && monitor == e->monitor) {
             set_fullscreen(Monitor::get_primary(), true);
         }
-
-        return false;
     }
 }

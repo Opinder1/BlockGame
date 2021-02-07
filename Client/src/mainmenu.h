@@ -1,10 +1,12 @@
 #pragma once
 
-#include "application.h"
+#include "game.h"
 
-class MainMenu : public engine::Layer {
+#include "cubescene.h"
+
+class MainMenu : public Module {
 private:
-	engine::TextureBuffer texture;
+	engine::TextureBuffer load_texture;
 	engine::Sprite title;
 
 public:

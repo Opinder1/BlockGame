@@ -2,14 +2,14 @@
 
 #include <vector>
 
-#include "application.h"
+#include "game.h"
 
 template<class T>
 T map(T n, T a1, T b1, T a2, T b2) {
 	return ((n - a1) / (b1 - a1)) * (b2 - a2) + a2;
 }
 
-class CubeScene : public engine::Layer {
+class CubeScene : public Module {
 private:
 	engine::FPSCamera camera;
 
@@ -34,5 +34,5 @@ public:
 	void move_camera(glm::vec3 translation);
 
 private:
-	bool on_key_action(const engine::KeyActionEvent* e);
+	void on_key_action(const engine::KeyActionEvent* e);
 };
