@@ -33,9 +33,6 @@
     <ClCompile Include="src\engine\scene\material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\scene\sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\mainmenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,6 +66,12 @@
     <ClCompile Include="src\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\mainmenu\ui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\scene\surface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\scene\camera.h">
@@ -90,9 +93,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\scene\transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\scene\sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mainmenu.h">
@@ -128,5 +128,42 @@
     <ClInclude Include="src\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\mainmenu\ui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\scene\surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\shaders\cube.frag" />
+    <None Include="resources\shaders\default.frag" />
+    <None Include="resources\shaders\default.vert" />
+    <None Include="resources\shaders\material3d.vert" />
+    <None Include="resources\shaders\material3dinstanced.vert" />
+    <None Include="resources\shaders\multisample_sprite.frag" />
+    <None Include="resources\shaders\sprite.frag" />
+    <None Include="resources\shaders\sprite.vert" />
+    <None Include="resources\cube.material" />
+    <None Include="resources\sprite.material" />
+    <None Include="resources\default.material" />
+    <None Include="resources\multisample_sprite.material" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\textures\800x600.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\default.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\icon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\title.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\test.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

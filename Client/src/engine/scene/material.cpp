@@ -31,7 +31,7 @@ namespace engine {
 
         link();
 
-        if (link_status() == GL_FALSE) printf("ProgramError:\n%s\n", get_log().c_str());
+        if (link_status() == false) printf("(%s) ProgramError:\n%s\n", file_name.c_str(), get_log().c_str());
 
         const auto& texture_file = data["texture"];
 

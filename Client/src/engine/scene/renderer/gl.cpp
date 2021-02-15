@@ -15,7 +15,7 @@ namespace engine {
             case GL_INVALID_FRAMEBUFFER_OPERATION: error = "INVALID_FRAMEBUFFER_OPERATION"; break;
             default:                               error = "NONE";
             }
-            printf("%s | %s (%i)", error, file, line);
+            printf("%s | %s (%i)\n", error, file, line);
         }
     }
 

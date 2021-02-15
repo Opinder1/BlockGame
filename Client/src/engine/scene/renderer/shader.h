@@ -56,6 +56,11 @@ namespace engine {
         void set(uint32 location, const T& value);
 
         template<class T>
+        void set(int32 location, const T& value) {
+            set((uint32)location, value);
+        }
+
+        template<class T>
         void set(const char* name, const T& value) {
             set(get_uniform_location(name), value);
         }

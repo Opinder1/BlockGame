@@ -6,15 +6,29 @@ uniform vec2 pos;
 uniform vec2 scale;
 uniform float rot;
 
+uniform uvec2 surface_size;
+uniform uvec2 texture_size;
+
+uniform bool center = false;
+
 in vec2 vertexpos;
 
-out vec2 texcoord;
+out vec2 texture_coord;
 
 mat2 get_rotation(float rotation) {
 	return mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation));
 }
 
 void main() {
-    gl_Position = vec4(((vertexpos - 0.5) * get_rotation(rot) * scale) + pos, 0.0, 1.0);
-	texcoord = vertexpos;
+    if (center) {
+		//Use center of screen as (0, 0). Use center of texture and rotate around center
+		vec2 pixel_coord = ((vertexpos - 0.5) * texture_size * get_rotation(-rot) * scale) + pos;
+		gl_Position = vec4((pixel_coord * 2) / surface_size, 0, 1);
+	} else {
+		//Use bottom left of screen as (0, 0). Use corner of texture and rotate around corner
+		vec2 pixel_coord = (vertexpos * texture_size * get_rotation(-rot) * scale) + pos;
+		gl_Position = vec4((pixel_coord * 2) / surface_size - 1, 0, 1);
+	}
+
+	texture_coord = vertexpos * texture_size;
 }

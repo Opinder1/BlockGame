@@ -6,8 +6,9 @@
 
 class MainMenu : public Module {
 private:
-	engine::TextureBuffer load_texture;
-	engine::Sprite title;
+	engine::TextureBuffer title;
+
+	engine::Material material;
 
 public:
 	MainMenu();

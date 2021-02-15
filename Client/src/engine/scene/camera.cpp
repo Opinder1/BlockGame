@@ -1,30 +1,29 @@
 #include "camera.h"
 
 namespace engine {
-	Camera::Camera(float fov, float width, float height) {
-		set_perspective(fov, width, height);
+	Camera3D::Camera3D(float fov, glm::vec2 size) {
+		set_perspective(fov, size);
 	}
 
-	Camera::~Camera() {
+	Camera3D::~Camera3D() {
 
 	}
 
-	void Camera::set_perspective(float fov, float width, float height) {
+	void Camera3D::set_perspective(float fov, glm::vec2 size) {
 		//projection = glm::infinitePerspective(fov, width / height, near);
-		projection = glm::perspectiveFov(glm::radians(fov), width, height, 0.1f, 1000000.0f);
+		perspective = glm::perspectiveFov(glm::radians(fov), size.x, size.y, 0.1f, 1000.0f);
 	}
 
-	glm::mat4 Camera::get_projection() {
+	glm::mat4 Camera3D::get_projection() {
 		glm::mat4 view = glm::lookAt(
 			position,
 			position + look_direction(),
 			up_direction()
 		);
-
-		return projection * view;
+		return perspective * view;
 	}
 
-	FPSCamera::FPSCamera(float fov) : Camera(fov, 1, 1), fov(fov), last_mouse_pos(0, 0) {
+	FPSCamera::FPSCamera(float fov, glm::vec2 size) : Camera3D(fov, size), fov(fov), last_mouse_pos(0, 0) {
 		engine::event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, FPSCamera::on_window_resize);
 	}
 
@@ -50,7 +49,7 @@ namespace engine {
 	}
 
 	bool FPSCamera::on_window_resize(const WindowResizeEvent* e) {
-		set_perspective(fov, float(e->size.x), float(e->size.y));
+		set_perspective(fov, glm::vec2(e->size));
 
 		return false;
 	}

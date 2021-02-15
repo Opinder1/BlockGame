@@ -120,11 +120,12 @@
     <ClCompile Include="src\engine\scene\renderer\shader.cpp" />
     <ClCompile Include="src\engine\scene\material.cpp" />
     <ClCompile Include="src\engine\scene\renderer\texture.cpp" />
-    <ClCompile Include="src\engine\scene\sprite.cpp" />
+    <ClCompile Include="src\engine\scene\surface.cpp" />
     <ClCompile Include="src\mainmenu.cpp" />
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\monitor.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
+    <ClCompile Include="src\mainmenu\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game.h" />
@@ -140,12 +141,34 @@
     <ClInclude Include="src\engine\scene\renderer\shader.h" />
     <ClInclude Include="src\engine\scene\material.h" />
     <ClInclude Include="src\engine\scene\renderer\texture.h" />
-    <ClInclude Include="src\engine\scene\sprite.h" />
+    <ClInclude Include="src\engine\scene\surface.h" />
     <ClInclude Include="src\engine\scene\transform.h" />
     <ClInclude Include="src\mainmenu.h" />
     <ClInclude Include="src\cubescene.h" />
     <ClInclude Include="src\engine\monitor.h" />
     <ClInclude Include="src\engine\window.h" />
+    <ClInclude Include="src\mainmenu\ui.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\cube.material" />
+    <None Include="resources\default.material" />
+    <None Include="resources\multisample_sprite.material" />
+    <None Include="resources\shaders\cube.frag" />
+    <None Include="resources\shaders\default.frag" />
+    <None Include="resources\shaders\default.vert" />
+    <None Include="resources\shaders\material3d.vert" />
+    <None Include="resources\shaders\material3dinstanced.vert" />
+    <None Include="resources\shaders\multisample_sprite.frag" />
+    <None Include="resources\shaders\sprite.frag" />
+    <None Include="resources\shaders\sprite.vert" />
+    <None Include="resources\sprite.material" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\textures\800x600.png" />
+    <Image Include="resources\textures\default.png" />
+    <Image Include="resources\textures\icon.png" />
+    <Image Include="resources\textures\test.png" />
+    <Image Include="resources\textures\title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

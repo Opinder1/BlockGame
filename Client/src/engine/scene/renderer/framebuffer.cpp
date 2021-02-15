@@ -3,7 +3,6 @@
 #include "opengl.h"
 
 namespace engine {
-	GLenum texture_index[] = { GL_TEXTURE0, GL_TEXTURE1, GL_TEXTURE2, GL_TEXTURE3, GL_TEXTURE4, GL_TEXTURE5, GL_TEXTURE6, GL_TEXTURE7, GL_TEXTURE8, GL_TEXTURE9, GL_TEXTURE10, GL_TEXTURE11, GL_TEXTURE12, GL_TEXTURE13, GL_TEXTURE14, GL_TEXTURE15, GL_TEXTURE16, GL_TEXTURE17, GL_TEXTURE18, GL_TEXTURE19, GL_TEXTURE20, GL_TEXTURE21, GL_TEXTURE22, GL_TEXTURE23, GL_TEXTURE24, GL_TEXTURE25, GL_TEXTURE26, GL_TEXTURE27, GL_TEXTURE28, GL_TEXTURE29, GL_TEXTURE30, GL_TEXTURE31 };
 	GLenum culltype_index[] = { 0, GL_BACK, GL_FRONT, GL_FRONT_AND_BACK };
 	GLenum polymode_index[] = { GL_POINT, GL_LINE, GL_FILL };
 
@@ -12,16 +11,16 @@ namespace engine {
 	uint32 current_renderbuffer = 0;
 	uint32 current_framebuffer = 0;
 
-	TextureBuffer::TextureBuffer(glm::uvec2 size) {
+	TextureBuffer::TextureBuffer(const glm::uvec2& size) {
 		glGenTextures(1, &buffer_id);
 
-		data(size);
+		resize(size);
 	}
 
 	TextureBuffer::TextureBuffer(const Texture& texture) {
 		glGenTextures(1, &buffer_id);
 
-		data(texture);
+		set_data(texture);
 	}
 
 	TextureBuffer::~TextureBuffer() {
@@ -39,24 +38,13 @@ namespace engine {
 		return size;
 	}
 
-	void TextureBuffer::activate_slot(uint32 slot) {
-		glActiveTexture(texture_index[slot]);
+	void TextureBuffer::use(uint32 slot) {
+		glActiveTexture(GL_TEXTURE0 + slot);
 		use();
 	}
 
-	void TextureBuffer::data(const Texture& texture) {
+	void TextureBuffer::resize(const glm::uvec2& size) {
 		use();
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-		size = texture.get_size();
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, gl_type(Type::uint8), texture.get_data());
-	}
-
-	void TextureBuffer::data(glm::uvec2 size) {
-		use();
-
 		this->size = size;
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -65,7 +53,17 @@ namespace engine {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, gl_type(Type::uint8), nullptr);
 	}
 
-	MSTextureBuffer::MSTextureBuffer(glm::uvec2 size, uint32 samples) {
+	void TextureBuffer::set_data(const Texture& texture) {
+		use();
+		size = texture.get_size();
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, gl_type(Type::uint8), texture.get_data());
+	}
+
+	MSTextureBuffer::MSTextureBuffer(const glm::uvec2& size, uint32 samples) {
 		glGenTextures(1, &buffer_id);
 
 		resize(size, samples);
@@ -90,19 +88,19 @@ namespace engine {
 		return samples;
 	}
 
-	void MSTextureBuffer::activate_slot(uint32 slot) {
-		glActiveTexture(texture_index[slot]);
+	void MSTextureBuffer::use(uint32 slot) {
+		glActiveTexture(GL_TEXTURE0 + slot);
 		use();
 	}
 
-	void MSTextureBuffer::resize(glm::uvec2 size, uint32 samples) {
+	void MSTextureBuffer::resize(const glm::uvec2& size, uint32 samples) {
 		use();
 		this->size = size;
 		this->samples = samples;
 		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGBA, size.x, size.y, GL_TRUE);
 	}
 
-	DepthBuffer::DepthBuffer(glm::uvec2 size, uint32 samples) {
+	DepthBuffer::DepthBuffer(const glm::uvec2& size, uint32 samples) {
 		glGenRenderbuffers(1, &buffer_id);
 		resize(size, samples);
 	}
@@ -118,28 +116,26 @@ namespace engine {
 		}
 	}
 
-	void DepthBuffer::resize(glm::uvec2 size, uint32 samples) {
+	void DepthBuffer::resize(const glm::uvec2& size, uint32 samples) {
 		use();
 		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, size.x, size.y);
 	}
 
-	FrameBufferBase::FrameBufferBase(glm::uvec2 size, bool is_default) : size(size), multisample(false), depthtest(false), alphatest(false), culltype(Culling::Disabled), polymode(PolyMode::Fill) {
-		if (is_default) {
-			buffer_id = 0;
-		}
-		else {
-			glGenFramebuffers(1, &buffer_id);
-		}
+	FrameBuffer::FrameBuffer(bool) : multisample(false), depthtest(false), alphatest(false), culltype(Culling::Disabled), polymode(PolyMode::Fill) {
+		buffer_id = 0;
 	}
 
-	FrameBufferBase::~FrameBufferBase() {
+	FrameBuffer::FrameBuffer() : multisample(false), depthtest(false), alphatest(false), culltype(Culling::Disabled), polymode(PolyMode::Fill) {
+		glGenFramebuffers(1, &buffer_id);
+	}
+
+	FrameBuffer::~FrameBuffer() {
 		glDeleteFramebuffers(1, &buffer_id);
 	}
 
-	void FrameBufferBase::use() {
+	void FrameBuffer::use() {
 		if (current_framebuffer != buffer_id) {
 			glBindFramebuffer(GL_FRAMEBUFFER, buffer_id);
-			glViewport(0, 0, size.x, size.y);
 
 			engine::set_multisample(multisample);
 			engine::set_depthtest(depthtest);
@@ -151,70 +147,71 @@ namespace engine {
 		}
 	}
 
-	void FrameBufferBase::use_cleared() {
+	void FrameBuffer::use_cleared() {
 		use();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
-	void FrameBufferBase::resize(glm::uvec2 size) {
-		this->size = size;
-	}
-
-	void FrameBufferBase::blit(FrameBufferBase& buffer) {
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, buffer.buffer_id);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer_id);
-		glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-	}
-
-	void FrameBufferBase::blit() {
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer_id);
-		glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-	}
-
-	void FrameBufferBase::set_multisample(bool value) {
-		multisample = value;
-		engine::set_multisample(value);
-	}
-
-	void FrameBufferBase::set_depthtest(bool value) {
-		depthtest = value;
-		engine::set_depthtest(value);
-	}
-	
-	void FrameBufferBase::set_alphatest(bool value) {
-		alphatest = value;
-		engine::set_alphatest(value);
-	}
-
-	void FrameBufferBase::set_culling(Culling value) {
-		culltype = value;
-		engine::set_culling(culltype_index[(uint32)value]);
-	}
-
-	void FrameBufferBase::set_polymode(PolyMode value) {
-		polymode = value;
-		engine::set_polymode(polymode_index[(uint32)value]);
-	}
-
-	WindowFrameBuffer::WindowFrameBuffer(glm::uvec2 size) : FrameBufferBase(size, true) {
-
-	}
-
-	FrameBuffer::FrameBuffer(TextureBuffer& buffer) : FrameBufferBase(buffer.size, false), texture(buffer) {
+	void FrameBuffer::set_attachment(TextureBuffer& texture, uint32 position) {
 		use();
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, buffer.buffer_id, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + position, GL_TEXTURE_2D, texture.buffer_id, 0);
 	}
 
-	MSFrameBuffer::MSFrameBuffer(MSTextureBuffer& buffer) : FrameBufferBase(buffer.size, false), texture(buffer), depth(buffer.size, buffer.samples) {
+	void FrameBuffer::set_attachment(MSTextureBuffer& texture, uint32 position) {
 		use();
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, buffer.buffer_id, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + position, GL_TEXTURE_2D_MULTISAMPLE, texture.buffer_id, 0);
+	}
+
+	void FrameBuffer::set_attachment(DepthBuffer& depth) {
+		use();
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth.buffer_id);
 	}
 
-	void MSFrameBuffer::resize(glm::uvec2 size, uint32 samples) {
-		FrameBufferBase::resize(size);
-		texture.resize(size, samples);
-		depth.resize(size, samples);
+	int FrameBuffer::status() {
+		use();
+
+		return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+	}
+
+	const char* get_status() {
+		const char* status;
+		switch (glCheckFramebufferStatus(GL_FRAMEBUFFER)) {
+		case GL_FRAMEBUFFER_UNDEFINED:                     status = "GL_FRAMEBUFFER_UNDEFINED"; break;
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:         status = "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT"; break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: status = "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"; break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:        status = "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER"; break;
+		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:        status = "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER"; break;
+		case GL_FRAMEBUFFER_UNSUPPORTED:                   status = "GL_FRAMEBUFFER_UNSUPPORTED"; break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:        status = "GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE"; break;
+		case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:      status = "GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS"; break;
+		default:                                           status = "NONE";
+		}
+		return status;
+	}
+
+	void FrameBuffer::blit(FrameBuffer& buffer) {
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, buffer.buffer_id);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer_id);
+		//glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+	}
+
+	void FrameBuffer::set_multisample(bool value) {
+		multisample = value;
+	}
+
+	void FrameBuffer::set_depthtest(bool value) {
+		depthtest = value;
+	}
+	
+	void FrameBuffer::set_alphatest(bool value) {
+		alphatest = value;
+	}
+
+	void FrameBuffer::set_culling(Culling value) {
+		culltype = value;
+	}
+
+	void FrameBuffer::set_polymode(PolyMode value) {
+		polymode = value;
 	}
 }

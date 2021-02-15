@@ -28,7 +28,7 @@ namespace engine {
 
 		for (uint32 i = 0; i < height; i++) {
 			glEnableVertexAttribArray(pos + i);
-			glVertexAttribPointer(pos + i, width, gl_type(type), GL_FALSE, width * height * type_size(type), (void*)uint64(i * height * type_size(type)));
+			glVertexAttribPointer(pos + i, width, gl_type(type), GL_FALSE, width * height * type_size(type), NULL);
 
 			if (divisor) {
 				glVertexAttribDivisor(pos + i, divisor);

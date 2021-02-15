@@ -15,6 +15,8 @@ private:
 
 	engine::GlobalBuffer camera_buf;
 
+	engine::Surface3D surface;
+
 	engine::Material cube_material;
 	engine::Mesh cube_poly;
 
@@ -35,4 +37,6 @@ public:
 
 private:
 	void on_key_action(const engine::KeyActionEvent* e);
+
+	void on_window_resize(const engine::WindowResizeEvent* e);
 };

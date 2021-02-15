@@ -5,15 +5,15 @@
 namespace engine {
 	struct Transform2D {
 		glm::vec2 position;
-		glm::float1 rotation;
-		glm::vec2 scale;
+		float rotation;
+		float scale;
 
 		Transform2D() : position(0), rotation(0), scale(1) {}
-		Transform2D(glm::vec2 position, glm::float1 rotation, glm::vec2 scale) : position(position), rotation(rotation), scale(scale) {}
+		Transform2D(glm::vec2 position, float rotation, float scale) : position(position), rotation(rotation), scale(scale) {}
 
 		void move(const glm::vec2& r);
-		void rotate(glm::float1 r);
-		void rescale(const glm::vec2& r);
+		void rotate(float r);
+		void rescale(float r);
 
 		glm::mat3 as_transform();
 	};

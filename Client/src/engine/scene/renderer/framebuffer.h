@@ -24,21 +24,22 @@ namespace engine {
 
 	public:
 		TextureBuffer(const TextureBuffer&) = delete;
-		TextureBuffer(glm::uvec2 size);
+		TextureBuffer(const glm::uvec2& size);
 		TextureBuffer(const Texture& texture);
 		TextureBuffer(const std::string& name) : TextureBuffer(Texture(name)) {}
 		virtual ~TextureBuffer();
 
 		const glm::uvec2 get_size();
 
-		void activate_slot(uint32 slot);
+		void use(uint32 slot);
 
-		void data(const Texture& texture);
-		void data(glm::uvec2 size);
+		void resize(const glm::uvec2& size);
+
+		void set_data(const Texture& texture);
 	};
 
 	class MSTextureBuffer {
-		friend class MSFrameBuffer;
+		friend class FrameBuffer;
 
 	private:
 		uint32 buffer_id;
@@ -50,19 +51,19 @@ namespace engine {
 
 	public:
 		MSTextureBuffer(const MSTextureBuffer&) = delete;
-		MSTextureBuffer(glm::uvec2 size, uint32 samples);
+		MSTextureBuffer(const glm::uvec2&, uint32 samples = 1);
 		~MSTextureBuffer();
 
 		const glm::uvec2 get_size();
 		const uint32 get_samples();
 
-		void activate_slot(uint32 slot);
+		void use(uint32 slot);
 
-		void resize(glm::uvec2 size, uint32 samples);
+		void resize(const glm::uvec2&, uint32 samples = 1);
 	};
 
 	class DepthBuffer {
-		friend class MSFrameBuffer;
+		friend class FrameBuffer;
 
 	private:
 		uint32 buffer_id;
@@ -71,18 +72,17 @@ namespace engine {
 
 	public:
 		DepthBuffer(const DepthBuffer&) = delete;
-		DepthBuffer(glm::uvec2 size, uint32 samples = 1);
+		DepthBuffer(const glm::uvec2&, uint32 samples = 1);
 		~DepthBuffer();
 
-		void resize(glm::uvec2 size, uint32 samples = 1);
+		void resize(const glm::uvec2&, uint32 samples = 1);
 	};
 
-	class FrameBufferBase {
+	class FrameBuffer {
+		friend class SurfaceBase;
+
 	private:
 		uint32 buffer_id;
-
-	protected:
-		glm::uvec2 size;
 
 		bool multisample;
 		bool depthtest;
@@ -90,48 +90,29 @@ namespace engine {
 		Culling culltype;
 		PolyMode polymode;
 
-		FrameBufferBase(glm::uvec2 size, bool is_default = false);
+		FrameBuffer(bool window);
 
 	public:
-		FrameBufferBase(const FrameBufferBase&) = delete;
-		~FrameBufferBase();
-
+		FrameBuffer(const FrameBuffer&) = delete;
+		FrameBuffer();
+		~FrameBuffer();
+		 
 		void use();
 		void use_cleared();
 
-		void resize(glm::uvec2 size);
+		void set_attachment(TextureBuffer& texture, uint32 position);
+		void set_attachment(MSTextureBuffer& texture, uint32 position);
+		void set_attachment(DepthBuffer& depth);
 
-		void blit(FrameBufferBase& buffer);
-		void blit();
+		int status();
+		const char* get_status();
+
+		void blit(FrameBuffer& buffer);
 
 		void set_multisample(bool value);
 		void set_depthtest(bool value);
 		void set_alphatest(bool value);
 		void set_culling(Culling value);
 		void set_polymode(PolyMode value);
-	};
-
-	class WindowFrameBuffer : public FrameBufferBase {
-	public:
-		WindowFrameBuffer(glm::uvec2 size);
-	};
-
-	class FrameBuffer : public FrameBufferBase {
-	private:
-		TextureBuffer& texture;
-
-	public:
-		FrameBuffer(TextureBuffer& buffer);
-	};
-
-	class MSFrameBuffer : public FrameBufferBase {
-	private:
-		MSTextureBuffer& texture;
-		DepthBuffer depth;
-
-	public:
-		MSFrameBuffer(MSTextureBuffer& texture);
-
-		void resize(glm::uvec2 size, uint32 samples = 1);
 	};
 }

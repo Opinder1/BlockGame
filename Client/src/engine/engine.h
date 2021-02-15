@@ -4,7 +4,7 @@
 
 #include "scene/material.h"
 #include "scene/mesh.h"
-#include "scene/sprite.h"
+#include "scene/surface.h"
 #include "scene/camera.h"
 
 #include "window.h"
@@ -18,11 +18,10 @@ namespace engine {
 		bool running;
 
 		Window window;
-		WindowFrameBuffer window_frame;
+		WindowSurface surface;
 
 	protected:
 		virtual void update() = 0;
-		virtual void resize(glm::uvec2 size) = 0;
 
 		void on_window_resize(const WindowResizeEvent* e);
 		void on_window_close(const WindowCloseEvent* e);

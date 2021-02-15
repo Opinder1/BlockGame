@@ -12,15 +12,23 @@
 namespace engine {
 	extern ocode::EventManager* event_manager;
 
-	class Camera : public Transform3D {
-	protected:
-		glm::mat4 projection;
+	class Camera2D : public Transform2D {
+	public:
+		Camera2D(float width, float height);
+		~Camera2D();
 
-		void set_perspective(float fov, float width, float height);
+		glm::mat2 get_projection();
+	};
+
+	class Camera3D : public Transform3D {
+	protected:
+		glm::mat4 perspective;
+
+		void set_perspective(float fov, glm::vec2 size);
 
 	public:
-		Camera(float fov, float width, float height);
-		~Camera();
+		Camera3D(float fov, glm::vec2 size);
+		~Camera3D();
 
 		virtual glm::vec3 look_direction() = 0;
 		virtual glm::vec3 up_direction() = 0;
@@ -29,13 +37,13 @@ namespace engine {
 		glm::mat4 get_projection();
 	};
 
-	class FPSCamera : public Camera {
+	class FPSCamera : public Camera3D {
 	private:
 		float fov;
 		glm::vec2 last_mouse_pos;
 
 	public:
-		FPSCamera(float fov);
+		FPSCamera(float fov, glm::vec2 size);
 
 		void update(glm::vec2 mouse_pos);
 
@@ -45,9 +53,5 @@ namespace engine {
 
 	private:
 		bool on_window_resize(const WindowResizeEvent* e);
-	};
-
-	class SpaceCamera : public Camera {
-	
 	};
 }

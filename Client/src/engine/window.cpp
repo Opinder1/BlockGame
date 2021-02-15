@@ -26,6 +26,9 @@ namespace engine {
             throw "Failed to initialise glfw";
         }
 
+        //Needed for borderless
+        //glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -120,9 +123,6 @@ namespace engine {
         monitor = Monitor();
 
         glfwSetWindowMonitor(window, nullptr, last_pos.x, last_pos.y, last_size.x, last_size.y, 0);
-
-        event_manager->EVENT_POST(WindowResizeEvent, last_size);
-        event_manager->EVENT_POST(WindowMoveEvent, last_pos);
     }
 
     void Window::set_windowed(glm::uvec2 size, glm::ivec2 pos) {
@@ -132,9 +132,6 @@ namespace engine {
         monitor = Monitor();
 
         glfwSetWindowMonitor(window, nullptr, pos.x, pos.y, size.x, size.y, 0);
-
-        event_manager->EVENT_POST(WindowResizeEvent, size);
-        event_manager->EVENT_POST(WindowMoveEvent, pos);
     }
 
     void Window::set_title(const std::string& name) {

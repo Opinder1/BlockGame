@@ -4,7 +4,6 @@
 
 #include <vector>
 
-#include <GL/glew.h>
 #include <GLM/glm.hpp>
 
 #include "renderer/array.h"

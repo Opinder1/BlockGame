@@ -1,6 +1,6 @@
  #include "mainmenu.h"
 
-MainMenu::MainMenu() : load_texture(engine::Texture("test.png")), title(load_texture) {
+MainMenu::MainMenu() : title(engine::Texture("pixel_test.png")), material("sprite") {
 	application->modules.push_back(new CubeScene());
 }
 
@@ -8,23 +8,19 @@ MainMenu::~MainMenu() {
 
 }
 
-float r = 0;
 void MainMenu::update() {
-	application->frame.use();
-	application->frame.set_depthtest(false);
-	application->frame.set_alphatest(true);
-	application->frame.set_culling(engine::Culling::Disabled);
+	application->surface.use();
 
-	engine::Sprite::set_material(engine::Sprite::default_material);
+	material.use();
+	material.set("surface_size", application->surface.get_size());
 
-	r += 0.01;
+	title.use(0);
+	material.set("texture_size", title.get_size());
 
-	title.set_scale({ 0.2, 0.2 });
-	title.set_rotation(r);
+	material.set<glm::vec2>("scale", { 1, 1 });
 
-	title.draw({ 0, -0.8 });
-
-	title.draw({ 0.2, -0.8 });
-	title.draw({ 0.4, -0.8 });
-	title.draw({ 0.6, -0.8 });
+	for (int i = 0; i < 3; i++) {
+		material.set<glm::vec2>("pos", { title.get_size() * i });
+		engine::QuadRenderer::draw();
+	}
 }
