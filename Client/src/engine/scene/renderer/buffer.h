@@ -118,7 +118,7 @@ namespace engine {
 	// Global buffer object wrapper for creating global uniform groups for all shaders
 	class GlobalBuffer : public Buffer {
 	public:
-		GlobalBuffer(uint32 slot);
+		GlobalBuffer();
 
 		void activate_slot(uint32 slot);
 		void set_range(uint32 slot, uint64 pos, uint64 size);

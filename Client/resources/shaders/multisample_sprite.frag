@@ -9,7 +9,7 @@ in vec2 texture_coord;
 
 out vec4 frag_color;
 
-void main() {   
+void main() {
     vec4 color = vec4(0);
 
     for (int i = 0; i < texture_samples; i++) {

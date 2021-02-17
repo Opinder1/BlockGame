@@ -108,7 +108,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\game\game.cpp" />
+    <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine\scene\renderer\array.cpp" />
     <ClCompile Include="src\engine\scene\renderer\buffer.cpp" />
     <ClCompile Include="src\engine\scene\renderer\framebuffer.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="src\engine\scene\material.cpp" />
     <ClCompile Include="src\engine\scene\renderer\texture.cpp" />
     <ClCompile Include="src\engine\scene\surface.cpp" />
+    <ClCompile Include="src\game\tilemap_renderer.cpp" />
     <ClCompile Include="src\mainmenu.cpp" />
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\monitor.cpp" />
@@ -128,7 +130,8 @@
     <ClCompile Include="src\mainmenu\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game\game.h" />
+    <ClInclude Include="src\application.h" />
     <ClInclude Include="src\engine\scene\renderer\array.h" />
     <ClInclude Include="src\engine\scene\renderer\framebuffer.h" />
     <ClInclude Include="src\engine\scene\renderer\gl.h" />
@@ -143,6 +146,7 @@
     <ClInclude Include="src\engine\scene\renderer\texture.h" />
     <ClInclude Include="src\engine\scene\surface.h" />
     <ClInclude Include="src\engine\scene\transform.h" />
+    <ClInclude Include="src\game\tilemap_renderer.h" />
     <ClInclude Include="src\mainmenu.h" />
     <ClInclude Include="src\cubescene.h" />
     <ClInclude Include="src\engine\monitor.h" />
@@ -161,7 +165,11 @@
     <None Include="resources\shaders\multisample_sprite.frag" />
     <None Include="resources\shaders\sprite.frag" />
     <None Include="resources\shaders\sprite.vert" />
+    <None Include="resources\shaders\tilemap.vert" />
     <None Include="resources\sprite.material" />
+    <None Include="resources\shaders\tilemap2.frag" />
+    <None Include="resources\shaders\tilemap.frag" />
+    <None Include="resources\tilemap.material" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\800x600.png" />

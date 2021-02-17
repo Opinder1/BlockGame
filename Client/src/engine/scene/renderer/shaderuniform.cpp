@@ -3,6 +3,10 @@
 #include "opengl.h"
 
 namespace engine {
+    template<> void ShaderProgram::set(uint32 location, const bool& value) {
+        glProgramUniform1i(program_id, location, value);
+    }
+
     template<> void ShaderProgram::set(uint32 location, const float& value) {
         glProgramUniform1f(program_id, location, value);
     }

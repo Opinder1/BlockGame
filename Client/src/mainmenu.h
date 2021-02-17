@@ -1,8 +1,9 @@
 #pragma once
 
-#include "game.h"
+#include "application.h"
 
 #include "cubescene.h"
+#include "game/game.h"
 
 class MainMenu : public Module {
 private:

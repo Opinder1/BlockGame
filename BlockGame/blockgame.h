@@ -2,8 +2,6 @@
 
 #include <ocode.h>
 
-#include "src/events.h"
-#include "src/session.h"
-
-#include "src/network/network.h"
+#include "src/client.h"
 #include "src/scene/scene.h"
+#include "src/network/network.h"

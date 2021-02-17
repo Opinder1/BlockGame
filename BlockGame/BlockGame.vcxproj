@@ -154,9 +154,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockgame.h" />
+    <ClInclude Include="src\client.h" />
     <ClInclude Include="src\network\network.h" />
     <ClInclude Include="src\network\packet.h" />
     <ClInclude Include="src\scene\entity.h" />
+    <ClInclude Include="src\scene\player.h" />
     <ClInclude Include="src\scene\scene.h" />
     <ClInclude Include="src\scene\tilemap\block.h" />
     <ClInclude Include="src\scene\tilemap\chunk.h" />

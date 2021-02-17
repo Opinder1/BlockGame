@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "game.h"
+#include "application.h"
 
 template<class T>
 T map(T n, T a1, T b1, T a2, T b2) {
@@ -12,8 +12,7 @@ T map(T n, T a1, T b1, T a2, T b2) {
 class CubeScene : public Module {
 private:
 	engine::FPSCamera camera;
-
-	engine::GlobalBuffer camera_buf;
+	engine::GlobalBuffer camera_buffer;
 
 	engine::Surface3D surface;
 

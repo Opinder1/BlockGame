@@ -94,21 +94,15 @@ NetServer::~NetServer() {
     enet_host_destroy(host);
 }
 
-bool NetServer::on_packet_send(const PacketSendEvent* e) {
+void NetServer::on_packet_send(const PacketSendEvent* e) {
     enet_peer_send(e->peer, 0, e->packet);
-
-    return true;
 }
 
 
-bool NetServer::on_packet_broadcast(const PacketBroadcastEvent* e) {
+void NetServer::on_packet_broadcast(const PacketBroadcastEvent* e) {
     enet_host_broadcast(host, 0, e->packet);
-
-    return true;
 }
 
-bool NetClient::on_packet_send(const PacketSendEvent* e) {
+void NetClient::on_packet_send(const PacketSendEvent* e) {
     enet_peer_send(server, 0, e->packet);
-
-    return true;
 }

@@ -51,7 +51,7 @@ public:
 
     bool connect(uint16 timeout);
 
-    bool on_packet_send(const PacketSendEvent* e);
+    void on_packet_send(const PacketSendEvent* e);
 };
 
 class NetServer : public Host {
@@ -62,8 +62,8 @@ public:
     NetServer(ocode::EventManager* manager, uint16 port, uint8 max_connections);
     virtual ~NetServer();
 
-    bool on_packet_send(const PacketSendEvent* e);
-    bool on_packet_broadcast(const PacketBroadcastEvent* e);
+    void on_packet_send(const PacketSendEvent* e);
+    void on_packet_broadcast(const PacketBroadcastEvent* e);
 };
 
 struct PeerConnectEvent : ocode::Event {

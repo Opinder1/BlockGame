@@ -1,9 +1,9 @@
 #include "cubescene.h"
 
-CubeScene::CubeScene() : camera(70.0f, application->window.get_size()), surface(application->window.get_size(), 32), cube_material("cube"), cube_poly(), camera_buf(0) {
+CubeScene::CubeScene() : camera(70.0f, application->window.get_size()), surface(application->window.get_size(), 32), cube_material("cube"), cube_poly() {
     application->window.set_mouse_type(GLFW_CURSOR_DISABLED);
 
-    camera_buf.set_data<glm::mat4>(1, nullptr, engine::BufferType::Static);
+    camera_buffer.set_data<glm::mat4>(1, nullptr, engine::BufferType::Static);
 
     engine::event_manager->EVENT_SUBSCRIBE(engine::KeyActionEvent, CubeScene::on_key_action);
     engine::event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, CubeScene::on_window_resize);
@@ -74,7 +74,13 @@ void CubeScene::update() {
     camera.update(application->window.get_mouse_pos());
 
     glm::mat4 p = camera.get_projection();
-    camera_buf.modify_data(0, 1, &p);
+    camera_buffer.modify_data(0, 1, &p);
+    camera_buffer.activate_slot(0);
+
+    engine::set_multisample(true);
+    engine::set_alphatest(true);
+    engine::set_depthtest(true);
+    engine::set_culling(engine::Culling::Back);
 
     surface.clear();
 

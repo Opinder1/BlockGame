@@ -4,14 +4,6 @@
 #include "texture.h"
 
 namespace engine {
-	enum class Culling : uint32 {
-		Disabled, Back, Front, Both
-	};
-
-	enum class PolyMode : uint32 {
-		Point, Line, Fill
-	};
-
 	class TextureBuffer {
 		friend class FrameBuffer;
 
@@ -84,12 +76,6 @@ namespace engine {
 	private:
 		uint32 buffer_id;
 
-		bool multisample;
-		bool depthtest;
-		bool alphatest;
-		Culling culltype;
-		PolyMode polymode;
-
 		FrameBuffer(bool window);
 
 	public:
@@ -108,11 +94,5 @@ namespace engine {
 		const char* get_status();
 
 		void blit(FrameBuffer& buffer);
-
-		void set_multisample(bool value);
-		void set_depthtest(bool value);
-		void set_alphatest(bool value);
-		void set_culling(Culling value);
-		void set_polymode(PolyMode value);
 	};
 }

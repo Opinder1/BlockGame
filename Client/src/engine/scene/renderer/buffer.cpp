@@ -46,8 +46,7 @@ namespace engine {
 
 	}
 
-	GlobalBuffer::GlobalBuffer(uint32 slot) : Buffer(GL_UNIFORM_BUFFER) {
-		glBindBufferBase(GL_UNIFORM_BUFFER, slot, get_id());
+	GlobalBuffer::GlobalBuffer() : Buffer(GL_UNIFORM_BUFFER) {
 	}
  
 	void GlobalBuffer::activate_slot(uint32 slot) {

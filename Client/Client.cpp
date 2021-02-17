@@ -1,10 +1,10 @@
-#include "src/game.h"
+#include "src/application.h"
 
 #include "src/mainmenu.h"
 
 int main(int argc, char** argv) {
 	try {
-		application = new Game();
+		application = new Application();
 
 		application->modules.push_back(new MainMenu());
 

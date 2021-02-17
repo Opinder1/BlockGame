@@ -11,9 +11,6 @@ class Client;
 #include "server.h"
 
 class Client {
-public:
-	static bool is_valid_session(Session session, const std::wstring& username);
-
 private:
 	Server* server;
 
@@ -27,7 +24,7 @@ private:
 
 public:
 	Client(const Client&) = delete;
-	Client(Server& server, ENetPeer* peer, Session session, const std::wstring& username);
+	Client(Server* server, ENetPeer* peer, Session session, const std::wstring& username);
 	~Client();
 
 	const Session& get_session();

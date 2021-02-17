@@ -11,7 +11,7 @@ namespace engine {
 
 	void Camera3D::set_perspective(float fov, glm::vec2 size) {
 		//projection = glm::infinitePerspective(fov, width / height, near);
-		perspective = glm::perspectiveFov(glm::radians(fov), size.x, size.y, 0.1f, 1000.0f);
+		perspective = glm::perspectiveFov(glm::radians(fov), size.x, size.y, 0.1f, 100000.0f);
 	}
 
 	glm::mat4 Camera3D::get_projection() {

@@ -1,6 +1,6 @@
 #include "scene.h"
 
-ServerScene::ServerScene(Server* server) : server(server) {
+ServerScene::ServerScene(Server* server) : server(server), scene(server) {
 	EVENT_SUBSCRIBE(PacketSendEvent, on_packet_send);
 }
 

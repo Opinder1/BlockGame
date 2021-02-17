@@ -15,7 +15,7 @@ private:
 
 	std::vector<std::shared_ptr<Client>> players;
 
-	//Scene scene;
+	Scene scene;
 
 public:
 	ServerScene(Server* server);

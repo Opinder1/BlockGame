@@ -3,9 +3,6 @@
 #include "opengl.h"
 
 namespace engine {
-	GLenum culltype_index[] = { 0, GL_BACK, GL_FRONT, GL_FRONT_AND_BACK };
-	GLenum polymode_index[] = { GL_POINT, GL_LINE, GL_FILL };
-
 	uint32 current_texture = 0;
 	uint32 current_multisample_texture = 0;
 	uint32 current_renderbuffer = 0;
@@ -59,6 +56,9 @@ namespace engine {
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, gl_type(Type::uint8), texture.get_data());
 	}
@@ -121,11 +121,11 @@ namespace engine {
 		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, size.x, size.y);
 	}
 
-	FrameBuffer::FrameBuffer(bool) : multisample(false), depthtest(false), alphatest(false), culltype(Culling::Disabled), polymode(PolyMode::Fill) {
+	FrameBuffer::FrameBuffer(bool) {
 		buffer_id = 0;
 	}
 
-	FrameBuffer::FrameBuffer() : multisample(false), depthtest(false), alphatest(false), culltype(Culling::Disabled), polymode(PolyMode::Fill) {
+	FrameBuffer::FrameBuffer() {
 		glGenFramebuffers(1, &buffer_id);
 	}
 
@@ -136,12 +136,6 @@ namespace engine {
 	void FrameBuffer::use() {
 		if (current_framebuffer != buffer_id) {
 			glBindFramebuffer(GL_FRAMEBUFFER, buffer_id);
-
-			engine::set_multisample(multisample);
-			engine::set_depthtest(depthtest);
-			engine::set_alphatest(alphatest);
-			engine::set_culling(culltype_index[(uint32)culltype]);
-			engine::set_polymode(polymode_index[(uint32)polymode]);
 
 			current_framebuffer = buffer_id;
 		}
@@ -193,25 +187,5 @@ namespace engine {
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, buffer.buffer_id);
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer_id);
 		//glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-	}
-
-	void FrameBuffer::set_multisample(bool value) {
-		multisample = value;
-	}
-
-	void FrameBuffer::set_depthtest(bool value) {
-		depthtest = value;
-	}
-	
-	void FrameBuffer::set_alphatest(bool value) {
-		alphatest = value;
-	}
-
-	void FrameBuffer::set_culling(Culling value) {
-		culltype = value;
-	}
-
-	void FrameBuffer::set_polymode(PolyMode value) {
-		polymode = value;
 	}
 }

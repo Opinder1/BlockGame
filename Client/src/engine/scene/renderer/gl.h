@@ -17,6 +17,14 @@ namespace engine {
 		float64
 	};
 
+	enum class Culling : uint32 {
+		Disabled, Back, Front, Both
+	};
+
+	enum class PolyMode : uint32 {
+		Point, Line, Fill
+	};
+
     bool renderer_init();
 
 	const char* get_renderer_version();
@@ -24,4 +32,16 @@ namespace engine {
 	const char* get_adapter_vendor();
 
 	const char* get_video_adapter();
+
+	void set_multisample(bool enabled);
+
+	void set_depthtest(bool enabled);
+
+	void set_alphatest(bool enabled);
+
+	void set_culling(Culling cull_type);
+
+	void set_polymode(PolyMode poly_mode);
+
+	void set_viewport(glm::ivec2 pos, glm::uvec2 size);
 }

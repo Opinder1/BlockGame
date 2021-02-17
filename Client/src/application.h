@@ -1,7 +1,5 @@
 #pragma once
 
-#include <blockgame.h>
-
 #include "engine/engine.h"
 
 class Module {
@@ -9,7 +7,7 @@ public:
 	virtual void update() = 0;
 };
 
-class Game : public engine::Application {
+class Application : public engine::Application {
 public:
 	ocode::LogFile log;
 	ocode::Config config;
@@ -20,8 +18,8 @@ private:
 	void update();
 
 public:
-	Game();
-	~Game();
+	Application();
+	~Application();
 };
 
-extern Game* application;
+extern Application* application;

@@ -1,7 +1,7 @@
 #include "opengl.h"
 
 namespace engine {
-    void _glCheckError(const char* file, int line) {
+    void glCheckError(const char* file, int line) {
         GLenum errorCode;
         while ((errorCode = glGetError()) != GL_NO_ERROR) {
             const char* error;
@@ -69,6 +69,12 @@ namespace engine {
 
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+        set_multisample(false);
+        set_depthtest(false);
+        set_alphatest(false);
+        set_culling(Culling::Disabled);
+        set_polymode(PolyMode::Fill);
+
         return true;
     }
 
@@ -112,7 +118,16 @@ namespace engine {
         }
     }
 
-    void set_culling(GLenum type) {
+    void set_culling(Culling cull_type) {
+        GLenum type = GL_FALSE;
+
+        switch (cull_type) {
+        case Culling::Disabled: type = GL_FALSE; break;
+        case Culling::Back:     type = GL_BACK; break;
+        case Culling::Front:    type = GL_FRONT; break;
+        case Culling::Both:     type = GL_FRONT_AND_BACK; break;
+        }
+
         if (type != 0) {
             glEnable(GL_CULL_FACE);
             glCullFace(type);
@@ -122,7 +137,19 @@ namespace engine {
         }
     }
 
-    void set_polymode(GLenum type) {
+    void set_polymode(PolyMode poly_mode) {
+        GLenum type = GL_FALSE;
+
+        switch (poly_mode) {
+        case PolyMode::Fill:  type = GL_FILL; break;
+        case PolyMode::Line:  type = GL_LINE; break;
+        case PolyMode::Point: type = GL_POINT; break;
+        }
+
         glPolygonMode(GL_FRONT_AND_BACK, type);
+    }
+
+    void set_viewport(glm::ivec2 pos, glm::uvec2 size) {
+        glViewport(pos.x, pos.y, size.x, size.y);
     }
 }

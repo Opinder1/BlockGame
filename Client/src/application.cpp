@@ -1,8 +1,8 @@
-#include "game.h"
+#include "application.h"
 
-Game* application = NULL;
+Application* application = NULL;
 
-Game::Game() : Application("Game", { 800, 500 }), log("client"), config("client") {
+Application::Application() : engine::Application("Game", { 800, 500 }), log("client"), config("client") {
 	if (!log.initialized()) {
 		throw "Log could not be initialized";
 	}
@@ -16,7 +16,7 @@ Game::Game() : Application("Game", { 800, 500 }), log("client"), config("client"
 	window.set_title(std::string("Game [") + engine::get_renderer_version() + "] [" + engine::get_adapter_vendor() + " " + engine::get_video_adapter() + "]");
 }
 
-Game::~Game() {
+Application::~Application() {
 	config.save();
 
 	for (auto* module : modules) {
@@ -24,7 +24,7 @@ Game::~Game() {
 	}
 }
 
-void Game::update() {
+void Application::update() {
 	for (auto* module : modules) {
 		module->update();
 	}

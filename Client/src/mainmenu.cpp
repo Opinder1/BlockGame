@@ -1,7 +1,8 @@
  #include "mainmenu.h"
 
 MainMenu::MainMenu() : title(engine::Texture("pixel_test.png")), material("sprite") {
-	application->modules.push_back(new CubeScene());
+	//application->modules.push_back(new CubeScene());
+	application->modules.push_back(new Game());
 }
 
 MainMenu::~MainMenu() {
@@ -9,6 +10,11 @@ MainMenu::~MainMenu() {
 }
 
 void MainMenu::update() {
+	engine::set_multisample(false);
+	engine::set_alphatest(true);
+	engine::set_depthtest(false);
+	engine::set_culling(engine::Culling::Disabled);
+
 	application->surface.use();
 
 	material.use();

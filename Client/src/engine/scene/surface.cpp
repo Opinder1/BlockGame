@@ -1,7 +1,5 @@
 #include "surface.h"
 
-#include "renderer/opengl.h"
-
 namespace engine {
 	std::vector<glm::u8vec2> quad_vertexes = {
 		{0, 0},
@@ -51,7 +49,7 @@ namespace engine {
 
 	void SurfaceBase::use() {
 		frame.use();
-		glViewport(0, 0, size.x, size.y);
+		set_viewport({ 0, 0 }, size);
 	}
 
 	const glm::uvec2 SurfaceBase::get_size() {
@@ -91,11 +89,6 @@ namespace engine {
 	
 	Surface::Surface(const glm::uvec2& size) : texture(size) {
 		frame.set_attachment(texture, 0); 
-
-		frame.set_alphatest(true);
-		frame.set_depthtest(false);
-		frame.set_culling(Culling::Disabled);
-		frame.set_multisample(false);
 	}
 
 	void Surface::resize(const glm::uvec2& size) {
@@ -106,23 +99,11 @@ namespace engine {
 	Surface3D::Surface3D(const glm::uvec2& size, uint32 samples) : texture(size, samples), depth(size, samples) {
 		frame.set_attachment(texture, 0);
 		frame.set_attachment(depth);
-
-		frame.set_alphatest(true);
-		frame.set_depthtest(true);
-		frame.set_culling(Culling::Back);
-		frame.set_multisample(true);
 	}
 
 	void Surface3D::resize(const glm::uvec2& size, uint32 samples) {
 		SurfaceBase::resize(size);
 		texture.resize(size, samples);
 		depth.resize(size, samples);
-	}
-
-	WindowSurface::WindowSurface(const glm::uvec2 size) : SurfaceBase(size) {
-		frame.set_alphatest(true);
-		frame.set_depthtest(false);
-		frame.set_culling(Culling::Disabled);
-		frame.set_multisample(false);
 	}
 }
