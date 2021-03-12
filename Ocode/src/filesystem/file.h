@@ -72,6 +72,7 @@ namespace ocode {
         Virtual_File load_partial_compressed(const std::string& partial_name, uint32 begin, uint32 compressed_size, uint32 size);
     };
 
+    // Should return File object (would be auto closed if not used)
     int create_file(const std::string& file_name);
 
     int delete_file(const std::string& file_name);

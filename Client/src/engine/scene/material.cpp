@@ -23,20 +23,22 @@ namespace engine {
 
         const auto& vertex_file = data["vertex"];
         const auto& fragment_file = data["fragment"];
-        const auto& geometry_file = data["geometry"];
 
         if (vertex_file.IsString()) attach(Shader(ShaderType::VERTEX, vertex_file.GetString()));
         if (fragment_file.IsString()) attach(Shader(ShaderType::FRAGMENT, fragment_file.GetString()));
-        if (geometry_file.IsString()) attach(Shader(ShaderType::GEOMETRY, geometry_file.GetString()));
+
+        if (data.HasMember("geometry")) {
+            const auto& geometry_file = data["geometry"];
+            if (geometry_file.IsString()) attach(Shader(ShaderType::GEOMETRY, geometry_file.GetString()));
+        }
 
         link();
 
         if (link_status() == false) printf("(%s) ProgramError:\n%s\n", file_name.c_str(), get_log().c_str());
 
-        const auto& texture_file = data["texture"];
-
-        if (texture_file.IsString()) {
-            texture = new Texture(texture_file.GetString());
+        if (data.HasMember("texture")) {
+            const auto& texture_file = data["texture"];
+            if (texture_file.IsString()) texture = new Texture(texture_file.GetString());
         }
     }
 
