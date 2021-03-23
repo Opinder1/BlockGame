@@ -4,9 +4,8 @@
 
 #include <string>
 #include <fstream>
-#include <cstdio>
 
-#include <yaml-cpp/yaml.h>
+#define RAPIDJSON_HAS_STDSTRING 1
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
@@ -14,12 +13,14 @@
 #include <rapidjson/writer.h>
 #include <rapidjson/error/en.h>
 
+namespace json = rapidjson;
+
 namespace ocode {
 	class Config {
 	private:
 		std::string file_name;
 
-		YAML::Node node;
+		json::Document tree;
 
 	public:
 		Config(const std::string& name);
@@ -27,53 +28,31 @@ namespace ocode {
 
 		void save();
 
-		bool initialized();
-
 		template<class Type>
-		Type get_value(std::string name, Type default_value) {
-			YAML::Node value = node[name];
+		Type get_value(const std::string& name, Type default_value) {
+			json::Value key(name.c_str(), tree.GetAllocator());
 
-			if (value.Type() == YAML::NodeType::Undefined) {
-				node[name] = default_value;
-				return default_value;
+			if (!tree.HasMember(key)) {
+				tree.AddMember(key, default_value, tree.GetAllocator());
 			}
-			else {
-				return node[name].as<Type>();
-			}
+
+			return tree[name].Get<Type>();
 		}
 
 		template<class Type>
-		void set_value(std::string name, Type&& value) {
-			node[name] = value;
+		void set_value(const std::string& name, Type&& value) {
+			json::Value key(name.c_str(), tree.GetAllocator());
+			tree.AddMember(key, value, tree.GetAllocator());
 		}
 	};
 
-	inline void load_data_file(std::string file_name, rapidjson::Document& data) {
-		if (!ocode::file_exists(file_name)) {
-			ocode::create_file(file_name);
-		}
+	class JSON {
 
-		FILE* file;
-		fopen_s(&file, file_name.c_str(), "rb");
+	};
 
-		char buffer[4096];
-		rapidjson::FileReadStream stream(file, buffer, sizeof(buffer));
+	void load_data_file(std::string file_name, json::Document& data);
 
-		data.ParseStream(stream);
-	}
+	void save_data_file(std::string file_name, const json::Document& data);
 
-	inline void save_data_file(std::string file_name, const rapidjson::Document& data) {
-		FILE* file;
-		fopen_s(&file, file_name.c_str(), "wb");
-
-		char buffer[4096];
-		rapidjson::FileWriteStream stream(file, buffer, sizeof(buffer));
-
-		rapidjson::Writer writer(stream);
-		data.Accept(writer);
-	}
-
-	inline void data_file_error(const rapidjson::Document& data) {
-		printf("Error at position %llu: %s\n", data.GetErrorOffset(), rapidjson::GetParseError_En(data.GetParseError()));
-	}
+	void data_file_error(const json::Document& data);
 }

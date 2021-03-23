@@ -1,12 +1,19 @@
  #include "mainmenu.h"
 
-MainMenu::MainMenu() : title(engine::Texture("pixel_test.png")), material("sprite") {
+MainMenu::MainMenu() :
+	material("sprite"),
+	texture(engine::Texture("pixel_test.png"))
+{
 	//application->modules.push_back(new CubeScene());
 	application->modules.push_back(new Game());
+
+	for (int i = 0; i < 3; i++) {
+		auto box = std::make_unique<ui::Element>(material, texture, glm::vec2(i * 100, i * 100));
+		boxes.push_back(box);
+	}
 }
 
 MainMenu::~MainMenu() {
-
 }
 
 void MainMenu::update() {
@@ -20,13 +27,7 @@ void MainMenu::update() {
 	material.use();
 	material.set("surface_size", application->surface.get_size());
 
-	title.use(0);
-	material.set("texture_size", title.get_size());
-
-	material.set<glm::vec2>("scale", { 1, 1 });
-
-	for (int i = 0; i < 3; i++) {
-		material.set<glm::vec2>("pos", { title.get_size() * i });
-		engine::QuadRenderer::draw();
+	for (auto& box : boxes) {
+		box->draw();
 	}
 }

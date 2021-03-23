@@ -3,6 +3,15 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
+class Flip {
+public:
+	Flip() {
+		stbi_set_flip_vertically_on_load(true);
+	}
+};
+
+Flip startup;
+
 namespace engine {
 	Texture::Texture(glm::uvec2 size) : size(size) {
 		data = new Pixel[size.x, size.y];

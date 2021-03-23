@@ -78,7 +78,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;enet.lib;yaml-cpp.lib;ws2_32.lib;winmm.lib;glew32s.lib;glfw3.lib;OpenGL32.lib;msvcrt.lib;msvcmrt.lib;ocode.lib;blockgame.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32s.lib;glfw3.lib;OpenGL32.lib;msvcrt.lib;msvcmrt.lib;ocode.lib;blockgame.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -96,7 +96,8 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\BlockGame\;$(SolutionDir)\Ocode\;$(SolutionDir)\Network\;$(SolutionDir)\include</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,7 +105,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;enet.lib;yaml-cppd.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;msvcrt.lib;msvcmrt.lib;blockgame.lib;ucrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;msvcrt.lib;msvcmrt.lib;blockgame.lib;ucrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

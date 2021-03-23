@@ -5,11 +5,14 @@
 #include "cubescene.h"
 #include "game/game.h"
 
+#include "mainmenu/ui.h"
+
 class MainMenu : public Module {
 private:
-	engine::TextureBuffer title;
-
 	engine::Material material;
+	engine::TextureBuffer texture;
+
+	std::vector<std::unique_ptr<ui::Element>> boxes;
 
 public:
 	MainMenu();

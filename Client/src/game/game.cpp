@@ -1,6 +1,12 @@
 #include "game.h"
 
-Game::Game() : camera(90.0f, application->window.get_size()), surface(application->window.get_size(), 4), scene(engine::event_manager) {
+Game::Game() : 
+    camera(90.0f, application->window.get_size()),
+    surface(application->window.get_size(), 4),
+    scene(engine::event_manager),
+    color(engine::Texture("world.png")),
+    height(engine::Texture("world_heightmap.png"))
+{
     tilemap::init();
 
     camera.position = { 0, 30, 0 };
@@ -18,9 +24,9 @@ Game::~Game() {
 }
 
 void Game::controls() {
-    float speed = 0.2;
+    float speed = 0.2f;
     if (application->window.get_key(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-        speed *= 20;
+        speed *= 20.0f;
     }
 
     if (application->window.get_key(GLFW_KEY_W) == GLFW_PRESS) {
@@ -70,6 +76,9 @@ void Game::render() {
     //engine::set_culling(engine::Culling::Back);
 
     surface.clear();
+
+    color.use(0);
+    height.use(1);
 
     tilemap::draw(glm::vec3(0, 0, 0), glm::vec3(10000, 256, 10000));
 

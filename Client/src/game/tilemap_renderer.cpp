@@ -21,9 +21,6 @@ namespace tilemap {
 
 	engine::Material* material;
 
-	engine::TextureBuffer* texture;
-	engine::TextureBuffer* texture2;
-
 	void init() {
 		vertex_buffer = new engine::ArrayBuffer();
 		array = new engine::Array();
@@ -35,17 +32,12 @@ namespace tilemap {
 
 		material->set("texture_data", 0);
 		material->set("heightmap_data", 1);
-
-		texture = new engine::TextureBuffer(engine::Texture("world.png"));
-		texture2 = new engine::TextureBuffer(engine::Texture("world_heightmap.png"));
 	}
 
 	void deinit() {
 		delete array;
 		delete vertex_buffer;
 		delete material;
-		delete texture;
-		delete texture2;
 	}
 
 	void set_camera_rot(const glm::vec3& rot) {
@@ -72,9 +64,6 @@ namespace tilemap {
 
 		material->set("cuboid_pos", glm::vec3(pos));
 		material->set("cuboid_size", glm::vec3(size));
-
-		texture->use(0);
-		texture2->use(1);
 
 		array->draw(engine::DrawType::Default, (uint32)vertexes.size());
 	}

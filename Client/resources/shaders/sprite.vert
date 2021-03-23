@@ -2,9 +2,9 @@
 
 precision highp float;
 
-uniform vec2 pos;
-uniform vec2 scale;
-uniform float rot;
+uniform vec2 pos = vec2(0, 0);
+uniform vec2 scale = vec2(1, 1);
+uniform float rot = 0;
 
 uniform uvec2 surface_size;
 uniform uvec2 texture_size;

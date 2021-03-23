@@ -8,8 +8,7 @@ namespace engine {
 		float rotation;
 		float scale;
 
-		Transform2D() : position(0), rotation(0), scale(1) {}
-		Transform2D(glm::vec2 position, float rotation, float scale) : position(position), rotation(rotation), scale(scale) {}
+		Transform2D(glm::vec2 position = glm::vec2(0), float rotation = 0, float scale = 1) : position(position), rotation(rotation), scale(scale) {}
 
 		void move(const glm::vec2& r);
 		void rotate(float r);
@@ -23,8 +22,7 @@ namespace engine {
 		glm::vec3 rotation;
 		glm::vec3 scale;
 
-		Transform3D() : position(0), rotation(0), scale(1) {}
-		Transform3D(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) : position(position), rotation(rotation), scale(scale) {}
+		Transform3D(glm::vec3 position = glm::vec3(0), glm::vec3 rotation = glm::vec3(0), glm::vec3 scale = glm::vec3(1)) : position(position), rotation(rotation), scale(scale) {}
 
 		void move(const glm::vec3& r);
 		void rotate(const glm::vec3& r);

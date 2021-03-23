@@ -16,6 +16,9 @@ private:
 	Scene scene;
 	Client client;
 
+	engine::TextureBuffer color;
+	engine::TextureBuffer height;
+
 	bool mouse_toggle = false;
 
 public:

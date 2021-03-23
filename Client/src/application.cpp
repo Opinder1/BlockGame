@@ -7,18 +7,12 @@ Application::Application() : engine::Application("Game", { 800, 500 }), log("cli
 		throw "Log could not be initialized";
 	}
 
-	if (!config.initialized()) {
-		throw "Config could not be loaded";
-	}
-
-	config.save();
+	config.get_value("version", 1.0);
 
 	window.set_title(std::string("Game [") + engine::get_renderer_version() + "] [" + engine::get_adapter_vendor() + " " + engine::get_video_adapter() + "]");
 }
 
 Application::~Application() {
-	config.save();
-
 	for (auto* module : modules) {
 		delete module;
 	}

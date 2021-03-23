@@ -30,9 +30,9 @@ CubeScene::~CubeScene() {
 } 
 
 void CubeScene::update() {
-    float speed = 0.2;
+    float speed = 0.2f;
     if (application->window.get_key(GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-        speed *= 5;
+        speed *= 5.0f;
     }
 
     if (application->window.get_key(GLFW_KEY_W) == GLFW_PRESS) {
@@ -64,11 +64,11 @@ void CubeScene::update() {
     }
 
     if (application->window.get_key(GLFW_KEY_Q) == GLFW_PRESS) {
-        camera.rotation.z += 0.1;
+        camera.rotation.z += 0.1f;
     }
 
     if (application->window.get_key(GLFW_KEY_E) == GLFW_PRESS) {
-        camera.rotation.z -= 0.1;
+        camera.rotation.z -= 0.1f;
     }
 
     camera.update(application->window.get_mouse_pos());

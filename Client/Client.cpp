@@ -3,7 +3,7 @@
 #include "src/mainmenu.h"
 
 int main(int argc, char** argv) {
-	try {
+	//try {
 		application = new Application();
 
 		application->modules.push_back(new MainMenu());
@@ -11,8 +11,8 @@ int main(int argc, char** argv) {
 		application->run();
 
 		delete application;
-	}
-	catch (const char* error) {
-		printf("ERROR: %s\n", error);
-	}
+	//}
+	//catch (const char* error) {
+	//	printf("ERROR: %s\n", error);
+	//}
 }
