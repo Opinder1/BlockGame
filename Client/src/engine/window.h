@@ -42,7 +42,7 @@ namespace engine {
 		void set_mouse_type(int type);
 
 		glm::ivec2 get_size();
-		glm::vec2 get_mouse_pos();
+		glm::ivec2 get_mouse_pos();
 		int get_key(int key);
 
 		void on_monitor_disconnect(const MonitorDisconnectEvent* e);
@@ -74,5 +74,12 @@ namespace engine {
 		int key, scancode, action, mods;
 
 		KeyActionEvent(int key, int scancode, int action, int mods) : key(key), scancode(scancode), action(action), mods(mods) {}
+	};
+
+	struct MouseClickEvent : ocode::Event {
+		int button, action;
+		glm::ivec2 pos;
+
+		MouseClickEvent(int button, int action, glm::ivec2 pos) : button(button), action(action), pos(pos) {}
 	};
 }

@@ -5,8 +5,8 @@ CubeScene::CubeScene() : camera(70.0f, application->window.get_size()), surface(
 
     camera_buffer.set_data<glm::mat4>(1, nullptr, engine::BufferType::Static);
 
-    engine::event_manager->EVENT_SUBSCRIBE(engine::KeyActionEvent, CubeScene::on_key_action);
-    engine::event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, CubeScene::on_window_resize);
+    engine::event_manager->event_subscribe(engine::KeyActionEvent, on_key_action);
+    engine::event_manager->event_subscribe(engine::WindowResizeEvent, on_window_resize);
 
     int count = 10000;
     float size = (float)sqrt(count) * 2;

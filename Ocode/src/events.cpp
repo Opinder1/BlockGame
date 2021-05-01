@@ -1,18 +1,14 @@
 #include "events.h"
 
 namespace ocode {
-	void EventManager::event_unsubscribe(EventType type, ObserverId id) {
-		auto&& _observers = observers.at(type);
+	ObserverHandle EventManager::_event_subscribe(HandleType<Event> handle, EventType type) {
+		next_id++;
+		observers[type].push_back({ handle, next_id });
 
-		for (auto observer = _observers.begin(); observer != _observers.end(); observer++) {
-			if ((*observer).id == id) {
-				_observers.erase(observer);
-				break;
-			}
-		}
+		return { type, next_id };
 	}
 
-	void EventManager::event_post(Event* event, EventType type) {
+	void EventManager::_event_post(Event* event, EventType type) {
 		if (observers.find(type) == observers.end()) {
 			return;
 			//throw "Invalid post type";
@@ -25,7 +21,18 @@ namespace ocode {
 		delete event;
 	}
 
-	void EventDevice::disconnect(const ObserverHandle& handle) {
-		manager->event_unsubscribe(handle.type, handle.id);
+	void EventManager::event_unsubscribe(EventType type, ObserverId id) {
+		auto&& _observers = observers.at(type);
+
+		for (auto observer = _observers.begin(); observer != _observers.end(); observer++) {
+			if ((*observer).id == id) {
+				_observers.erase(observer);
+				break;
+			}
+		}
+	}
+
+	void EventManager::event_unsubscribe(const ObserverHandle& handle) {
+		event_unsubscribe(handle.type, handle.id);
 	}
 }

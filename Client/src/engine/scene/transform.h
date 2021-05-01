@@ -28,6 +28,10 @@ namespace engine {
 		void rotate(const glm::vec3& r);
 		void rescale(const glm::vec3& r);
 
+		float width() { return scale.x; }
+		float height() { return scale.y; }
+		float depth() { return scale.z; }
+
 		glm::mat4 as_transform();
 
 		inline glm::mat3 get_a() { return glm::mat3(1, 0, 0, 0, cos(rotation.x), sin(rotation.x), 0, -sin(rotation.x), cos(rotation.x)); }

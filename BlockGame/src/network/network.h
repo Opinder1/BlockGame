@@ -27,13 +27,15 @@ inline ENetInit ENetInit_instance;
 
 std::string peer_to_string(ENetPeer* peer);
 
-class Host : public ocode::EventDevice {
+class Host {
 protected:
     ENetHost* host;
 
+    ocode::EventManager* manager;
+
 public:
     Host(const Host&) = delete;
-    Host(ocode::EventManager* m) : host(NULL), EventDevice(m) {}
+    Host(ocode::EventManager* manager) : host(NULL), manager(manager) {}
 
     bool initialised();
 

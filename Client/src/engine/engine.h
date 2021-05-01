@@ -11,6 +11,7 @@
 #include "monitor.h"
 
 namespace engine {
+	// Add to Application class (Unless there is a chance multiple applications could be run which should not be the case)
 	extern ocode::EventManager* event_manager;
 
 	class Application {

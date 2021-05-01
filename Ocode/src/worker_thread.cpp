@@ -64,11 +64,11 @@ namespace ocode {
                 return;
 
             case ThreadEventType::Event:
-                event_post(event->event, event->event_type);
+                _event_post(event->event, event->event_type);
                 break;
 
             case ThreadEventType::Timer:
-                EVENT_POST(TickEvent);
+                event_post(TickEvent);
                 break;
             }
         }

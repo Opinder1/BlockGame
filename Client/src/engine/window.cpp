@@ -1,24 +1,38 @@
 #include "window.h"
 
 namespace engine {
+    glm::ivec2 get_cursor_pos_rel(GLFWwindow* window) {
+        glm::dvec2 pos;
+        glfwGetCursorPos(window, &pos.x, &pos.y);
+
+        int height;
+        glfwGetWindowSize(window, NULL, &height);
+
+        return glm::ivec2(pos.x, height - pos.y);
+    }
+
     void on_window_resize(GLFWwindow* window, int event_width, int event_height) {
-        event_manager->EVENT_POST(WindowResizeEvent, { event_width, event_height });
+        event_manager->event_post(WindowResizeEvent, { event_width, event_height });
     }
 
     void on_window_move(GLFWwindow* window, int event_x, int event_y) {
-        event_manager->EVENT_POST(WindowMoveEvent, { event_x, event_y });
+        event_manager->event_post(WindowMoveEvent, { event_x, event_y });
     }
 
     void on_window_close(GLFWwindow* window) {
-        event_manager->EVENT_POST(WindowCloseEvent);
+        event_manager->event_post(WindowCloseEvent);
     }
 
     void on_window_focus(GLFWwindow* window, int focused) {
-        event_manager->EVENT_POST(WindowFocusEvent, focused);
+        event_manager->event_post(WindowFocusEvent, focused);
     }
 
     void on_key_action(GLFWwindow* window, int key, int scancode, int action, int mods) {
-        event_manager->EVENT_POST(KeyActionEvent, key, scancode, action, mods);
+        event_manager->event_post(KeyActionEvent, key, scancode, action, mods);
+    }
+
+    void on_mouse_click(GLFWwindow* window, int button, int action, int mods) {
+        event_manager->event_post(MouseClickEvent, button, action, get_cursor_pos_rel(window));
     }
 
     Window::Window(const std::string& name, glm::uvec2 size) : window(NULL), last_size({ 0, 0 }), last_pos({ 0, 0 }) {
@@ -44,7 +58,6 @@ namespace engine {
         last_size = size;
 
         glfwMakeContextCurrent(window);
-        //glfwSetWindowUserPointer(window, manager);
 
         glfwSetWindowSizeLimits(window, size.x, size.y, GLFW_DONT_CARE, GLFW_DONT_CARE);
         glfwGetWindowPos(window, &last_pos.x, &last_pos.y);
@@ -59,8 +72,9 @@ namespace engine {
         //glfwSetFramebufferSizeCallback();
 
         glfwSetKeyCallback(window, on_key_action);
+        glfwSetMouseButtonCallback(window, on_mouse_click);
 
-        event_manager->EVENT_SUBSCRIBE(MonitorDisconnectEvent, Window::on_monitor_disconnect);
+        event_manager->event_subscribe(MonitorDisconnectEvent, on_monitor_disconnect);
 
         if (glfwRawMouseMotionSupported()) {
             glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
@@ -76,7 +90,7 @@ namespace engine {
     }
 
     void Window::use() {
-        //glfwMakeContextCurrent(window);
+        glfwMakeContextCurrent(window);
     }
 
     void Window::update() {
@@ -104,8 +118,8 @@ namespace engine {
 
         monitor.use(window);
 
-        event_manager->EVENT_POST(WindowResizeEvent, monitor.get_size());
-        event_manager->EVENT_POST(WindowMoveEvent, monitor.get_pos());
+        event_manager->event_post(WindowResizeEvent, monitor.get_size());
+        event_manager->event_post(WindowMoveEvent, monitor.get_pos());
 
         if (vsync) {
             glfwSwapInterval(1);
@@ -148,10 +162,8 @@ namespace engine {
         return size;
     }
 
-    glm::vec2 Window::get_mouse_pos() {
-        glm::dvec2 size;
-        glfwGetCursorPos(window, &size.x, &size.y);
-        return size;
+    glm::ivec2 Window::get_mouse_pos() {
+        return get_cursor_pos_rel(window);
     }
 
     int Window::get_key(int key) {

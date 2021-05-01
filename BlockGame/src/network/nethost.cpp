@@ -18,17 +18,17 @@ void Host::listen() {
     while (enet_host_service(host, &event, 0) > 0) {
         switch (event.type) {
         case ENET_EVENT_TYPE_CONNECT:
-            EVENT_POST(PeerConnectEvent, event.peer);
+            manager->event_post(PeerConnectEvent, event.peer);
             break;
 
         case ENET_EVENT_TYPE_DISCONNECT:
-            EVENT_POST(PeerDisconnectEvent, event.peer, (uint32)event.data);
+            manager->event_post(PeerDisconnectEvent, event.peer, (uint32)event.data);
             break;
 
         case ENET_EVENT_TYPE_RECEIVE:
             switch ((PacketType)event.packet->data[0]) {
             case PacketType::UNENCRYPTED:
-                EVENT_POST(PacketReciveEvent, event.peer, (PacketType)event.packet->data[1], (uint8*)event.packet->data + 2, (uint32)event.packet->dataLength - 1);
+                manager->event_post(PacketReciveEvent, event.peer, (PacketType)event.packet->data[1], (uint8*)event.packet->data + 2, (uint32)event.packet->dataLength - 1);
                 break;
 
             case PacketType::SSL_FROM:
@@ -51,13 +51,13 @@ void Host::listen() {
     }
 }
 
-NetClient::NetClient(ocode::EventManager* m, const std::string& address, uint16 port) : Host(m), server(NULL) {
+NetClient::NetClient(ocode::EventManager* manager, const std::string& address, uint16 port) : Host(manager), server(NULL) {
     enet_address_set_host(&server_address, address.c_str());
     server_address.port = port;
 
     host = enet_host_create(NULL, 1, 2, 0, 0);
 
-    EVENT_SUBSCRIBE(PacketSendEvent, NetClient::on_packet_send);
+    manager->event_subscribe(PacketSendEvent, on_packet_send);
 }
 
 NetClient::~NetClient() {
@@ -81,13 +81,13 @@ bool NetClient::connect(uint16 timeout) {
     }
 }
 
-NetServer::NetServer(ocode::EventManager* m, uint16 port, uint8 max_connections) : Host(m) {
+NetServer::NetServer(ocode::EventManager* manager, uint16 port, uint8 max_connections) : Host(manager) {
     address = { ENET_HOST_ANY, (uint16)port };
 
     host = enet_host_create(&address, max_connections, 2, 0, 0);
 
-    EVENT_SUBSCRIBE(PacketSendEvent, NetServer::on_packet_send);
-    EVENT_SUBSCRIBE(PacketBroadcastEvent, NetServer::on_packet_broadcast);
+    manager->event_subscribe(PacketSendEvent, on_packet_send);
+    manager->event_subscribe(PacketBroadcastEvent, on_packet_broadcast);
 }
 
 NetServer::~NetServer() {

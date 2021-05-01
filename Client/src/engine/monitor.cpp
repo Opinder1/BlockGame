@@ -7,10 +7,10 @@ namespace engine {
 
     void on_monitor_change(GLFWmonitor* monitor, int event) {
         if (event == GLFW_CONNECTED) {
-            event_manager->EVENT_POST(MonitorConnectEvent, monitor);
+            event_manager->event_post(MonitorConnectEvent, monitor);
         }
         else if (event == GLFW_DISCONNECTED) {
-            event_manager->EVENT_POST(MonitorDisconnectEvent, monitor);
+            event_manager->event_post(MonitorDisconnectEvent, monitor);
         }
     }
 

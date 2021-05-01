@@ -6,17 +6,14 @@
 #include <unordered_map>
 #include <vector>
 
-#define GET_TYPE(T) typeid(T).hash_code()
+#define event_subscribe(event, function) _event_subscribe<event>([&](const event* e){ function(e); })
 
-#define EVENT_SUBSCRIBE(event, function) event_subscribe<event>(std::bind(&function, this, std::placeholders::_1))
+#define event_post(event, ...) _event_post<event>(new event(__VA_ARGS__))
 
-#define EVENT_POST(event, ...) event_post<event>(new event(__VA_ARGS__))
-
-#define EVENT_COPY(event, data) new event(*data)
+#define event_copy(event, data) new event(*data)
 
 namespace ocode {
-	template<class T>
-	using HandleType = std::function<void(const T*)>;
+	template<class T> using HandleType = std::function<void(const T*)>;
 	using ObserverId = uint32;
 	using EventType = uint64;
 
@@ -28,7 +25,6 @@ namespace ocode {
 
 	class ObserverHandle {
 		friend class EventManager;
-		friend class EventDevice;
 
 	private:
 		EventType type;
@@ -39,22 +35,22 @@ namespace ocode {
 	};
 
 	class EventManager {
-		friend class EventDevice;
+		friend class ObserverHandle;
 
 		struct Observer {
 			HandleType<Event> handle;
 			ObserverId id;
 		};
 
-		struct QueuedEvent {
-			Event* event;
-			EventType type;
-		};
-
 	private:
 		ObserverId next_id;
 
 		std::unordered_map<EventType, std::vector<Observer>> observers;
+
+	protected:
+		ObserverHandle _event_subscribe(HandleType<Event> handle, EventType type);
+
+		void _event_post(Event* event, EventType type);
 
 		void event_unsubscribe(EventType type, ObserverId id);
 
@@ -63,40 +59,19 @@ namespace ocode {
 		EventManager() : next_id(0) {}
 
 		template<class T>
-		ObserverHandle event_subscribe(HandleType<T> handle) {
-			EventType type = GET_TYPE(T);
+		ObserverHandle _event_subscribe(HandleType<T> handle) {
+			static_assert(std::is_base_of<Event, T>::value, "Derive from Event");
 
-			next_id++;
-			observers[type].push_back({ (HandleType<Event>&)handle, next_id });
-
-			return { type, next_id };
-		}
-
-		void event_post(Event* event, EventType type);
-
-		template<class T>
-		void event_post(T* event) {
-			event_post((Event*)event, GET_TYPE(T));
-		}
-	};
-
-	class EventDevice {
-	private:
-		EventManager* manager;
-
-	public:
-		EventDevice(EventManager* manager) : manager(manager) {}
-
-		template<class T>
-		ObserverHandle event_subscribe(HandleType<T> handle) {
-			return manager->event_subscribe(handle);
+			return _event_subscribe(reinterpret_cast<HandleType<Event>&>(handle), typeid(T).hash_code());
 		}
 
 		template<class T>
-		void event_post(T* event) {
-			manager->event_post(event);
+		void _event_post(T* event) {
+			static_assert(std::is_base_of<Event, T>::value, "Derive from Event");
+
+			_event_post(event, typeid(T).hash_code());
 		}
 
-		void disconnect(const ObserverHandle& handle);
+		void event_unsubscribe(const ObserverHandle& handle);
 	};
 }

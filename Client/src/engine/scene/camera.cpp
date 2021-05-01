@@ -24,14 +24,14 @@ namespace engine {
 	}
 
 	FPSCamera::FPSCamera(float fov, glm::vec2 size) : Camera3D(fov, size), fov(fov), last_mouse_pos(0, 0) {
-		engine::event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, FPSCamera::on_window_resize);
+		engine::event_manager->event_subscribe(engine::WindowResizeEvent, on_window_resize);
 	}
 
 	void FPSCamera::update(glm::vec2 mouse_pos) {
 		glm::vec2 rot = mouse_pos - last_mouse_pos;
 
 		rotation.x += (rot.x / 1000.0f);
-		rotation.y = glm::clamp(rotation.y + (rot.y / 1000.0f), -1.57f, 1.57f);
+		rotation.y = glm::clamp(rotation.y - (rot.y / 1000.0f), -1.57f, 1.57f);
 
 		last_mouse_pos = mouse_pos;
 	}

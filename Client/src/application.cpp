@@ -13,13 +13,11 @@ Application::Application() : engine::Application("Game", { 800, 500 }), log("cli
 }
 
 Application::~Application() {
-	for (auto* module : modules) {
-		delete module;
-	}
+
 }
 
 void Application::update() {
-	for (auto* module : modules) {
+	for (auto& module : modules) {
 		module->update();
 	}
 }

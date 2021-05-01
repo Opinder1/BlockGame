@@ -12,10 +12,10 @@ public:
 	ocode::LogFile log;
 	ocode::Config config;
 
-	std::vector<Module*> modules;
+	std::vector<std::unique_ptr<Module>> modules;
 
 private:
-	void update();
+	void update() override;
 
 public:
 	Application();

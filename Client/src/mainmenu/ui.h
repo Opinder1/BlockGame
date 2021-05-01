@@ -4,7 +4,7 @@
 
 namespace ui {
 	class Element : public engine::Transform2D {
-	private:
+	protected:
 		engine::Material& material;
 		engine::TextureBuffer& texture;
 
@@ -15,11 +15,23 @@ namespace ui {
 		void draw();
 	};
 
-	class Button : public Element {
-		std::function<void()> event;
+	typedef std::vector<std::unique_ptr<ui::Element>> Frame;
 
-		Button();
+	class Button : public Element {
+	private:
+		bool touching(glm::ivec2 pos);
+
+	protected:
+		std::function<void()> function;
+
+		ocode::ObserverHandle handle;
+
+	public:
+		Button(const std::function<void()>& event, engine::Material& material, engine::TextureBuffer& texture, glm::vec2 position);
 		~Button();
+
+	protected:
+		void on_click(const engine::MouseClickEvent* e);
 	};
 }
 

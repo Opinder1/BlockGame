@@ -12,7 +12,10 @@ private:
 	engine::Material material;
 	engine::TextureBuffer texture;
 
-	std::vector<std::unique_ptr<ui::Element>> boxes;
+	uint8 state;
+
+	ui::Frame main_page;
+	ui::Frame settings;
 
 public:
 	MainMenu();

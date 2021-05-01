@@ -15,8 +15,8 @@ Game::Game() :
 
     tilemap::set_screen_size(application->window.get_size());
 
-    engine::event_manager->EVENT_SUBSCRIBE(engine::KeyActionEvent, Game::on_key_action);
-    engine::event_manager->EVENT_SUBSCRIBE(engine::WindowResizeEvent, Game::on_window_resize);
+    engine::event_manager->event_subscribe(engine::KeyActionEvent, on_key_action);
+    engine::event_manager->event_subscribe(engine::WindowResizeEvent, on_window_resize);
 }
 
 Game::~Game() {
