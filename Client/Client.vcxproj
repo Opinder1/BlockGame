@@ -78,7 +78,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32s.lib;glfw3.lib;OpenGL32.lib;msvcrt.lib;msvcmrt.lib;ocode.lib;blockgame.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32s.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;libcmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -105,11 +105,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;msvcrt.lib;msvcmrt.lib;blockgame.lib;ucrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;libucrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="src\engine\resources.cpp" />
+    <ClCompile Include="src\engine\scene\scene.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine\scene\renderer\array.cpp" />
@@ -132,6 +134,8 @@
     <ClCompile Include="src\mainmenu\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\resources.h" />
+    <ClInclude Include="src\engine\scene\scene.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\application.h" />
     <ClInclude Include="src\engine\scene\renderer\array.h" />

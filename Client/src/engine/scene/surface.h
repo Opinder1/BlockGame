@@ -62,8 +62,6 @@ namespace engine {
 
 	class WindowSurface : public SurfaceBase {
 	public:
-		WindowSurface(const glm::uvec2 size) : SurfaceBase(size) {
-
-		}
+		WindowSurface(const glm::uvec2 size) : SurfaceBase(size) {}
 	};
 }

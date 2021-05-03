@@ -2,13 +2,15 @@
 
 #include <ocode.h>
 
-#include "scene/material.h"
+#include "scene/scene.h"
 #include "scene/mesh.h"
 #include "scene/surface.h"
 #include "scene/camera.h"
 
 #include "window.h"
 #include "monitor.h"
+
+#include "resources.h"
 
 namespace engine {
 	// Add to Application class (Unless there is a chance multiple applications could be run which should not be the case)
@@ -21,6 +23,12 @@ namespace engine {
 		Window window;
 		WindowSurface surface;
 
+		ResourceManager resources;
+
+		std::vector<Shader> shaders;
+		std::vector<Texture> textures;
+		std::vector<Material> material;
+
 	protected:
 		virtual void update() = 0;
 
@@ -32,5 +40,8 @@ namespace engine {
 		~Application();
 
 		void run();
+
+		void reload_shaders();
+		void reload_resources();
 	};
 }

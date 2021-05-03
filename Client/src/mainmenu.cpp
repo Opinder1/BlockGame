@@ -29,14 +29,13 @@ void MainMenu::update() {
 	engine::set_depthtest(false);
 	engine::set_culling(engine::Culling::Disabled);
 
+	application->surface.use();
+
 	switch (state) {
 	case 0:
 		break;
 
 	case 1:
-
-		application->surface.use();
-
 		material.use();
 		material.set("surface_size", application->surface.get_size());
 
