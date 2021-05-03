@@ -6,7 +6,7 @@
 #include <GLM/glm.hpp>
 
 #include "monitor.h"
-#include "scene/renderer/texture.h"
+#include "renderer/texture.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;

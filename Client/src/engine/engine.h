@@ -25,9 +25,9 @@ namespace engine {
 
 		ResourceManager resources;
 
-		std::vector<Shader> shaders;
-		std::vector<Texture> textures;
-		std::vector<Material> material;
+		std::vector<Shader*> shaders;
+		std::vector<Texture*> textures;
+		std::vector<Material*> material;
 
 	protected:
 		virtual void update() = 0;
@@ -41,7 +41,7 @@ namespace engine {
 
 		void run();
 
-		void reload_shaders();
 		void reload_resources();
+		void refresh_resources();
 	};
 }

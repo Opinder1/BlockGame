@@ -14,7 +14,7 @@ namespace engine {
 		file.read(buffer, file_size);
 
 		if (!file)
-			throw resource_load_exception({ "Could only read " + std::to_string(file.gcount()) + " characters of file '" + entry.path().string() + "'" });
+			throw resource_load_exception({ "Error while reading resource file '" + entry.path().string() + "'" });
 
 		return { file_size, buffer };
 	}
@@ -51,5 +51,21 @@ namespace engine {
 			throw resource_exception{};
 
 		return resource->second;
+	}
+
+	ResourceManager::iterator ResourceManager::begin() {
+		return resources.begin();
+	}
+
+	ResourceManager::iterator ResourceManager::end() {
+		return resources.end();
+	}
+
+	void ResourceManager::flush() {
+		for (auto& resource : resources) {
+			delete resource.second.data;
+		}
+
+		resources.clear();
 	}
 }

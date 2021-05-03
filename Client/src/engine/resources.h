@@ -10,6 +10,7 @@ namespace engine {
 	struct resource_load_exception {
 		std::string message;
 	};
+
 	struct resource_exception {};
 
 	struct Resource {
@@ -22,6 +23,8 @@ namespace engine {
 		std::unordered_map<std::string, Resource> resources;
 
 	public:
+		using iterator = std::unordered_map<std::string, Resource>::iterator;
+
 		ResourceManager() {}
 		~ResourceManager();
 
@@ -29,5 +32,10 @@ namespace engine {
 		void load_archive(const std::string& archive_name);
 
 		Resource get_resource(const std::string& resource_name);
+
+		void flush();
+
+		iterator begin();
+		iterator end();
 	};
 }

@@ -1,4 +1,4 @@
-#include "array.h"
+#include "../renderer/array.h"
 
 #include "opengl.h"
 

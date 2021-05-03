@@ -4,8 +4,8 @@
 
 #include <GLM/glm.hpp>
 
-#include "renderer/array.h"
-#include "renderer/framebuffer.h"
+#include "../renderer/array.h"
+#include "../renderer/framebuffer.h"
 #include "material.h"
 
 namespace engine {

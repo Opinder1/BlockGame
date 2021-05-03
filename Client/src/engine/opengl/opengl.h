@@ -2,7 +2,7 @@
 
 #include <GL/glew.h>
 
-#include "gl.h"
+#include "../renderer/gl.h"
 
 namespace engine {
     void glCheckError(const char* file, int line);

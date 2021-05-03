@@ -7,7 +7,7 @@
 
 #include "transform.h"
 #include "../window.h"
-#include "renderer/buffer.h"
+#include "../renderer/buffer.h"
 
 namespace engine {
 	extern ocode::EventManager* event_manager;
