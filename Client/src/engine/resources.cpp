@@ -6,22 +6,15 @@ namespace engine {
 
 		char* buffer = new char[file_size];
 
-		printf("%s\n", entry.path().string().c_str());
+		if (buffer == NULL)
+			throw resource_load_exception({ "Could not allocate memory for resource file '" + entry.path().string() + "'" });
 
-		printf("%i\n", file_size);
+		std::ifstream file(entry, std::ios::binary);
 
-		try {
-			std::ifstream file(entry);
-			file.read(buffer, file_size);
+		file.read(buffer, file_size);
 
-			if (file)
-				printf("all characters read successfully.\n");
-			else
-				printf("error: only %lli could be read", file.gcount());
-		}
-		catch (...) {
-			printf("exception\n");
-		}
+		if (!file)
+			throw resource_load_exception({ "Could only read " + std::to_string(file.gcount()) + " characters of file '" + entry.path().string() + "'" });
 
 		return { file_size, buffer };
 	}
@@ -35,9 +28,8 @@ namespace engine {
 	void ResourceManager::load_folder(const std::string& folder_name) {
 		std::filesystem::directory_entry root_path = std::filesystem::directory_entry(folder_name);
 
-		if (!root_path.is_directory()) {
-			throw resource_load_exception{ "The resource folder " + folder_name + " does not exist" };
-		}
+		if (!root_path.is_directory())
+			throw resource_load_exception{ "The resource folder '" + folder_name + "' does not exist" };
 
 		for (auto& path : std::filesystem::recursive_directory_iterator(folder_name)) {
 			if (!path.is_directory()) {
@@ -54,9 +46,10 @@ namespace engine {
 
 	Resource ResourceManager::get_resource(const std::string& resource_name) {
 		auto resource = resources.find(resource_name);
-		if (resource != resources.end()) {
+
+		if (resource != resources.end())
 			throw resource_exception{};
-		}
+
 		return resource->second;
 	}
 }
