@@ -1,26 +1,11 @@
 #include "engine.h"
 
-std::vector<std::string> split(const std::string& str, char delimiter) {
-    std::vector<std::string> out;
-
-    size_t start;
-    size_t end = 0;
-
-    while ((start = str.find_first_not_of(delimiter, end)) != std::string::npos)
-    {
-        end = str.find(delimiter, start);
-        out.push_back(str.substr(start, end - start));
-    }
-
-    return out;
-}
-
 namespace engine {
-    ocode::EventManager* event_manager = new ocode::EventManager();
+    ocode::EventManager* event_manager = NULL;
 
-    Application::Application(const std::string& name, glm::uvec2 size) : running(true), window(name, size), surface(window.get_size()) {
-        event_manager->event_subscribe(engine::WindowResizeEvent, on_window_resize);
-        event_manager->event_subscribe(engine::WindowCloseEvent, on_window_close);
+    Application::Application(const std::string& name, glm::uvec2 size) : events(), running((engine::event_manager = &events, true)), window(name, size), surface(window.get_size()) {
+        events.event_subscribe(engine::WindowResizeEvent, on_window_resize);
+        events.event_subscribe(engine::WindowCloseEvent, on_window_close);
 
         reload_resources();
         refresh_resources();
@@ -32,8 +17,6 @@ namespace engine {
 
     Application::~Application() {
         engine::QuadRenderer::deinit();
-
-        delete event_manager;
     }
 
     void Application::run() {
@@ -51,24 +34,47 @@ namespace engine {
     void Application::reload_resources() {
         resources.flush();
 
-        resources.load_folder(std::string(PROJECT_DIR) + "resources\\");
+        resources.load_folder(PROJECT_DIR);
     }
 
     void Application::refresh_resources() {
-        for (auto it : resources) {
-            std::vector<std::string> parts = split(it.first, '\\');
+        shaders.clear();
+        textures.clear();
+        materials.clear();
+        meshes.clear();
 
-            std::string family = *parts.begin();
+        // This should probably be defined in parent class
+        for (auto& item : resources) {
+            const fs::path& path = item.first;
+            Resource& resource = item.second;
 
-            std::string name = *parts.rbegin();
+            std::string name, extension;
 
-            if (family.compare("shaders") == 0) {
-                std::string type = name.substr(name.find('.') + 1, std::string::npos);
+            for (auto& t : path.parent_path()) {
+                name += t.string() + ".";
+            }
 
-                if (type.compare("vert") == 0) shaders.push_back(new Shader(ShaderType::VERTEX, (const char*)it.second.data, (uint32)it.second.data_size));
-                if (type.compare("frag") == 0) shaders.push_back(new Shader(ShaderType::FRAGMENT, (const char*)it.second.data, (uint32)it.second.data_size));
-                if (type.compare("geom") == 0) shaders.push_back(new Shader(ShaderType::GEOMETRY, (const char*)it.second.data, (uint32)it.second.data_size));
-                if (type.compare("comp") == 0) shaders.push_back(new Shader(ShaderType::COMPUTE, (const char*)it.second.data, (uint32)it.second.data_size));
+            name += path.stem().string();
+            extension = path.extension().string();
+
+            printf("%s, %s\n", name.c_str(), extension.c_str());
+
+            std::string type = "";  
+
+            if (type == "shaders") {
+                if (extension == "vert") shaders.push_back(new Shader(ShaderType::VERTEX, (const char*)resource.data, (uint32)resource.data_size));
+                if (extension == "frag") shaders.push_back(new Shader(ShaderType::FRAGMENT, (const char*)resource.data, (uint32)resource.data_size));
+                if (extension == "geom") shaders.push_back(new Shader(ShaderType::GEOMETRY, (const char*)resource.data, (uint32)resource.data_size));
+                if (extension == "comp") shaders.push_back(new Shader(ShaderType::COMPUTE, (const char*)resource.data, (uint32)resource.data_size));
+            }
+
+            if (type == "textures") {
+            }
+
+            if (type == "materials") {
+            }
+
+            if (type == "meshes") {
             }
         }
     }

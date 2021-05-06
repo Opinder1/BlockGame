@@ -1,5 +1,0 @@
-{
-    "vertex": "material3d.vert",
-    "fragment": "cube.frag",
-	  "mesh": "cube.mesh"
-}

@@ -13,8 +13,8 @@ private:
 
 	std::unordered_map<uint32, std::vector<Entity*>> entities;
 
-	ocode::EventManager* manager;
+	ocode::EventManager& manager;
 
 public:
-	Scene(ocode::EventManager* manager) : manager(manager) {}
+	Scene(ocode::EventManager& manager) : manager(manager) {}
 };

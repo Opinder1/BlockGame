@@ -9,6 +9,8 @@ public:
 
 class Application : public engine::Application {
 public:
+	static std::string base_name;
+
 	ocode::LogFile log;
 	ocode::Config config;
 

@@ -25,13 +25,13 @@ namespace ui {
 	Button::Button(const std::function<void()>& event, engine::Material& material, engine::TextureBuffer& texture, glm::vec2 position) :
 		Element(material, texture, position),
 		function(event), 
-		handle(engine::event_manager->event_subscribe(engine::MouseClickEvent, on_click))
+		handle(application->events.event_subscribe(engine::MouseClickEvent, on_click))
 	{
 
 	}
 
 	Button::~Button() {
-		engine::event_manager->event_unsubscribe(handle);
+		application->events.event_unsubscribe(handle);
 	}
 
 	bool Button::touching(glm::ivec2 pos) {

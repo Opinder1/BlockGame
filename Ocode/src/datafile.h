@@ -1,9 +1,9 @@
 #pragma once
 
-#include "filesystem/file.h"
-
 #include <string>
 #include <fstream>
+
+#include "filesystem/file.h"
 
 #define RAPIDJSON_HAS_STDSTRING 1
 

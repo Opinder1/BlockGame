@@ -35,7 +35,7 @@ namespace engine {
         event_manager->event_post(MouseClickEvent, button, action, get_cursor_pos_rel(window));
     }
 
-    Window::Window(const std::string& name, glm::uvec2 size) : window(NULL), last_size({ 0, 0 }), last_pos({ 0, 0 }) {
+    Window::Window(const std::string& name, glm::uvec2 size, bool fullscreen) : window(NULL), last_size({ 0, 0 }), last_pos({ 0, 0 }) {
         if (!glfwInit()) {
             throw "Failed to initialise glfw";
         }
@@ -73,6 +73,12 @@ namespace engine {
 
         glfwSetKeyCallback(window, on_key_action);
         glfwSetMouseButtonCallback(window, on_mouse_click);
+
+        monitor = Monitor::init();
+
+        if (fullscreen) {
+            set_fullscreen(monitor, true);
+        }
 
         event_manager->event_subscribe(MonitorDisconnectEvent, on_monitor_disconnect);
 

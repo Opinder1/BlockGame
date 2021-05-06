@@ -2,6 +2,8 @@
 
 #include <ocode.h>
 
+#include <vector>
+
 #include "scene/scene.h"
 #include "scene/mesh.h"
 #include "scene/surface.h"
@@ -13,21 +15,23 @@
 #include "resources.h"
 
 namespace engine {
-	// Add to Application class (Unless there is a chance multiple applications could be run which should not be the case)
 	extern ocode::EventManager* event_manager;
 
 	class Application {
 	public:
 		bool running;
 
-		Window window;
-		WindowSurface surface;
+		ocode::EventManager events;
 
 		ResourceManager resources;
 
+		Window window;
+		WindowSurface surface;
+
 		std::vector<Shader*> shaders;
 		std::vector<Texture*> textures;
-		std::vector<Material*> material;
+		std::vector<Material*> materials;
+		std::vector<Mesh*> meshes;
 
 	protected:
 		virtual void update() = 0;

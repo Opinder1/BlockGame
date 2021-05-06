@@ -3,7 +3,7 @@
 Game::Game() : 
     camera(90.0f, application->window.get_size()),
     surface(application->window.get_size(), 4),
-    scene(engine::event_manager),
+    scene(application->events),
     color(engine::Texture("world.png")),
     height(engine::Texture("world_heightmap.png"))
 {
@@ -15,8 +15,8 @@ Game::Game() :
 
     tilemap::set_screen_size(application->window.get_size());
 
-    engine::event_manager->event_subscribe(engine::KeyActionEvent, on_key_action);
-    engine::event_manager->event_subscribe(engine::WindowResizeEvent, on_window_resize);
+    application->events.event_subscribe(engine::KeyActionEvent, on_key_action);
+    application->events.event_subscribe(engine::WindowResizeEvent, on_window_resize);
 }
 
 Game::~Game() {

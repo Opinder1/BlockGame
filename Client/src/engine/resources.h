@@ -6,6 +6,8 @@
 #include <fstream>
 #include <filesystem>
 
+namespace fs = std::filesystem;
+
 namespace engine {
 	struct resource_load_exception {
 		std::string message;
@@ -19,17 +21,19 @@ namespace engine {
 	};
 
 	class ResourceManager {
+		using storage = std::unordered_map<std::string, Resource>;
+
 	private:
-		std::unordered_map<std::string, Resource> resources;
+		storage resources;
 
 	public:
-		using iterator = std::unordered_map<std::string, Resource>::iterator;
+		using iterator = storage::iterator;
 
 		ResourceManager() {}
 		~ResourceManager();
 
-		void load_folder(const std::string& folder_name);
-		void load_archive(const std::string& archive_name);
+		void load_folder(const std::string& resource_pack_name);
+		void load_archive(const std::string& resource_pack_name);
 
 		Resource get_resource(const std::string& resource_name);
 

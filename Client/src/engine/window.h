@@ -22,7 +22,7 @@ namespace engine {
 
 	public:
 		Window(const Window&) = delete;
-		Window(const std::string& name, glm::uvec2 size);
+		Window(const std::string& name, glm::uvec2 size, bool fullscreen = false);
 		~Window();
 
 		void use();

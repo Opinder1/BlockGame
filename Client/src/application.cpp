@@ -2,6 +2,8 @@
 
 Application* application = NULL;
 
+std::string Application::base_name = "base";
+
 Application::Application() : engine::Application("Game", { 800, 500 }), log("client"), config("client") {
 	if (!log.initialized()) {
 		throw "Log could not be initialized";
