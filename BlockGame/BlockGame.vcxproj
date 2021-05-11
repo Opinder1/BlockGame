@@ -150,12 +150,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\id.cpp" />
     <ClCompile Include="src\network\nethost.cpp" />
     <ClCompile Include="src\network\packet.cpp" />
     <ClCompile Include="src\session.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="blockgame.h" />
+    <ClInclude Include="src\id.h" />
     <ClInclude Include="src\client.h" />
     <ClInclude Include="src\network\network.h" />
     <ClInclude Include="src\network\packet.h" />

@@ -1,5 +1,8 @@
 <<< Resource management >>>
 
+[Resource]
+A resource is any file data that is needed by the client and not the server.
+
 [Mods]
 When mods are loaded each one should have an id.
 If there two mods have the same id, the second one should have a number added to the end. This makes sure all mods are loaded since collisions can easily be avoided this way.

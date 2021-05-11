@@ -3,7 +3,7 @@
 #include "src/mainmenu.h"
 
 int main(int argc, char** argv) {
-	application = new Application();
+	application = new BlockGameApplication();
 
 	application->modules.emplace_back(new MainMenu());
 

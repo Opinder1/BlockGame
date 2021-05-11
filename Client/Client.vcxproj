@@ -110,7 +110,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="src\engine\resources.cpp" />
     <ClCompile Include="src\engine\scene\scene.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\application.cpp" />
@@ -132,9 +131,9 @@
     <ClCompile Include="src\engine\monitor.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
     <ClCompile Include="src\mainmenu\ui.cpp" />
+    <ClCompile Include="src\resources.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\resources.h" />
     <ClInclude Include="src\engine\scene\scene.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\application.h" />
@@ -158,6 +157,7 @@
     <ClInclude Include="src\engine\monitor.h" />
     <ClInclude Include="src\engine\window.h" />
     <ClInclude Include="src\mainmenu\ui.h" />
+    <ClInclude Include="src\resources.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\cube.material" />

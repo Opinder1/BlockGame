@@ -1,7 +1,5 @@
 #pragma once
 
-#include <blockgame.h>
-
 #include "../application.h"
 
 #include "tilemap_renderer.h"
@@ -14,7 +12,7 @@ private:
 	engine::Surface3D surface;
 
 	Scene scene;
-	Client client;
+	BlockGameApplication client;
 
 	engine::TextureBuffer color;
 	engine::TextureBuffer height;
