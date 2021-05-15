@@ -9,8 +9,8 @@
 
 class MainMenu : public Module {
 private:
-	engine::Material material;
-	engine::TextureBuffer texture;
+	engine::Material* material;
+	engine::TextureBuffer* texture;
 
 	uint8 state;
 

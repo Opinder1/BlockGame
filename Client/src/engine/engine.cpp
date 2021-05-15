@@ -28,13 +28,6 @@ namespace engine {
         }
     }
 
-    void Application::reset() {
-        shaders.clear();
-        textures.clear();
-        materials.clear();
-        meshes.clear();
-    }
-
     void Application::on_window_resize(const WindowResizeEvent* e) {
         surface.resize(e->size);
     }

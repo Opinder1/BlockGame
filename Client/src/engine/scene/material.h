@@ -8,7 +8,7 @@
 #include "../renderer/texture.h"
 
 namespace engine {
-	class Material : public ShaderProgram {
+	class Material : public Program {
 	private:
 		Texture* texture;
 

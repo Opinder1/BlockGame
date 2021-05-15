@@ -1,7 +1,7 @@
 #include "ui.h"
 
 namespace ui {
-	Element::Element(engine::Material& material, engine::TextureBuffer& texture, glm::vec2 position) :
+	Element::Element(engine::Material* material, engine::TextureBuffer* texture, glm::vec2 position) :
 		material(material),
 		texture(texture),
 		engine::Transform2D(position)
@@ -14,15 +14,15 @@ namespace ui {
 	}
 
 	void Element::draw() {
-		texture.use(0);
+		texture->use(0);
 
-		material.set("pos", position);
-		material.set("texture_size", texture.get_size());
+		material->set("pos", position);
+		material->set("texture_size", texture->get_size());
 
 		engine::QuadRenderer::draw();
 	}
 
-	Button::Button(const std::function<void()>& event, engine::Material& material, engine::TextureBuffer& texture, glm::vec2 position) :
+	Button::Button(const std::function<void()>& event, engine::Material* material, engine::TextureBuffer* texture, glm::vec2 position) :
 		Element(material, texture, position),
 		function(event), 
 		handle(application->events.event_subscribe(engine::MouseClickEvent, on_click))
@@ -35,7 +35,7 @@ namespace ui {
 	}
 
 	bool Button::touching(glm::ivec2 pos) {
-		glm::ivec2 corner = glm::ivec2(position) + glm::ivec2(texture.get_size());
+		glm::ivec2 corner = glm::ivec2(position) + glm::ivec2(texture->get_size());
 
 		return pos.x >= position.x && pos.y >= position.y && pos.x <= corner.x && pos.y <= corner.y;
 	}

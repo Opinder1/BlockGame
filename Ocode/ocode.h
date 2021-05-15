@@ -8,6 +8,7 @@
 #include "src/error.h"
 #include "src/events.h"
 #include "src/random.h"
+#include "src/resources.h"
 #include "src/timer.h"
 #include "src/worker_thread.h"
 

@@ -4,8 +4,6 @@
 
 #include "engine/engine.h"
 
-#include "resources.h"
-
 class Module {
 public:
 	virtual void update() = 0;
@@ -17,8 +15,6 @@ public:
 
 	ocode::LogFile log;
 	ocode::Config config;
-
-	ResourceManager resources;
 
 	std::vector<std::unique_ptr<Module>> modules;
 

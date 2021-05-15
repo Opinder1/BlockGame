@@ -13,8 +13,6 @@ namespace fs = std::filesystem;
 using ID = uint64;
 using NameID = std::string;
 
-NameID path_to_id(const fs::path& path);
-
 class IDManager {
 	using ID_Map = std::unordered_map<NameID, ID>;
 	using ID_RMap = std::unordered_map<ID, NameID>;

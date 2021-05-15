@@ -6,40 +6,7 @@ namespace engine {
     }
 
     Material::Material(const std::string& name) : texture(NULL) {
-        std::string file_name = std::string(PROJECT_DIR) + "resources\\" + name + ".material";
 
-        if (!ocode::file_exists(file_name)) {
-            printf("File %s does not exist\n", file_name.c_str());
-            return;
-        }
-
-        rapidjson::Document data;
-        ocode::load_data_file(file_name, data);
-
-        if (data.HasParseError()) {
-            ocode::data_file_error(data);
-            return;
-        }
-
-        const auto& vertex_file = data["vertex"];
-        const auto& fragment_file = data["fragment"];
-
-        if (vertex_file.IsString()) attach(Shader(ShaderType::VERTEX, vertex_file.GetString()));
-        if (fragment_file.IsString()) attach(Shader(ShaderType::FRAGMENT, fragment_file.GetString()));
-
-        if (data.HasMember("geometry")) {
-            const auto& geometry_file = data["geometry"];
-            if (geometry_file.IsString()) attach(Shader(ShaderType::GEOMETRY, geometry_file.GetString()));
-        }
-
-        link();
-
-        if (link_status() == false) printf("(%s) ProgramError:\n%s\n", file_name.c_str(), get_log().c_str());
-
-        if (data.HasMember("texture")) {
-            const auto& texture_file = data["texture"];
-            if (texture_file.IsString()) texture = new Texture(texture_file.GetString());
-        }
     }
 
     Material::~Material() {
@@ -49,6 +16,6 @@ namespace engine {
     }
 
     void Material::use() {
-        ShaderProgram::use();
+        Program::use();
     }
 }

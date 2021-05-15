@@ -14,7 +14,6 @@ BlockGameApplication::BlockGameApplication() : engine::Application("Game", { 800
 	window.set_title(std::string("Game [") + engine::get_renderer_version() + "] [" + engine::get_adapter_vendor() + " " + engine::get_video_adapter() + "]");
 
     reload_resources();
-    refresh_resources();
 }
 
 BlockGameApplication::~BlockGameApplication() {
@@ -40,24 +39,23 @@ void BlockGameApplication::reload_resources() {
 
     // Finally load vanilla resources
     resources.load_folder(PROJECT_DIR);
-}
 
-void BlockGameApplication::refresh_resources() {
-    engine::Application::reset();
+    for (auto& [name, resource] : resources) {
+        const fs::path& path = name;
 
-    for (auto& item : resources) {
-        const fs::path& path = item.first;
-        Resource& resource = item.second;
+        std::string directory = path.lexically_relative(*path.begin()).parent_path().u8string() + '\\';
 
-        NameID name = path.begin()->string() + ":" + path.stem().string();
+        NameID id = path.begin()->u8string() + ':' + path.stem().u8string();
 
-        std::string spec_path = path.lexically_relative(*path.begin()).parent_path().string() + "\\" + path.begin()->string() + ":" + path.stem().string();
+        std::string extension = path.extension().u8string();
 
-        std::string extension = path.extension().string();
+        printf("%s %i\n", name.c_str(), name.size());
+    }
 
-        if (extension == "vert") shaders.push_back(new engine::Shader(engine::ShaderType::VERTEX, (const char*)resource.data, (uint32)resource.data_size));
-        if (extension == "frag") shaders.push_back(new engine::Shader(engine::ShaderType::FRAGMENT, (const char*)resource.data, (uint32)resource.data_size));
-        if (extension == "geom") shaders.push_back(new engine::Shader(engine::ShaderType::GEOMETRY, (const char*)resource.data, (uint32)resource.data_size));
-        if (extension == "comp") shaders.push_back(new engine::Shader(engine::ShaderType::COMPUTE, (const char*)resource.data, (uint32)resource.data_size));
+    try {
+        load_shader("blockgame\\shaders\\sprite\\sprite.json");
+    }
+    catch (engine::program_exception& e) {
+        printf("[%s] %s\n", "blockgame\\shaders\\sprite\\sprite.json", e.message.c_str());
     }
 }

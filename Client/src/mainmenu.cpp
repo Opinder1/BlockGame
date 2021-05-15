@@ -1,8 +1,8 @@
  #include "mainmenu.h"
 
 MainMenu::MainMenu() :
-	material("sprite"),
-	texture(engine::Texture("pixel_test.png")),
+	material(new engine::Material("sprite")),
+	texture(new engine::TextureBuffer(engine::Texture("pixel_test"))),
 	state(1)
 {
 	main_page.emplace_back(new ui::Button([=] {
@@ -36,8 +36,8 @@ void MainMenu::update() {
 		break;
 
 	case 1:
-		material.use();
-		material.set("surface_size", application->surface.get_size());
+		material->use();
+		material->set("surface_size", application->surface.get_size());
 
 		for (auto& item : main_page) {
 			item->draw();

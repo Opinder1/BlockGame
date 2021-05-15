@@ -15,6 +15,8 @@
 namespace engine {
 	extern ocode::EventManager* event_manager;
 
+	class Sound {};
+
 	class Application {
 	public:
 		bool running;
@@ -24,20 +26,9 @@ namespace engine {
 		Window window;
 		WindowSurface surface;
 
-	//private:
-		std::vector<Shader*> shaders;
-		std::vector<Texture*> textures;
-		std::vector<Material*> materials;
-		std::vector<Mesh*> meshes;
-
-		//void load_resource_folder();
-		//void new_shader();
+		ocode::ResourceManager resources;
 
 	protected:
-		virtual void update() = 0;
-
-		void reset();
-
 		void on_window_resize(const WindowResizeEvent* e);
 		void on_window_close(const WindowCloseEvent* e);
 
@@ -45,6 +36,12 @@ namespace engine {
 		Application(const std::string& name, glm::uvec2 size);
 		~Application();
 
+		virtual void update() = 0;
+
 		virtual void run();
+
+	public:
+		Shader load_shader_stage(const rapidjson::Value& value, const std::string& local_path);
+		Program load_shader(const std::string& name);
 	};
 }

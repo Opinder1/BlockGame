@@ -8,11 +8,17 @@
 #include "gl.h"
 
 namespace engine {
-	struct Pixel {
+	struct RGBA { // GL_RGBA
 		uint8 r, g, b, a;
 	};
 
-	//template<class PixelType = Pixel>
+	struct R { // GL_RED
+		uint8 r;
+	};
+
+	struct Pixel : public RGBA {};
+
+	//template<class Pixel = RGBA>
 	class Texture {
 	private:
 		Pixel* data;
