@@ -20,10 +20,6 @@ BlockGameApplication::~BlockGameApplication() {
 
 }
 
-void BlockGameApplication::run() {
-    engine::Application::run();
-}
-
 void BlockGameApplication::update() {
 	for (auto& module : modules) {
 		module->update();
@@ -43,17 +39,15 @@ void BlockGameApplication::reload_resources() {
     for (auto& [name, resource] : resources) {
         const fs::path& path = name;
 
-        std::string directory = path.lexically_relative(*path.begin()).parent_path().u8string() + '\\';
+        std::string directory = path.lexically_relative(*path.begin()).parent_path().string() + '\\';
 
-        NameID id = path.begin()->u8string() + ':' + path.stem().u8string();
+        NameID id = path.begin()->string() + ':' + path.stem().string();
 
-        std::string extension = path.extension().u8string();
-
-        printf("%s %i\n", name.c_str(), name.size());
+        std::string extension = path.extension().string();
     }
 
     try {
-        load_shader("blockgame\\shaders\\sprite\\sprite.json");
+        load_program("blockgame\\shaders\\sprite\\sprite.json");
     }
     catch (engine::program_exception& e) {
         printf("[%s] %s\n", "blockgame\\shaders\\sprite\\sprite.json", e.message.c_str());

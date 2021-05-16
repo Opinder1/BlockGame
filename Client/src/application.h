@@ -27,8 +27,6 @@ private:
 public:
 	BlockGameApplication();
 	~BlockGameApplication();
-
-	void run() override;
 };
 
 extern BlockGameApplication* application;

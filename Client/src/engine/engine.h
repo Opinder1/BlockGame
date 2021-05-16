@@ -32,16 +32,16 @@ namespace engine {
 		void on_window_resize(const WindowResizeEvent* e);
 		void on_window_close(const WindowCloseEvent* e);
 
+		virtual void update() = 0;
+
 	public:
 		Application(const std::string& name, glm::uvec2 size);
 		~Application();
 
-		virtual void update() = 0;
-
 		virtual void run();
 
 	public:
-		Shader load_shader_stage(const rapidjson::Value& value, const std::string& local_path);
-		Program load_shader(const std::string& name);
+		Shader load_shader(const rapidjson::Value& data, const std::string& local_path);
+		Program load_program(const std::string& name);
 	};
 }

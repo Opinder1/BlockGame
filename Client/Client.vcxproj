@@ -111,7 +111,7 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="src\engine\scene\scene.cpp" />
-    <ClCompile Include="src\engine\shader_loader.cpp" />
+    <ClCompile Include="src\engine\load_shader.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine\opengl\array.cpp" />

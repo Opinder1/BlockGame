@@ -9,6 +9,8 @@
 
 #include "zlib/zlib.h"
 
+// Remove this file completely
+
 namespace ocode {
     class Virtual_File {
     private:

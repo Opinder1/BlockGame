@@ -5,6 +5,7 @@
 
 #include "filesystem/file.h"
 
+// Probably shouldnt be base rapidjson source
 #define RAPIDJSON_HAS_STDSTRING 1
 
 #include <rapidjson/document.h>
@@ -46,10 +47,7 @@ namespace ocode {
 		}
 	};
 
-	class JSON {
-
-	};
-
+	// Remove these 3
 	void load_data_file(std::string file_name, json::Document& data);
 
 	void save_data_file(std::string file_name, const json::Document& data);
