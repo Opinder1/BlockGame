@@ -20,7 +20,8 @@ namespace engine {
 	Texture::Texture(const std::string& name) : size(0, 0), data(NULL) {
 		std::string file_name = std::string(PROJECT_DIR) + "resources\\textures\\" + name;
 
-		if (!ocode::file_exists(file_name)) {
+		// TODO redo this
+		if (!fs::exists(file_name)) {
 			printf("File %s does not exist\n", file_name.c_str());
 			return;
 		}

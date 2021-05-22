@@ -6,13 +6,17 @@
 #include <cstdarg>
 #include <cstdio>
 
+// TODO use FileReader from file.h
+
 namespace ocode {
     class LogFile {
     private:
+        // TODO Probably use fstream instead of FILE but idk
         FILE* file;
 
     public:
         LogFile(const LogFile&) = delete;
+        // TODO Ideally use fs::path instead of std::string
         LogFile(const std::string& name);
         ~LogFile();
 
@@ -24,10 +28,4 @@ namespace ocode {
 
         void println(const char* format, ...);
     };
-
-    void printraw(const void* buffer, uint32 buffer_size);
-
-    void print(const char* format, ...);
-
-    void println(const char* format, ...);
 }

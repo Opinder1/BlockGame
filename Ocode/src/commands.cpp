@@ -43,9 +43,9 @@ namespace ocode {
 	}
 
 	void Commands::print_commands() {
-		ocode::println("Commands:");
-		for (auto command : commands) {
-			ocode::println(" - %s", command.first);
+		std::printf("Commands:");
+		for (auto& [name, command] : commands) {
+			std::printf(" - %s", name.c_str());
 		}
 }
 }

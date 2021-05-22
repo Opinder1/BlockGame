@@ -9,6 +9,7 @@ namespace engine {
         
         window.set_icon(engine::Texture("icon.png"));
 
+        // TODO EW what is this supposed to be lol
         engine::QuadRenderer::init();
     }
 

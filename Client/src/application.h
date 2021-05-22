@@ -22,7 +22,6 @@ private:
 	void update() override;
 
 	void reload_resources();
-	void refresh_resources();
 
 public:
 	BlockGameApplication();

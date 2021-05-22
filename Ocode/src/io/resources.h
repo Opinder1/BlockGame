@@ -5,20 +5,10 @@
 #include <filesystem>
 #include <fstream>
 
+#include "ofa.h"
+
 namespace ocode {
-	namespace fs = std::filesystem;
-
-	struct resource_exception {
-		std::string resource;
-		std::string message;
-	};
-
-	struct resource_load_exception : resource_exception {};
-
-	struct File {
-		size_t size;
-		void* data;
-	};
+	struct resource_exception : file_exception {};
 
 	struct Resource {
 		std::string path;

@@ -6,9 +6,11 @@
 #include <unordered_map>
 
 #include "parser/parser.h"
-#include "filesystem/log.h"
+#include "io/log.h"
 
 #define COMMAND(name) int name(uint8 argc, std::string* argv)
+
+// TODO What even was this again lol
 
 namespace ocode {
 	class Commands {

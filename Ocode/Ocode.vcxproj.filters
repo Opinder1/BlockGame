@@ -33,37 +33,28 @@
     <ClCompile Include="src\error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\filesystem\file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\filesystem\folder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\filesystem\log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\filesystem\partial_file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\filesystem\virtual_file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\filesystem\ofa.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\commands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\datafile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\worker_thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\resources.cpp">
+    <ClCompile Include="src\io\file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\ofa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -224,15 +215,6 @@
     <ClInclude Include="include\zlib\zutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\filesystem\file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\filesystem\filesystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\filesystem\log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\rapidjson\error\en.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -344,9 +326,6 @@
     <ClInclude Include="include\rapidjson\writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\filesystem\ofa.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\commands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -359,16 +338,28 @@
     <ClInclude Include="src\typedef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\datafile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\worker_thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\resources.h">
+    <ClInclude Include="src\io\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\ofa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
