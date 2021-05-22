@@ -26,7 +26,7 @@ namespace engine {
 			return;
 		}
 
-		int32 n;
+		glm::int32 n;
 		data = (Pixel*)stbi_load(file_name.c_str(), (int*)&size.x, (int*)&size.y, &n, 4);
 
 		if (n != 4) {

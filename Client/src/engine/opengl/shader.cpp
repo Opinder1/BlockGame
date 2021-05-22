@@ -5,12 +5,12 @@
 namespace engine {
     GLenum shadertype_index[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER,  GL_GEOMETRY_SHADER, GL_COMPUTE_SHADER };
 
-    uint32 current_program = 0;
+    glm::uint32 current_program = 0;
 
-    void Shader::new_(ShaderType type, const char* code, uint32 code_size) {
-        shader_id = glCreateShader(shadertype_index[(uint32)type]);
+    void Shader::new_(ShaderType type, const char* code, glm::uint32 code_size) {
+        shader_id = glCreateShader(shadertype_index[(glm::uint32)type]);
 
-        glShaderSource(shader_id, 1, &code, (int32*)&code_size);
+        glShaderSource(shader_id, 1, &code, (glm::int32*)&code_size);
 
         glCompileShader(shader_id);
     }
@@ -76,11 +76,11 @@ namespace engine {
         return std::string(log.begin(), log.end());
     }
 
-    uint32 Program::get_attribute_location(const char* name) {
+    glm::uint32 Program::get_attribute_location(const char* name) {
         return glGetAttribLocation(program_id, name);
     }
 
-    uint32 Program::get_uniform_location(const char* name) {
+    glm::uint32 Program::get_uniform_location(const char* name) {
         return glGetUniformLocation(program_id, name);
     }
 }

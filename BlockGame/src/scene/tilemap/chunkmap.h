@@ -7,7 +7,7 @@
 #include "chunk.h"
 
 class ChunkMap {
-	enum class ChunkType : uint8 { EMPTY, LOADED, RECENT, CLIENT_SIDE };
+	enum class ChunkType : glm::uint8 { EMPTY, LOADED, RECENT, CLIENT_SIDE };
 
 	struct ChunkHeader {
 		ChunkType status;
@@ -17,25 +17,25 @@ class ChunkMap {
 	};
 
 private:
-	std::unordered_map<uint64, ChunkHeader> chunks;
+	std::unordered_map<glm::uint64, ChunkHeader> chunks;
 
 public:
 	ChunkMap(const ChunkMap&) = delete;
 	ChunkMap() {}
 
-	void insert_empty_chunk(uint64 pos) {
+	void insert_empty_chunk(glm::uint64 pos) {
 		chunks.try_emplace(pos, ChunkHeader(ChunkType::EMPTY, nullptr));
 	}
 
-	void insert_chunk(uint64 pos, Chunk* chunk) {
+	void insert_chunk(glm::uint64 pos, Chunk* chunk) {
 		chunks.try_emplace(pos, ChunkHeader(ChunkType::LOADED, nullptr));
 	}
 };
 
 class SceneVoxelMap : ChunkMap {
 private:
-	uint64 private_key;
-	uint64 public_key;
+	glm::uint64 private_key;
+	glm::uint64 public_key;
 };
 
 // class EntityVoxelMap : Entity {};

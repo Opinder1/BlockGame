@@ -11,7 +11,7 @@ class Scene {
 private:
 	ocode::Random random;
 
-	std::unordered_map<uint32, std::vector<Entity*>> entities;
+	std::unordered_map<glm::uint32, std::vector<Entity*>> entities;
 
 	ocode::EventManager& manager;
 

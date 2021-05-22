@@ -3,10 +3,10 @@
 #include "opengl.h"
 
 namespace engine {
-	uint32 current_texture = 0;
-	uint32 current_multisample_texture = 0;
-	uint32 current_renderbuffer = 0;
-	uint32 current_framebuffer = 0;
+	glm::uint32 current_texture = 0;
+	glm::uint32 current_multisample_texture = 0;
+	glm::uint32 current_renderbuffer = 0;
+	glm::uint32 current_framebuffer = 0;
 
 	TextureBuffer::TextureBuffer(const glm::uvec2& size) {
 		glGenTextures(1, &buffer_id);
@@ -35,7 +35,7 @@ namespace engine {
 		return size;
 	}
 
-	void TextureBuffer::use(uint32 slot) {
+	void TextureBuffer::use(glm::uint32 slot) {
 		glActiveTexture(GL_TEXTURE0 + slot);
 		use();
 	}
@@ -63,7 +63,7 @@ namespace engine {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, gl_type(Type::uint8), texture.get_data());
 	}
 
-	MSTextureBuffer::MSTextureBuffer(const glm::uvec2& size, uint32 samples) {
+	MSTextureBuffer::MSTextureBuffer(const glm::uvec2& size, glm::uint32 samples) {
 		glGenTextures(1, &buffer_id);
 
 		resize(size, samples);
@@ -84,23 +84,23 @@ namespace engine {
 		return size;
 	}
 
-	const uint32 MSTextureBuffer::get_samples() {
+	const glm::uint32 MSTextureBuffer::get_samples() {
 		return samples;
 	}
 
-	void MSTextureBuffer::use(uint32 slot) {
+	void MSTextureBuffer::use(glm::uint32 slot) {
 		glActiveTexture(GL_TEXTURE0 + slot);
 		use();
 	}
 
-	void MSTextureBuffer::resize(const glm::uvec2& size, uint32 samples) {
+	void MSTextureBuffer::resize(const glm::uvec2& size, glm::uint32 samples) {
 		use();
 		this->size = size;
 		this->samples = samples;
 		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGBA, size.x, size.y, GL_TRUE);
 	}
 
-	DepthBuffer::DepthBuffer(const glm::uvec2& size, uint32 samples) {
+	DepthBuffer::DepthBuffer(const glm::uvec2& size, glm::uint32 samples) {
 		glGenRenderbuffers(1, &buffer_id);
 		resize(size, samples);
 	}
@@ -116,7 +116,7 @@ namespace engine {
 		}
 	}
 
-	void DepthBuffer::resize(const glm::uvec2& size, uint32 samples) {
+	void DepthBuffer::resize(const glm::uvec2& size, glm::uint32 samples) {
 		use();
 		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, size.x, size.y);
 	}
@@ -146,12 +146,12 @@ namespace engine {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
-	void FrameBuffer::set_attachment(TextureBuffer& texture, uint32 position) {
+	void FrameBuffer::set_attachment(TextureBuffer& texture, glm::uint32 position) {
 		use();
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + position, GL_TEXTURE_2D, texture.buffer_id, 0);
 	}
 
-	void FrameBuffer::set_attachment(MSTextureBuffer& texture, uint32 position) {
+	void FrameBuffer::set_attachment(MSTextureBuffer& texture, glm::uint32 position) {
 		use();
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + position, GL_TEXTURE_2D_MULTISAMPLE, texture.buffer_id, 0);
 	}

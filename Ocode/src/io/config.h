@@ -15,25 +15,32 @@ namespace json = rapidjson;
 namespace ocode {
     struct json_exception : file_exception {}; 
     
-    // TODO Switch std::string to fs::directory_entry
-    void load_json_file(std::string file_name, json::Document& data);
+    void load_json_file(const fs::path& path, json::Document& data);
 
-    void save_json_file(std::string file_name, const json::Document& data); 
+    void save_json_file(const fs::path& path, const json::Document& data);
     
-    // TODO Add function for all types or use template
-    const std::string get_string(const json::Value& json, const std::string& name);
+    template<class Type>
+    const Type get(const json::Value& json, const std::string& name) {
+        if (!json.HasMember(name)) throw json_exception{ std::string("Json entry '' is missing").replace(12, 0, name) };
 
+        const json::Value& type = json[name];
+
+        if (!type.Is<Type>()) throw json_exception{ std::string("Json entry '' is not an array").replace(12, 0, name) };
+
+        return type.Get<Type>();
+    }
+
+    const json::Value::ConstObject get_object(const json::Value& json, const std::string& name);
     const json::Value::ConstArray get_array(const json::Value& json, const std::string& name);
 
     class Config {
     private:
-        std::string file_name;
+        fs::path path;
 
         json::Document tree;
 
     public:
-        // TODO Switch std::string to fs::directory_entry
-        Config(const std::string& name);
+        Config(const fs::path& path);
         ~Config();
 
         void save();

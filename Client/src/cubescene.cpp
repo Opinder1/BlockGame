@@ -14,12 +14,12 @@ CubeScene::CubeScene() : camera(70.0f, application->window.get_size()), surface(
     for (int i = 0; i < count; i++) {
         glm::mat4 model = glm::mat4(1.0f);
 
-        float p1 = map(float(r.new_int32()), float(INT32_MIN), float(INT32_MAX), -size, size);
-        float p2 = map(float(r.new_int32()), float(INT32_MIN), float(INT32_MAX), -size, size);
+        float p1 = map(r.get<float>(), float(INT32_MIN), float(INT32_MAX), -size, size);
+        float p2 = map(r.get<float>(), float(INT32_MIN), float(INT32_MAX), -size, size);
 
         model = glm::translate(model, glm::vec3(p1, 0, p2));
         model = glm::scale(model, glm::vec3(1.0f));
-        model = glm::rotate(model, float(r.new_int32() % 360), glm::vec3(r.new_int32() / 1000.0f, r.new_int32() / 1000.0f, r.new_int32() / 1000.0f));
+        model = glm::rotate(model, float(r.get<glm::int32>() % 360), glm::vec3(r.get<float>() / 1000.0f, r.get<float>() / 1000.0f, r.get<float>() / 1000.0f));
 
         transforms.push_back(model);
     }

@@ -6,7 +6,7 @@
 #include <GLM/ext.hpp>
 
 namespace engine {
-	enum class Type : uint32 {
+	enum class Type : glm::uint32 {
 		int8,
 		uint8,
 		int16,
@@ -17,11 +17,11 @@ namespace engine {
 		float64
 	};
 
-	enum class Culling : uint32 {
+	enum class Culling : glm::uint32 {
 		Disabled, Back, Front, Both
 	};
 
-	enum class PolyMode : uint32 {
+	enum class PolyMode : glm::uint32 {
 		Point, Line, Fill
 	};
 

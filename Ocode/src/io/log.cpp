@@ -13,7 +13,7 @@ namespace ocode {
         fclose(file);
     }
 
-    void LogFile::printraw(const void* buffer, uint32 buffer_size) {
+    void LogFile::printraw(const void* buffer, glm::uint32 buffer_size) {
         //fprintf(file, "[PRINTRAW] ");
 
         fwrite(buffer, 1, buffer_size, stdout);

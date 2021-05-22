@@ -1,41 +1,59 @@
 #include "ofa.h"
 
 namespace ocode {
-    OFA::OFA(const fs::path& path) {
-        FileReader file = load_compressed_file(path);
+    std::string decompress(const std::string& input, glm::uint32 output_size) {
+        std::unique_ptr<char[]> output(new char[output_size]);
+        if (output == nullptr) throw zip_exception{ "Could not allocate memory for uncompressed file" };
 
-        file_count = file.read<uint16>();
+        // TODO Add zlib library
+        int code = 0; // uncompress((Bytef*)output.get(), (uLongf*)&output_size, (const Bytef*)input.data(), (uLong)input.size());
 
-        for (uint16 file_index = 0; file_index < file_count; file_index++) {
-            uint16 file_name_size = file.read<uint16>();
-            if (file_name_size == 0) throw ofa_exception{ "Invalid file name size" };
+        if (code == Z_BUF_ERROR) throw zip_exception{ "Could not uncompress file (Buffer Error)" };
+        if (code == Z_MEM_ERROR) throw zip_exception{ "Could not uncompress file (Memory Error)" };
+        if (code == Z_DATA_ERROR) throw zip_exception{ "Could not uncompress file (Data Error)" };
 
-            std::string file_name(file.read<char>(file_name_size), file_name_size);
-
-            uint64 file_size = file.read<uint64>();
-            if (file_size == 0) throw ofa_exception{ "Invalid file size" };
-
-            uint8* file_data = file.read_copy<uint8>(file_size);
-
-            files.emplace(file_name, File{ file_size, file_data });
-        }
+        return { output.get(), output_size };
     }
 
-    OFA::~OFA() {
-        for (auto& file : files) {
-            delete[] file.second.data;
+    File load_compressed_file(const fs::path& path) {
+        FileReader file(load_file(path));
+
+        glm::uint32 input_size, output_size;
+
+        file >> input_size >> output_size;
+
+        std::string input = read_string(file, input_size);
+
+        return decompress(input, output_size);
+    }
+
+    OFA::OFA(const fs::path& path) {
+        FileReader file(load_compressed_file(path));
+
+        file >> file_count;
+
+        for (glm::uint16 file_index = 0; file_index < file_count; file_index++) {
+            glm::uint16 file_name_size; file >> file_name_size;
+            if (file_name_size == 0) throw ofa_exception{ "Invalid file name size" };
+
+            std::string file_name = read_string(file, file_name_size);
+
+            glm::uint64 file_size; file >> file_size;
+            if (file_size == 0) throw ofa_exception{ "Invalid file size" };
+
+            files.emplace(file_name, read_string(file, file_size));
         }
     }
 
     bool OFA::contains_file(const std::string& file_name) {
-        return this->files.find(file_name) != this->files.end();
+        return files.find(file_name) != files.end();
     }
 
-    File OFA::operator[](const std::string& file_name) {
-        if (!this->contains_file(file_name)) {
-            throw ofa_exception{ "Could not find the file in the archive" };
+    const File& OFA::operator[](const std::string& file_name) {
+        if (!contains_file(file_name)) {
+            throw ofa_exception{ "Could not find the file" };
         }
 
-        return this->files.at(file_name);
+        return files.at(file_name);
     }
 }

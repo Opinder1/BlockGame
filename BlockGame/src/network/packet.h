@@ -5,7 +5,7 @@
 #include <enet/enet.h>
 #include <sstream>
 
-enum class PacketType : uint8 {
+enum class PacketType : glm::uint8 {
     UNENCRYPTED,
     SSL_FROM,
     SSL_TO
@@ -13,8 +13,8 @@ enum class PacketType : uint8 {
 
 struct Packet {
     PacketType type;
-    uint8* data;
-    uint32 data_size;
+    glm::uint8* data;
+    glm::uint32 data_size;
 };
 
 class PacketWriter {
@@ -40,14 +40,14 @@ public:
 	}
 
 	template<class Type>
-	void write(Type* data, uint32 size) {
+	void write(Type* data, glm::uint32 size) {
 		stream.write((char*)data, sizeof(Type) * size);
 	}
 
 	template<class Type>
 	void write_string(std::basic_string<Type>&& data) {
-		write((uint32)data.size());
-		write(data.data(), (uint32)data.size());
+		write((glm::uint32)data.size());
+		write(data.data(), (glm::uint32)data.size());
 	}
 };
 
@@ -55,7 +55,7 @@ class PacketReader {
 private:
 	const Packet& packet;
 
-	uint32 reader_pos;
+	glm::uint32 reader_pos;
 
 public:
 	PacketReader(const PacketReader&) = delete;
@@ -77,7 +77,7 @@ public:
 
 	template<class Type>
 	std::basic_string<Type> read_string() {
-		uint32 size = read<uint32>();
+		glm::uint32 size = read<glm::uint32>();
 
 		if (reader_pos + size > packet.data_size) {
 			throw std::length_error("Message size error reading (string) type");
@@ -107,5 +107,5 @@ struct PacketReciveEvent : ocode::Event {
 	ENetPeer* peer;
 	Packet packet;
 
-	PacketReciveEvent(ENetPeer* peer, PacketType type, uint8* data, uint32 data_size) : peer(peer), packet{ type, data, data_size } {}
+	PacketReciveEvent(ENetPeer* peer, PacketType type, glm::uint8* data, glm::uint32 data_size) : peer(peer), packet{ type, data, data_size } {}
 };

@@ -21,16 +21,16 @@ namespace ocode {
 
 	}
 
-	void Tokenlist::add_token(const char* data, uint8 type) {
+	void Tokenlist::add_token(const char* data, glm::uint8 type) {
 		tokens.push_back({ data, type });
 	}
 
-	std::string Tokenlist::at(uint32 pos) {
+	std::string Tokenlist::at(glm::uint32 pos) {
 		return tokens.at(pos).data;
 	}
 
-	uint32 Tokenlist::size() {
-		return (uint32)tokens.size();
+	glm::uint32 Tokenlist::size() {
+		return (glm::uint32)tokens.size();
 	}
 
 	std::string Tokenlist::to_string() {

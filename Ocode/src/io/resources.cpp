@@ -17,15 +17,12 @@ namespace ocode {
 				std::string name = resource_path.u8string();
 
 				if (resources.find(name) == resources.end())
-					resources.emplace(name, Resource{ resource_path.parent_path().u8string(), load_file(path) });
+					resources.emplace(name, Resource{ resource_path.parent_path().u8string(), load_file(path.path().u8string()) });
 			}
 		}
 	}
 
 	void ResourceManager::flush() {
-		for (auto& resource : resources)
-			delete resource.second.file.data;
-
 		resources.clear();
 	}
 
@@ -37,7 +34,7 @@ namespace ocode {
 		return resources.end();
 	}
 
-	const Resource ResourceManager::get_resource(const std::string& resource_name) {
+	const Resource& ResourceManager::operator[](const std::string& resource_name) {
 		auto resource = resources.find(resource_name);
 
 		if (resource == resources.end()) throw resource_exception{ "Could not find resource" };
@@ -45,7 +42,7 @@ namespace ocode {
 		return resource->second;
 	}
 
-	const Resource& ResourceManager::operator[](const std::string& resource_name) {
-		return resources[resource_name];
+	Resource ResourceManager::copy_resource(const std::string& resource_name) {
+		return operator[](resource_name);
 	}
 }

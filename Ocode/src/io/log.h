@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../typedef.h"
+#include <GLM/glm.hpp>
 
 #include <string>
 #include <cstdarg>
@@ -22,7 +22,7 @@ namespace ocode {
 
         bool initialized();
 
-        void printraw(const void* buffer, uint32 buffer_size);
+        void printraw(const void* buffer, glm::uint32 buffer_size);
 
         void print(const char* format, ...);
 

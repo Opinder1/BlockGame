@@ -13,7 +13,7 @@
 #define THREAD_EVENT_POST(event, ...) thread_event_post<event>(new event(__VA_ARGS__))
 
 namespace ocode {
-    enum class ThreadEventType : uint8 {
+    enum class ThreadEventType : glm::uint8 {
         Stop,
         Event,
         Timer

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "typedef.h"
+#include <GLM/glm.hpp>
 
 #include <string>
 #include <unordered_map>
@@ -8,14 +8,14 @@
 #include "parser/parser.h"
 #include "io/log.h"
 
-#define COMMAND(name) int name(uint8 argc, std::string* argv)
+#define COMMAND(name) int name(glm::uint8 argc, std::string* argv)
 
 // TODO What even was this again lol
 
 namespace ocode {
 	class Commands {
 	private:
-		typedef int(*CommandType)(uint8 argc, std::string* argv);
+		typedef int(*CommandType)(glm::uint8 argc, std::string* argv);
 
 		CommandType unknown_command;
 

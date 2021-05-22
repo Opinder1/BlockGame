@@ -22,13 +22,13 @@ void Host::listen() {
             break;
 
         case ENET_EVENT_TYPE_DISCONNECT:
-            manager->event_post(PeerDisconnectEvent, event.peer, (uint32)event.data);
+            manager->event_post(PeerDisconnectEvent, event.peer, (glm::uint32)event.data);
             break;
 
         case ENET_EVENT_TYPE_RECEIVE:
             switch ((PacketType)event.packet->data[0]) {
             case PacketType::UNENCRYPTED:
-                manager->event_post(PacketReciveEvent, event.peer, (PacketType)event.packet->data[1], (uint8*)event.packet->data + 2, (uint32)event.packet->dataLength - 1);
+                manager->event_post(PacketReciveEvent, event.peer, (PacketType)event.packet->data[1], (glm::uint8*)event.packet->data + 2, (glm::uint32)event.packet->dataLength - 1);
                 break;
 
             case PacketType::SSL_FROM:
@@ -51,7 +51,7 @@ void Host::listen() {
     }
 }
 
-NetClient::NetClient(ocode::EventManager* manager, const std::string& address, uint16 port) : Host(manager), server(NULL) {
+NetClient::NetClient(ocode::EventManager* manager, const std::string& address, glm::uint16 port) : Host(manager), server(NULL) {
     enet_address_set_host(&server_address, address.c_str());
     server_address.port = port;
 
@@ -67,7 +67,7 @@ NetClient::~NetClient() {
     enet_host_destroy(host);
 }
 
-bool NetClient::connect(uint16 timeout) {
+bool NetClient::connect(glm::uint16 timeout) {
     ENetEvent event;
 
     server = enet_host_connect(host, &server_address, 2, 0);
@@ -81,8 +81,8 @@ bool NetClient::connect(uint16 timeout) {
     }
 }
 
-NetServer::NetServer(ocode::EventManager* manager, uint16 port, uint8 max_connections) : Host(manager) {
-    address = { ENET_HOST_ANY, (uint16)port };
+NetServer::NetServer(ocode::EventManager* manager, glm::uint16 port, glm::uint8 max_connections) : Host(manager) {
+    address = { ENET_HOST_ANY, (glm::uint16)port };
 
     host = enet_host_create(&address, max_connections, 2, 0, 0);
 

@@ -18,7 +18,7 @@ bool is_uppercase(char s) {
 
 int get_number(const char* input, std::vector<char>& buffer, bool& isdecimal) {
 
-    uint32 pos = 0;
+    glm::uint32 pos = 0;
 
     buffer.clear();
 
@@ -57,7 +57,7 @@ int get_number(const char* input, std::vector<char>& buffer, bool& isdecimal) {
 
 int get_word(const char* input, std::vector<char>& buffer) {
 
-    uint32 pos = 0;
+    glm::uint32 pos = 0;
 
     buffer.clear();
 
@@ -87,7 +87,7 @@ int get_word(const char* input, std::vector<char>& buffer) {
 
 int get_string_1(const char* input, std::vector<char>& buffer) {
 
-    uint32 pos = 0;
+    glm::uint32 pos = 0;
 
     buffer.clear();
 
@@ -121,7 +121,7 @@ int get_string_1(const char* input, std::vector<char>& buffer) {
 
 int get_string_2(const char* input, std::vector<char>& buffer) {
 
-    uint32 pos = 0;
+    glm::uint32 pos = 0;
 
     buffer.clear();
 
@@ -156,11 +156,11 @@ int get_string_2(const char* input, std::vector<char>& buffer) {
 namespace ocode {
     int tokenize(const char* input, Tokenlist& output) {
 
-        uint32 pos = 0;
+        glm::uint32 pos = 0;
 
         std::vector<char> buffer;
         
-        uint32 size;
+        glm::uint32 size;
 
         bool isdecimal;
 

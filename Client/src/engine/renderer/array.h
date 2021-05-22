@@ -14,7 +14,7 @@ namespace engine {
 
 	class Array {
 	private:
-		uint32 vertex_array_id;
+		glm::uint32 vertex_array_id;
 
 	protected:
 		void use();
@@ -24,10 +24,10 @@ namespace engine {
 		Array();
 		~Array();
 
-		void set_attribute(uint32 pos, ArrayBuffer& buffer, Type type, uint32 width = 1, uint32 height = 1, uint32 divisor = 0);
+		void set_attribute(glm::uint32 pos, ArrayBuffer& buffer, Type type, glm::uint32 width = 1, glm::uint32 height = 1, glm::uint32 divisor = 0);
 
-		void draw(DrawType type, uint32 vertexes);
-		void draw_instanced(DrawType type, uint32 vertexes, uint32 instances);
+		void draw(DrawType type, glm::uint32 vertexes);
+		void draw_instanced(DrawType type, glm::uint32 vertexes, glm::uint32 instances);
 	};
 
 	class ElementArray : public Array, public ElementBuffer {
@@ -37,7 +37,7 @@ namespace engine {
 	public:
 		ElementArray(Type type) : Array(), ElementBuffer(), element_type(type) {}
 
-		void draw(uint32 elements);
-		void draw_instanced(uint32 elements, uint32 instances);
+		void draw(glm::uint32 elements);
+		void draw_instanced(glm::uint32 elements, glm::uint32 instances);
 	};
 }

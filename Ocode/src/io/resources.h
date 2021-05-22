@@ -35,8 +35,8 @@ namespace ocode {
 		iterator begin();
 		iterator end();
 
-		const Resource get_resource(const std::string& resource_name);
-
 		const Resource& operator[](const std::string& resource_name);
+
+		Resource copy_resource(const std::string& resource_name);
 	};
 }

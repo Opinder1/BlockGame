@@ -11,28 +11,8 @@ namespace ocode {
 		seed = std::chrono::system_clock::now().time_since_epoch().count() + std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	}
 
-	uint32 Random::new_uint32() {
-		seed = 6364136223846793005 * seed + 1;
-		return (uint32)seed;
-	}
-
-	int32 Random::new_int32() {
-		seed = 6364136223846793005 * seed + 1;
-		return (int32)seed;
-	}
-
-	uint64 Random::new_uint64() {
-		seed = 6364136223846793005 * seed + 1;
-		return (uint64)seed;
-	}
-
-	int64 Random::new_int64() {
-		seed = 6364136223846793005 * seed + 1;
-		return (int64)seed;
-	}
-
 	UUID Random::new_uuid() {
-		uint64 uuid[2] = { new_uint64(), new_uint64() };
+		glm::uint64 uuid[2] = { get<glm::uint64>(), get<glm::uint64>() };
 
 		return (UUID&)uuid;
 	}

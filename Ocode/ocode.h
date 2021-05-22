@@ -1,7 +1,5 @@
 #pragma once
 
-#include "src/typedef.h"
-
 #include "src/array.h"
 #include "src/commands.h"
 #include "src/error.h"

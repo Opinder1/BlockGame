@@ -9,11 +9,11 @@
 
 namespace engine {
 	struct RGBA { // GL_RGBA
-		uint8 r, g, b, a;
+		glm::uint8 r, g, b, a;
 	};
 
 	struct R { // GL_RED
-		uint8 r;
+		glm::uint8 r;
 	};
 
 	struct Pixel : public RGBA {};

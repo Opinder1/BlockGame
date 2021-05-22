@@ -24,10 +24,10 @@ namespace engine {
         return Monitor(glfwGetPrimaryMonitor());
     }
 
-    Monitor Monitor::get(uint32 id) {
-        uint32 count;
+    Monitor Monitor::get(glm::uint32 id) {
+        glm::uint32 count;
 
-        GLFWmonitor** monitor_list = glfwGetMonitors((int32*)&count);
+        GLFWmonitor** monitor_list = glfwGetMonitors((int*)&count);
 
         if (id > count) {
             id = count;
@@ -55,7 +55,7 @@ namespace engine {
     const glm::uvec2 Monitor::get_size() {
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-        return { (uint32)mode->width, (uint32)mode->height };
+        return { (glm::uint32)mode->width, (glm::uint32)mode->height };
     }
 
     const glm::ivec2 Monitor::get_pos() {

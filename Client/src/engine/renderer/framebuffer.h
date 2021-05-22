@@ -8,7 +8,7 @@ namespace engine {
 		friend class FrameBuffer;
 
 	private:
-		uint32 buffer_id;
+		glm::uint32 buffer_id;
 
 		glm::uvec2 size;
 
@@ -23,7 +23,7 @@ namespace engine {
 
 		const glm::uvec2 get_size();
 
-		void use(uint32 slot);
+		void use(glm::uint32 slot);
 
 		void resize(const glm::uvec2& size);
 
@@ -34,47 +34,47 @@ namespace engine {
 		friend class FrameBuffer;
 
 	private:
-		uint32 buffer_id;
+		glm::uint32 buffer_id;
 
 		glm::uvec2 size;
-		uint32 samples;
+		glm::uint32 samples;
 
 		void use();
 
 	public:
 		MSTextureBuffer(const MSTextureBuffer&) = delete;
-		MSTextureBuffer(const glm::uvec2&, uint32 samples = 1);
+		MSTextureBuffer(const glm::uvec2&, glm::uint32 samples = 1);
 		~MSTextureBuffer();
 
 		const glm::uvec2 get_size();
-		const uint32 get_samples();
+		const glm::uint32 get_samples();
 
-		void use(uint32 slot);
+		void use(glm::uint32 slot);
 
-		void resize(const glm::uvec2&, uint32 samples = 1);
+		void resize(const glm::uvec2&, glm::uint32 samples = 1);
 	};
 
 	class DepthBuffer {
 		friend class FrameBuffer;
 
 	private:
-		uint32 buffer_id;
+		glm::uint32 buffer_id;
 
 		void use();
 
 	public:
 		DepthBuffer(const DepthBuffer&) = delete;
-		DepthBuffer(const glm::uvec2&, uint32 samples = 1);
+		DepthBuffer(const glm::uvec2&, glm::uint32 samples = 1);
 		~DepthBuffer();
 
-		void resize(const glm::uvec2&, uint32 samples = 1);
+		void resize(const glm::uvec2&, glm::uint32 samples = 1);
 	};
 
 	class FrameBuffer {
 		friend class SurfaceBase;
 
 	private:
-		uint32 buffer_id;
+		glm::uint32 buffer_id;
 
 		FrameBuffer(bool window);
 
@@ -86,8 +86,8 @@ namespace engine {
 		void use();
 		void use_cleared();
 
-		void set_attachment(TextureBuffer& texture, uint32 position);
-		void set_attachment(MSTextureBuffer& texture, uint32 position);
+		void set_attachment(TextureBuffer& texture, glm::uint32 position);
+		void set_attachment(MSTextureBuffer& texture, glm::uint32 position);
 		void set_attachment(DepthBuffer& depth);
 
 		int status();

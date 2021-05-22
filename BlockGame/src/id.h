@@ -10,7 +10,7 @@
 
 namespace fs = std::filesystem;
 
-using ID = uint64;
+using ID = glm::uint64;
 using NameID = std::string;
 
 class IDManager {

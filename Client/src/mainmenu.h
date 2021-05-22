@@ -12,7 +12,7 @@ private:
 	engine::Material* material;
 	engine::TextureBuffer* texture;
 
-	uint8 state;
+	glm::uint8 state;
 
 	ui::Frame main_page;
 	ui::Frame settings;

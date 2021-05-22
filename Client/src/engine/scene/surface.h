@@ -55,9 +55,9 @@ namespace engine {
 	public:
 		MSTextureBuffer texture;
 
-		Surface3D(const glm::uvec2& size, uint32 samples);
+		Surface3D(const glm::uvec2& size, glm::uint32 samples);
 
-		void resize(const glm::uvec2& size, uint32 samples);
+		void resize(const glm::uvec2& size, glm::uint32 samples);
 	};
 
 	class WindowSurface : public SurfaceBase {

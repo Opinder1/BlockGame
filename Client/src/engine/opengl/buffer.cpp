@@ -5,9 +5,9 @@
 namespace engine {
 	GLenum buffertype_index[] = { GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW };
 
-	uint32 current_buffer = 0;
+	glm::uint32 current_buffer = 0;
 
-	Buffer::Buffer(uint32 type) : buffer_type(type), buffer_size(0) {
+	Buffer::Buffer(glm::uint32 type) : buffer_type(type), buffer_size(0) {
 		glGenBuffers(1, &buffer_id);
 	}
 
@@ -22,19 +22,19 @@ namespace engine {
 		}
 	}
 
-	void Buffer::new_data(uint64 size, void* data, BufferType usage) {
-		glBufferData(buffer_type, size, data, buffertype_index[(uint32)usage]);
+	void Buffer::new_data(glm::uint64 size, void* data, BufferType usage) {
+		glBufferData(buffer_type, size, data, buffertype_index[(glm::uint32)usage]);
 	}
 
-	void Buffer::sub_data(uint64 pos, uint64 size, void* data) {
+	void Buffer::sub_data(glm::uint64 pos, glm::uint64 size, void* data) {
 		glBufferSubData(buffer_type, pos, size, data);
 	}
 
-	const uint32 Buffer::get_id() {
+	const glm::uint32 Buffer::get_id() {
 		return buffer_id;
 	}
 
-	const uint64 Buffer::get_size() {
+	const glm::uint64 Buffer::get_size() {
 		return buffer_size;
 	}
 
@@ -49,11 +49,11 @@ namespace engine {
 	GlobalBuffer::GlobalBuffer() : Buffer(GL_UNIFORM_BUFFER) {
 	}
  
-	void GlobalBuffer::activate_slot(uint32 slot) {
+	void GlobalBuffer::activate_slot(glm::uint32 slot) {
 		glBindBufferBase(GL_UNIFORM_BUFFER, slot, get_id());
 	}
 
-	void GlobalBuffer::set_range(uint32 slot, uint64 pos, uint64 size) {
+	void GlobalBuffer::set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size) {
 		glBindBufferRange(GL_UNIFORM_BUFFER, slot, get_id(), pos, size);
 	}
 }

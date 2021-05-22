@@ -7,5 +7,5 @@
 struct Chunk {
 	Block blocks[16][16][16];
 
-	uint8 hitbox[6];
+	glm::uint8 hitbox[6];
 };

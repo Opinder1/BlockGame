@@ -1,6 +1,6 @@
 #include "parser.h"
 
-std::unordered_map<std::string, uint32> a = {
+std::unordered_map<std::string, glm::uint32> a = {
 	{"include",0},
 	{"define", 1},
 	{"undef", 2},
@@ -16,7 +16,7 @@ std::unordered_map<std::string, uint32> a = {
 
 int parse_directive(const char* input, std::vector<char>& buffer) {
 
-	uint32 pos = 0;
+	glm::uint32 pos = 0;
 
 	buffer.clear();
 
@@ -31,7 +31,7 @@ int parse_directive(const char* input, std::vector<char>& buffer) {
 
 int parse_until_newline(const char* input) {
 
-	uint32 pos = 0;
+	glm::uint32 pos = 0;
 
 	do {
 		pos++;
@@ -43,7 +43,7 @@ int parse_until_newline(const char* input) {
 namespace ocode {
 	int preprocess(const char* input, char* output_char) {
 
-		uint32 pos = 0;
+		glm::uint32 pos = 0;
 
 		std::vector<char> output;
 

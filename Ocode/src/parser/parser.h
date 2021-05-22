@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../typedef.h"
+#include <GLM/glm.hpp>
 
 #include <unordered_map>
 #include <vector>
@@ -11,7 +11,7 @@ namespace ocode {
 
 	struct Token {
 		std::string data;
-		uint8 datatype;
+		glm::uint8 datatype;
 
 		enum TOKEN_TYPE {
 			WORD, INTEGER, FLOAT, STRING, BOOLEAN,
@@ -30,11 +30,11 @@ namespace ocode {
 
 		~Tokenlist();
 
-		void add_token(const char* data, uint8 type);
+		void add_token(const char* data, glm::uint8 type);
 
-		std::string at(uint32 pos);
+		std::string at(glm::uint32 pos);
 
-		uint32 size();
+		glm::uint32 size();
 
 		std::string to_string();
 	};

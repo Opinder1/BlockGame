@@ -1,6 +1,6 @@
 #pragma once
 
-#include "typedef.h"
+#include <GLM/glm.hpp>
 
 #include <functional>
 #include <unordered_map>
@@ -14,8 +14,8 @@
 
 namespace ocode {
 	template<class T> using HandleType = std::function<void(const T*)>;
-	using ObserverId = uint32;
-	using EventType = uint64;
+	using ObserverId = glm::uint32;
+	using EventType = glm::uint64;
 
 	struct Event {
 		Event(const Event&) = delete;

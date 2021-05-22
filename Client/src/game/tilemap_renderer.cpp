@@ -65,6 +65,6 @@ namespace tilemap {
 		material->set("cuboid_pos", glm::vec3(pos));
 		material->set("cuboid_size", glm::vec3(size));
 
-		array->draw(engine::DrawType::Default, (uint32)vertexes.size());
+		array->draw(engine::DrawType::Default, (glm::uint32)vertexes.size());
 	}
 }

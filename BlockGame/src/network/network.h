@@ -48,10 +48,10 @@ private:
     ENetPeer* server;
 
 public:
-    NetClient(ocode::EventManager* manager, const std::string& address, uint16 port);
+    NetClient(ocode::EventManager* manager, const std::string& address, glm::uint16 port);
     virtual ~NetClient();
 
-    bool connect(uint16 timeout);
+    bool connect(glm::uint16 timeout);
 
     void on_packet_send(const PacketSendEvent* e);
 };
@@ -61,7 +61,7 @@ private:
     ENetAddress address;
 
 public:
-    NetServer(ocode::EventManager* manager, uint16 port, uint8 max_connections);
+    NetServer(ocode::EventManager* manager, glm::uint16 port, glm::uint8 max_connections);
     virtual ~NetServer();
 
     void on_packet_send(const PacketSendEvent* e);
@@ -76,7 +76,7 @@ struct PeerConnectEvent : ocode::Event {
 
 struct PeerDisconnectEvent : ocode::Event {
     ENetPeer* peer;
-    uint32 reason;
+    glm::uint32 reason;
 
-    PeerDisconnectEvent(ENetPeer* peer, uint32 reason) : peer(peer), reason(reason) {}
+    PeerDisconnectEvent(ENetPeer* peer, glm::uint32 reason) : peer(peer), reason(reason) {}
 };

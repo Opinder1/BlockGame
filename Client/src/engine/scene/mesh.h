@@ -19,10 +19,10 @@ namespace engine {
 
 	public:
 		Mesh();
-		Mesh(std::vector<uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords);
+		Mesh(std::vector<glm::uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords);
 		~Mesh();
 
 		void draw();
-		void draw_instanced(uint32 instance_count);
+		void draw_instanced(glm::uint32 instance_count);
 	};
 }

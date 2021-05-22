@@ -24,7 +24,7 @@ namespace engine {
 		static Monitor init();
 
 		static Monitor get_primary();
-		static Monitor get(uint32 id);
+		static Monitor get(glm::uint32 id);
 
 		void use(GLFWwindow* window);
 		bool is_null();

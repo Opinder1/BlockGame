@@ -96,12 +96,12 @@ namespace engine {
 		texture.resize(size);
 	}
 	
-	Surface3D::Surface3D(const glm::uvec2& size, uint32 samples) : texture(size, samples), depth(size, samples) {
+	Surface3D::Surface3D(const glm::uvec2& size, glm::uint32 samples) : texture(size, samples), depth(size, samples) {
 		frame.set_attachment(texture, 0);
 		frame.set_attachment(depth);
 	}
 
-	void Surface3D::resize(const glm::uvec2& size, uint32 samples) {
+	void Surface3D::resize(const glm::uvec2& size, glm::uint32 samples) {
 		SurfaceBase::resize(size);
 		texture.resize(size, samples);
 		depth.resize(size, samples);

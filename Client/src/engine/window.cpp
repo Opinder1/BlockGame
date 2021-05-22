@@ -110,7 +110,7 @@ namespace engine {
     void Window::set_icon(const Texture& texture) {
         glm::ivec2 size = texture.get_size();
 
-        GLFWimage image = { size.x, size.y, (uint8*)texture.get_data() };
+        GLFWimage image = { size.x, size.y, (glm::uint8*)texture.get_data() };
 
         glfwSetWindowIcon(window, 1, &image);
     }

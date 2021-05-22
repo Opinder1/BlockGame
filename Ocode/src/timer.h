@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-#include "typedef.h"
+#include <GLM/glm.hpp>
 
 namespace ocode {
 	class Timer {
@@ -13,6 +13,6 @@ namespace ocode {
 		Timer();
 		~Timer();
 
-		uint64 stop();
+		glm::uint64 stop();
 	};
 }

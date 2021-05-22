@@ -26,17 +26,17 @@ namespace ocode {
 
 		std::vector<std::string> args;
 
-		for (uint16 token = 1; token < parts.size() - 1; token++) {
+		for (glm::uint16 token = 1; token < parts.size() - 1; token++) {
 			args.push_back(parts.at(token));
 		}
 
 		auto command = commands.find(command_name);
 
 		if (command == commands.end()) {
-			code = unknown_command((uint8)args.size(), args.data());
+			code = unknown_command((glm::uint8)args.size(), args.data());
 		}
 		else {
-			code = command->second((uint8)args.size(), args.data());
+			code = command->second((glm::uint8)args.size(), args.data());
 		}
 
 		return code;

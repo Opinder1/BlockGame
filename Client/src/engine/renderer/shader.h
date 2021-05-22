@@ -8,7 +8,7 @@
 #include "texture.h"
 
 namespace engine {
-    enum class ShaderType : uint32 {
+    enum class ShaderType : glm::uint32 {
         VERTEX,
         FRAGMENT,
         GEOMETRY,
@@ -25,10 +25,10 @@ namespace engine {
         friend class Program;
 
     private:
-        uint32 shader_id;
+        glm::uint32 shader_id;
 
     public:
-        void new_(ShaderType type, const char* code, uint32 code_size);
+        void new_(ShaderType type, const char* code, glm::uint32 code_size);
         void delete_();
 
         int compile_status();
@@ -37,7 +37,7 @@ namespace engine {
 
     class Program {
     private:
-        uint32 program_id;
+        glm::uint32 program_id;
 
     public:
         void new_();
@@ -51,11 +51,11 @@ namespace engine {
         int link_status();
         std::string get_log();
 
-        uint32 get_attribute_location(const char* name);
-        uint32 get_uniform_location(const char* name);
+        glm::uint32 get_attribute_location(const char* name);
+        glm::uint32 get_uniform_location(const char* name);
 
         template<class T>
-        void set(uint32 location, const T& value);
+        void set(glm::uint32 location, const T& value);
 
         template<class T>
         void set(const char* name, const T& value) {

@@ -2,10 +2,10 @@
 
 ENetPacket* PacketWriter::to_packet() {
 	stream.seekg(0, stream.end);
-	uint32 size = (uint32)stream.tellg();
+	glm::uint32 size = (glm::uint32)stream.tellg();
 	stream.seekg(0, stream.beg);
 
-	uint8* buffer = new uint8[size];
+	glm::uint8* buffer = new glm::uint8[size];
 	stream.read((char*)buffer, size);
 
 	ENetPacket* enet_packet = enet_packet_create(buffer, size, ENET_PACKET_FLAG_RELIABLE | ENET_PACKET_FLAG_NO_ALLOCATE);

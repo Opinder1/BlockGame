@@ -1,6 +1,6 @@
 #include "mesh.h"
 
-std::vector<uint16> cube_elements = {
+std::vector<glm::uint16> cube_elements = {
 	0, 2, 1,
 	0, 3, 2,
 	1, 2, 6,
@@ -37,7 +37,7 @@ std::vector<glm::vec2> cube_texcoords = {
 namespace engine {
 	Mesh::Mesh() : Mesh(cube_elements, cube_vertexes, cube_normals, cube_texcoords) {}
 
-	Mesh::Mesh(std::vector<uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords) : array(Type::uint16) {
+	Mesh::Mesh(std::vector<glm::uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords) : array(Type::uint16) {
 		array.set_attribute(0, vertex_array, Type::float32, 3);
 		array.set_attribute(1, normal_array, Type::float32, 3);
 		array.set_attribute(2, texcoord_array, Type::float32, 3);
@@ -52,10 +52,10 @@ namespace engine {
 	}
 
 	void Mesh::draw() {
-		array.draw((uint32)array.get_size());
+		array.draw((glm::uint32)array.get_size());
 	}
 
-	void Mesh::draw_instanced(uint32 instance_count) {
-		array.draw_instanced((uint32)array.get_size(), instance_count);
+	void Mesh::draw_instanced(glm::uint32 instance_count) {
+		array.draw_instanced((glm::uint32)array.get_size(), instance_count);
 	}
 }
