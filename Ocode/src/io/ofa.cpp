@@ -5,14 +5,13 @@ namespace ocode {
         std::unique_ptr<char[]> output(new char[output_size]);
         if (output == nullptr) throw zip_exception{ "Could not allocate memory for uncompressed file" };
 
-        // TODO Add zlib library
-        int code = 0; // uncompress((Bytef*)output.get(), (uLongf*)&output_size, (const Bytef*)input.data(), (uLong)input.size());
+        int code = uncompress((Bytef*)output.get(), (uLongf*)&output_size, (const Bytef*)input.data(), (uLong)input.size());
 
         if (code == Z_BUF_ERROR) throw zip_exception{ "Could not uncompress file (Buffer Error)" };
         if (code == Z_MEM_ERROR) throw zip_exception{ "Could not uncompress file (Memory Error)" };
         if (code == Z_DATA_ERROR) throw zip_exception{ "Could not uncompress file (Data Error)" };
 
-        return { output.get(), output_size };
+        return std::string{ output.get(), output_size };
     }
 
     File load_compressed_file(const fs::path& path) {
@@ -55,5 +54,31 @@ namespace ocode {
         }
 
         return files.at(file_name);
+    }
+
+    ZIP::ZIP(const fs::path& path) {
+        int err;
+        zip = zip_open(path.string().c_str(), 0, &err);
+        if (!err) throw zip_exception{ "Could not open zip file" };
+
+    }
+
+    ZIP::~ZIP() {
+        zip_close(zip);
+    }
+
+    File ZIP::operator[](const std::string& file_name) {
+        struct zip_stat st;
+        zip_stat_init(&st);
+        zip_stat(zip, file_name.c_str(), 0, &st);
+        // TODO Find if file exists
+
+        std::unique_ptr<char[]> contents(new char[st.size]);
+
+        zip_file* file = zip_fopen(zip, file_name.c_str(), 0);
+        zip_fread(file, contents.get(), st.size);
+        zip_fclose(file);
+
+        return File{ contents.get(), st.size };
     }
 }

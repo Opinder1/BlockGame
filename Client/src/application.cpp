@@ -46,10 +46,5 @@ void BlockGameApplication::reload_resources() {
         std::string extension = path.extension().string();
     }
 
-    try {
-        load_program("blockgame\\shaders\\sprite\\sprite.json");
-    }
-    catch (engine::program_exception& e) {
-        printf("[%s] %s\n", "blockgame\\shaders\\sprite\\sprite.json", e.message.c_str());
-    }
+    ocode::ZIP zip("test.zip");
 }

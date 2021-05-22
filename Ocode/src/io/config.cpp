@@ -23,7 +23,7 @@ namespace ocode {
 		if (!data.Accept(writer)) throw json_exception{ "Could not save to json file" };
 	}
 
-	const json::Value::ConstObject get(const json::Value& json, const std::string& name) {
+	const json::Value::ConstObject get_object(const json::Value& json, const std::string& name) {
 		if (!json.HasMember(name)) throw json_exception{ std::string("Json entry '' is missing").replace(12, 0, name) };
 
 		const json::Value& type = json[name];

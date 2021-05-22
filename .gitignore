@@ -1,5 +1,6 @@
 lib/
 include/
+bin/
 Client/resources/
 
 ## Ignore Visual Studio temporary files, build results, and

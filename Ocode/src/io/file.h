@@ -8,8 +8,6 @@
 #include <filesystem>
 #include <unordered_map>
 
-#include "zlib/zlib.h"
-
 namespace fs = std::filesystem;
 
 namespace ocode {

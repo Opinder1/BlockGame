@@ -1,8 +1,11 @@
 #pragma once
 
+#include <sstream>
+
 #include "file.h"
 
-#include <sstream>
+#include "zlib/zlib.h"
+#include "libzip/zip.h"
 
 namespace ocode {
     struct ofa_exception : file_exception {};
@@ -15,7 +18,6 @@ namespace ocode {
 
     // TODO add compress and save_compressed_file functions
 
-    // TODO Keep this or find some zip file opener. I probably want a zip file opener because no one wants to have to make OFA files.
     class OFA {
     private:
         glm::uint16 file_count;
@@ -28,5 +30,17 @@ namespace ocode {
         bool contains_file(const std::string& file_name);
 
         const File& operator[](const std::string& file_name);
+    };
+
+    // TODO Work more on expanding functionality
+    class ZIP {
+    private:
+        zip_t* zip;
+
+    public:
+        ZIP(const fs::path& path);
+        ~ZIP();
+
+        File operator[](const std::string& file_name);
     };
 }
