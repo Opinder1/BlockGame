@@ -1,8 +1,8 @@
  #include "mainmenu.h"
 
 MainMenu::MainMenu() :
-	material(new engine::Material("sprite")),
-	texture(new engine::TextureBuffer(engine::Texture("pixel_test"))),
+	material(new engine::Material("sprite"s)),
+	texture(new engine::TextureBuffer(engine::Texture("pixel_test"s))),
 	state(1)
 {
 	main_page.emplace_back(new ui::Button([=] {

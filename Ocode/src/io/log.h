@@ -1,31 +1,35 @@
 #pragma once
 
-#include <GLM/glm.hpp>
+#include <iostream>
+#include <fstream>
 
-#include <string>
-#include <cstdarg>
-#include <cstdio>
+#include "file.h"
 
-// TODO use FileReader from file.h
+inline struct _newline {} newline;
 
 namespace ocode {
     class LogFile {
     private:
-        // TODO Probably use fstream instead of FILE but idk
-        FILE* file;
+        std::ofstream stream;
 
     public:
-        LogFile(const LogFile&) = delete;
-        // TODO Ideally use fs::path instead of std::string
-        LogFile(const std::string& name);
-        ~LogFile();
+        LogFile(const fs::path& name) : stream(name) {}
 
-        bool initialized();
+        template<class Type>
+        LogFile& operator<<(Type t) {
+            stream << t;
+            std::cout << t;
 
-        void printraw(const void* buffer, glm::uint32 buffer_size);
+            return *this;
+        }
 
-        void print(const char* format, ...);
+        template<>
+        LogFile& operator<<(_newline) {
+            stream << std::endl;
+            std::cout << std::endl;
 
-        void println(const char* format, ...);
+            return *this;
+        }
+        
     };
 }

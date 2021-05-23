@@ -10,7 +10,7 @@ namespace ocode {
 
 	std::string Token::to_string() {
 		std::string out;
-		return out + "['" + data + "', " + token_type_strings[datatype] + "]";
+		return out + "['"s + data + "', "s + token_type_strings[datatype] + "]"s;
 	}
 
 	Tokenlist::Tokenlist() {

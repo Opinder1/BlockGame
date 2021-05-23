@@ -15,9 +15,6 @@
 namespace engine {
 	extern ocode::EventManager* event_manager;
 
-	// TODO Put this into its own file!!!
-	class Sound {};
-
 	class Application {
 	public:
 		bool running;
@@ -40,11 +37,5 @@ namespace engine {
 		~Application();
 
 		virtual void run();
-
-	public:
-		// TODO I dont really want this function in the Application class
-		Shader load_shader(const json::Value& json, const std::string& local_path);
-		// TODO Maybe create some ResourceManager override that handles loading shaders and stuff. Also fs::directory_entry lol
-		Program load_program(const std::string& name);
 	};
 }

@@ -23,12 +23,9 @@
     <ClCompile Include="src\io\config.cpp" />
     <ClCompile Include="src\events.cpp" />
     <ClCompile Include="src\io\file.cpp" />
-    <ClCompile Include="src\io\log.cpp" />
-    <ClCompile Include="src\io\ofa.cpp" />
     <ClCompile Include="src\parser\preprocess.cpp" />
     <ClCompile Include="src\parser\token.cpp" />
     <ClCompile Include="src\parser\tokenize.cpp" />
-    <ClCompile Include="src\error.cpp" />
     <ClCompile Include="src\random.cpp" />
     <ClCompile Include="src\io\resources.cpp" />
     <ClCompile Include="src\timer.cpp" />
@@ -120,7 +117,6 @@
     <ClInclude Include="include\zlib\zconf.h" />
     <ClInclude Include="include\zlib\zlib.h" />
     <ClInclude Include="include\zlib\zutil.h" />
-    <ClInclude Include="src\array.h" />
     <ClInclude Include="src\commands.h" />
     <ClInclude Include="src\events.h" />
     <ClInclude Include="src\io\config.h" />
@@ -128,9 +124,7 @@
     <ClInclude Include="src\io\io.h" />
     <ClInclude Include="src\io\log.h" />
     <ClInclude Include="ocode.h" />
-    <ClInclude Include="src\io\ofa.h" />
     <ClInclude Include="src\parser\parser.h" />
-    <ClInclude Include="src\error.h" />
     <ClInclude Include="src\random.h" />
     <ClInclude Include="src\io\resources.h" />
     <ClInclude Include="src\timer.h" />
@@ -218,7 +212,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -250,7 +244,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\include;</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>

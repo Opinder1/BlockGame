@@ -4,8 +4,8 @@ Game::Game() :
     camera(90.0f, application->window.get_size()),
     surface(application->window.get_size(), 4),
     scene(application->events),
-    color(engine::Texture("world.png")),
-    height(engine::Texture("world_heightmap.png"))
+    color(engine::Texture("world.png"s)),
+    height(engine::Texture("world_heightmap.png"s))
 {
     tilemap::init();
 

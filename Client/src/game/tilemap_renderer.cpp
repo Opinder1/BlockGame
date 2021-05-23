@@ -28,7 +28,7 @@ namespace tilemap {
 		vertex_buffer->set_data(vertexes.size(), vertexes.data(), engine::BufferType::Static);
 		array->set_attribute(0, *vertex_buffer, engine::Type::float32, 3);
 
-		material = new engine::Material("tilemap");
+		material = new engine::Material("tilemap"s);
 
 		material->set("texture_data", 0);
 		material->set("heightmap_data", 1);

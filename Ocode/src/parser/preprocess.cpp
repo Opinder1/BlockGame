@@ -1,17 +1,17 @@
 #include "parser.h"
 
 std::unordered_map<std::string, glm::uint32> a = {
-	{"include",0},
-	{"define", 1},
-	{"undef", 2},
-	{"pragma", 3},
-	{"error", 4},
-	{"ifdef", 5},
-	{"ifndef", 6},
-	{"if", 7},
-	{"endif", 8},
-	{"else", 9},
-	{"elif", 10}
+	{"include"s,0},
+	{"define"s, 1},
+	{"undef"s, 2},
+	{"pragma"s, 3},
+	{"error"s, 4},
+	{"ifdef"s, 5},
+	{"ifndef"s, 6},
+	{"if"s, 7},
+	{"endif"s, 8},
+	{"else"s, 9},
+	{"elif"s, 10}
 };
 
 int parse_directive(const char* input, std::vector<char>& buffer) {

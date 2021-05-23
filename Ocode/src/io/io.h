@@ -6,6 +6,4 @@
 
 #include "log.h"
 
-#include "ofa.h"
-
 #include "resources.h"

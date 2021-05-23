@@ -6,20 +6,41 @@ namespace ocode {
 	}
 
 	void ResourceManager::load_folder(const fs::path& resource_pack_name) {
-		const fs::path resources_folder = resource_pack_name / "resources";
+		const fs::path& resources_folder = resource_pack_name / L"resources"s;
 
-		if (!fs::directory_entry(resources_folder).is_directory()) throw file_exception{ "The resource folder does not exist" };
+		if (!fs::is_directory(resources_folder)) throw file_exception{ "The resource folder does not exist: "s };
 
-		for (auto& path : fs::recursive_directory_iterator(resources_folder)) {
-			if (!path.is_directory()) {
-				const fs::path resource_path = path.path().lexically_relative(resources_folder);
+		for (const fs::directory_entry& entry : fs::recursive_directory_iterator(resources_folder)) {
+			if (!entry.is_directory()) {
+				const fs::path& path = entry.path();
 
-				std::string name = resource_path.u8string();
+				const std::string& name = path.lexically_relative(resources_folder).u8string();
 
-				if (resources.find(name) == resources.end())
-					resources.emplace(name, Resource{ resource_path.parent_path().u8string(), load_file(path.path().u8string()) });
+				if (resources.find(name) == resources.end()) resources.emplace(name, load_file(path.u8string()));
 			}
 		}
+	}
+
+	void ResourceManager::load_archive(const fs::path& resource_pack_name) {
+		if (!fs::exists(resource_pack_name)) throw file_exception{ "The zip file does not exist"s };
+
+		lz::ZipArchive zip(resource_pack_name.u8string());
+
+		zip.open();
+
+		if (!zip.isOpen()) throw file_exception{ "Could not open zip file"s };
+
+		if (!zip.getEntry("resources/"s).isDirectory()) throw file_exception{ "ZIP file missing resources folder"s };
+
+		for (const lz::ZipEntry entry : zip.getEntries()) {
+			if (entry.isFile()) {
+				const std::string& name = fs::path(entry.getName()).lexically_relative(L"resources"s).string();
+
+				if (resources.find(name) == resources.end()) resources.emplace(name, entry.readAsText());
+			}
+		}
+
+		zip.close();
 	}
 
 	void ResourceManager::flush() {
@@ -34,15 +55,15 @@ namespace ocode {
 		return resources.end();
 	}
 
-	const Resource& ResourceManager::operator[](const std::string& resource_name) {
+	const File& ResourceManager::operator[](const std::string& resource_name) const {
 		auto resource = resources.find(resource_name);
 
-		if (resource == resources.end()) throw resource_exception{ "Could not find resource" };
+		if (resource == resources.end()) throw resource_exception{ "Could not find resource "s + resource_name };
 
 		return resource->second;
 	}
 
-	Resource ResourceManager::copy_resource(const std::string& resource_name) {
+	File ResourceManager::copy_resource(const std::string& resource_name) {
 		return operator[](resource_name);
 	}
 }

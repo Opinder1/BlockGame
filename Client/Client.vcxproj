@@ -63,7 +63,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(SolutionDir)\BlockGame\;$(SolutionDir)\Ocode\;$(SolutionDir)\Network\;$(SolutionDir)\include</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -78,7 +78,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32s.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;libcmt.lib;zlibstatic.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;ws2_32.lib;winmm.lib;glew32s.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;zip.lib;libzippp_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -91,7 +91,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(SolutionDir)\BlockGame\;$(SolutionDir)\Ocode\;$(SolutionDir)\Network\;$(SolutionDir)\include</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
@@ -105,13 +105,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;enet.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;libucrtd.lib;zlibstaticd.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;zip.lib;libzippp_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="src\engine\scene\scene.cpp" />
-    <ClCompile Include="src\engine\load_shader.cpp" />
+    <ClCompile Include="src\engine\renderer\load_shader.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine\opengl\array.cpp" />
@@ -134,6 +134,7 @@
     <ClCompile Include="src\mainmenu\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\renderer\sound.h" />
     <ClInclude Include="src\engine\scene\scene.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\application.h" />

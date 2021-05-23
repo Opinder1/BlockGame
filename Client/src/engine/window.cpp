@@ -37,11 +37,9 @@ namespace engine {
 
     Window::Window(const std::string& name, glm::uvec2 size, bool fullscreen) : window(NULL), last_size({ 0, 0 }), last_pos({ 0, 0 }) {
         if (!glfwInit()) {
+            // TODO make this not a c string
             throw "Failed to initialise glfw";
         }
-
-        //Needed for borderless
-        //glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
@@ -52,6 +50,7 @@ namespace engine {
         window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
 
         if (!window) {
+            // TODO make this not a c string
             throw "Failed to initialise window";
         }
 
@@ -87,6 +86,7 @@ namespace engine {
         }
 
         if (!renderer_init()) {
+            // TODO make this not a c string
             throw "Failed to initialise renderer";
         }
     }

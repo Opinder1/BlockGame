@@ -1,6 +1,6 @@
 #include "cubescene.h"
 
-CubeScene::CubeScene() : camera(70.0f, application->window.get_size()), surface(application->window.get_size(), 32), cube_material("cube"), cube_poly() {
+CubeScene::CubeScene() : camera(70.0f, application->window.get_size()), surface(application->window.get_size(), 32), cube_material("cube"s), cube_poly() {
     application->window.set_mouse_type(GLFW_CURSOR_DISABLED);
 
     camera_buffer.set_data<glm::mat4>(1, nullptr, engine::BufferType::Static);

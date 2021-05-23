@@ -23,8 +23,8 @@ namespace engine {
 
 		quad_vertex_array->set_data(quad_vertexes.size(), quad_vertexes.data(), BufferType::Static);
 
-		texture_material = new Material("sprite");
-		mstexture_material = new Material("multisample_sprite");
+		texture_material = new Material("sprite"s);
+		mstexture_material = new Material("multisample_sprite"s);
 	}
 
 	void QuadRenderer::deinit() {

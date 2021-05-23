@@ -2,12 +2,18 @@
 
 #include <chrono>
 
+#include <string>
+
 #include <GLM/glm.hpp>
+
+namespace chrono = std::chrono;
+
+using namespace std::chrono_literals;
 
 namespace ocode {
 	class Timer {
 	private:
-		std::chrono::time_point<std::chrono::high_resolution_clock> start;
+		chrono::time_point<chrono::high_resolution_clock> start;
 
 	public:
 		Timer();

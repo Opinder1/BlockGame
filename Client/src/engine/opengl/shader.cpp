@@ -29,11 +29,11 @@ namespace engine {
         int log_size;
         glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &log_size);
 
-        std::vector<char> log(log_size);
+        std::unique_ptr<char[]> log(new char[log_size]);
 
-        glGetShaderInfoLog(shader_id, log_size, NULL, log.data());
+        glGetShaderInfoLog(shader_id, log_size, NULL, log.get());
 
-        return std::string(log.begin(), log.end());
+        return std::string(log.get(), log_size);
     }
 
     void Program::new_() {
@@ -69,11 +69,11 @@ namespace engine {
         int log_size;
         glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &log_size);
 
-        std::vector<char> log(log_size);
+        std::unique_ptr<char[]> log(new char[log_size]);
 
-        glGetProgramInfoLog(program_id, log_size, NULL, log.data());
+        glGetProgramInfoLog(program_id, log_size, NULL, log.get());
 
-        return std::string(log.begin(), log.end());
+        return std::string(log.get(), log_size);
     }
 
     glm::uint32 Program::get_attribute_location(const char* name) {

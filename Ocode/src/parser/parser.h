@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 
+using namespace std::string_literals;
+
 namespace ocode {
 	const char* token_type_strings[];
 

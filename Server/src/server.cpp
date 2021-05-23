@@ -1,9 +1,9 @@
 #include "server.h"
 
 Server::Server() : 
-    log("server"),
-    config("server"),
-    server(this, config.get_value<uint16>("port", 1234), (uint8)config.get_value<uint16>("max_connections", 32))
+    log("server"s),
+    config("server"s),
+    server(this, config.get_value<uint16>("port"s, 1234), (uint8)config.get_value<uint16>("max_connections"s, 32))
 {
     if (!log.initialized()) {
         return;
@@ -21,9 +21,9 @@ Server::Server() :
         return;
     }
 
-    ocode::create_folder_if_not_exist("scenes");
+    ocode::create_folder_if_not_exist("scenes"s);
 
-    ocode::create_folder_if_not_exist("players");
+    ocode::create_folder_if_not_exist("players"s);
 }
 
 Server::~Server() {
@@ -35,7 +35,7 @@ bool Server::on_tick(const TickEvent* e) {
 }
 
 bool Server::on_player_join(const PlayerJoinEvent* e) {
-    log.println("Player joined");
+    log.println("Player joined"s);
     /*
     Session session = reader.read<Session>();
     std::wstring username = reader.read_string<wchar>();
@@ -61,7 +61,7 @@ bool Server::on_player_join(const PlayerJoinEvent* e) {
 }
 
 bool Server::on_player_leave(const PlayerLeaveEvent* e) {
-    log.println("Player left");
+    log.println("Player left"s);
 
     //this->players.erase(e->get_peer());
 

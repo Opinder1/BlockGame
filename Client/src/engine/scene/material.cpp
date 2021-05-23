@@ -1,7 +1,7 @@
 #include "material.h"
 
 namespace engine {
-    Material::Material() : Material("default") {
+    Material::Material() : Material("default"s) {
 
     }
 

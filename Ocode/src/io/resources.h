@@ -5,18 +5,13 @@
 #include <filesystem>
 #include <fstream>
 
-#include "ofa.h"
+#include "file.h"
 
 namespace ocode {
 	struct resource_exception : file_exception {};
 
-	struct Resource {
-		std::string path;
-		File file;
-	};
-
 	class ResourceManager {
-		using Resources = std::unordered_map<std::string, const Resource>;
+		using Resources = std::unordered_map<std::string, const File>;
 
 	private:
 		Resources resources;
@@ -35,8 +30,8 @@ namespace ocode {
 		iterator begin();
 		iterator end();
 
-		const Resource& operator[](const std::string& resource_name);
+		const File& operator[](const std::string& resource_name) const;
 
-		Resource copy_resource(const std::string& resource_name);
+		File copy_resource(const std::string& resource_name);
 	};
 }

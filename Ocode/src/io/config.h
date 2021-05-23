@@ -21,11 +21,11 @@ namespace ocode {
     
     template<class Type>
     const Type get(const json::Value& json, const std::string& name) {
-        if (!json.HasMember(name)) throw json_exception{ std::string("Json entry '' is missing").replace(12, 0, name) };
+        if (!json.HasMember(name)) throw json_exception{ "Json entry '' is missing"s.replace(12, 0, name) };
 
         const json::Value& type = json[name];
 
-        if (!type.Is<Type>()) throw json_exception{ std::string("Json entry '' is not an array").replace(12, 0, name) };
+        if (!type.Is<Type>()) throw json_exception{ "Json entry '' is not an array"s.replace(12, 0, name) };
 
         return type.Get<Type>();
     }

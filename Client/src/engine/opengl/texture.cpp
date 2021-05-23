@@ -18,7 +18,7 @@ namespace engine {
 	}
 
 	Texture::Texture(const std::string& name) : size(0, 0), data(NULL) {
-		std::string file_name = std::string(PROJECT_DIR) + "resources\\textures\\" + name;
+		std::string file_name = std::string(PROJECT_DIR) + "resources\\textures\\"s + name;
 
 		// TODO redo this
 		if (!fs::exists(file_name)) {
@@ -30,6 +30,7 @@ namespace engine {
 		data = (Pixel*)stbi_load(file_name.c_str(), (int*)&size.x, (int*)&size.y, &n, 4);
 
 		if (n != 4) {
+			// TODO make this not a c string
 			throw "Could not load image";
 		}
 	}

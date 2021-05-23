@@ -62,4 +62,6 @@ namespace engine {
             set(get_uniform_location(name), value);
         }
     };
+
+    Program load_program(const std::string& name, const ocode::ResourceManager& resources);
 }

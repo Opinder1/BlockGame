@@ -7,7 +7,7 @@ namespace engine {
         events.event_subscribe(engine::WindowResizeEvent, on_window_resize);
         events.event_subscribe(engine::WindowCloseEvent, on_window_close);
         
-        window.set_icon(engine::Texture("icon.png"));
+        window.set_icon(engine::Texture("icon.png"s));
 
         // TODO EW what is this supposed to be lol
         engine::QuadRenderer::init();

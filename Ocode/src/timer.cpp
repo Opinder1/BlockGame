@@ -2,7 +2,7 @@
 
 namespace ocode {
 	Timer::Timer() {
-		this->start = std::chrono::high_resolution_clock::now();
+		start = chrono::high_resolution_clock::now();
 	}
 	
 	Timer::~Timer() {
@@ -10,13 +10,11 @@ namespace ocode {
 	}
 
 	glm::uint64 Timer::stop() {
+		auto end = chrono::high_resolution_clock::now();
 
-		auto end = std::chrono::high_resolution_clock::now();
+		glm::uint64 start_count = chrono::time_point_cast<chrono::nanoseconds>(start).time_since_epoch().count();
+		glm::uint64 end_count = chrono::time_point_cast<chrono::nanoseconds>(end).time_since_epoch().count();
 
-		glm::uint64 start_milliseconds = std::chrono::time_point_cast<std::chrono::nanoseconds>(this->start).time_since_epoch().count();
-		glm::uint64 end_milliseconds = std::chrono::time_point_cast<std::chrono::nanoseconds>(end).time_since_epoch().count();
-
-		return end_milliseconds - start_milliseconds;
-
+		return end_count - start_count;
 	}
 }

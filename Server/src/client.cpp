@@ -2,7 +2,7 @@
 
 Client::Client(Server* server, ENetPeer* peer, Session session, const std::wstring& username) : server(server), peer(peer), session(session), username(username) {
 
-    data_file_name = "players/" + session.unique_id.to_string() + ".player";
+    data_file_name = "players/"s + session.unique_id.to_string() + ".player"s;
 
     printf("username: %s\n", username.c_str());
 

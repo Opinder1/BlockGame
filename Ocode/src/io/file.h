@@ -8,7 +8,15 @@
 #include <filesystem>
 #include <unordered_map>
 
+#define WIN32
+
+#include <libzippp/libzippp.h>
+
+using namespace std::string_literals;
+
 namespace fs = std::filesystem;
+
+namespace lz = libzippp;
 
 namespace ocode {
     struct file_exception {
