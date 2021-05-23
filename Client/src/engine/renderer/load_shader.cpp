@@ -1,11 +1,14 @@
 #include "shader.h"
 
 namespace engine {
-    ocode::File preprocess_shader(const fs::path& path, const fs::path& local_path, const ocode::ResourceManager& resources, const std::vector<std::string>& visited) {
+    ocode::File preprocess_shader(const fs::path& path, const fs::path& local_path, const ocode::ResourceManager& resources, std::vector<std::string>& visited) {
         const std::string& name = path.lexically_normal().string();
+
         for (auto& item : visited) {
             if (item == name) return ""s;
         }
+
+        visited.push_back(path.string());
 
         const ocode::File& file = resources[name];
         
@@ -49,6 +52,7 @@ namespace engine {
         fs::path path = local_path / ocode::get<std::string>(json, "file"s);
 
         std::vector<std::string> visited;
+        visited.push_back(path.string());
 
         ocode::File resource = preprocess_shader(path, local_path, resources, visited);
 
