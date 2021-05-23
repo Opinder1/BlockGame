@@ -1,14 +1,14 @@
 #include "shader.h"
 
 namespace engine {
-    ocode::File preprocess_shader(const fs::path& path, const fs::path& local_path, const ocode::ResourceManager& resources, std::vector<std::string>& visited) {
-        const std::string& name = path.lexically_normal().string();
+    ocode::File preprocess_shader(const fs::path& path, const ocode::ResourceManager& resources, std::vector<std::string>& visited) {
+        const std::string& name = path.string();
 
         for (auto& item : visited) {
             if (item == name) return ""s;
         }
 
-        visited.push_back(path.string());
+        visited.push_back(name);
 
         const ocode::File& file = resources[name];
         
@@ -25,9 +25,12 @@ namespace engine {
             if (last == std::string::npos) continue;
 
             output << file.substr(begin, include - begin);
-            output << preprocess_shader(local_path / file.substr(first, last - first), local_path, resources, visited);
 
-            begin = file.find('\n', include)+1;
+            fs::path new_path = path.parent_path() / file.substr(first, last - first);
+
+            output << preprocess_shader(new_path.lexically_normal(), resources, visited);
+
+            begin = file.find('\n', include);
         }
 
         if (begin != std::string::npos) output << file.substr(begin);
@@ -53,7 +56,7 @@ namespace engine {
 
         std::vector<std::string> visited;
 
-        ocode::File resource = preprocess_shader(path, local_path, resources, visited);
+        ocode::File resource = preprocess_shader(path.lexically_normal(), resources, visited);
 
         shader.new_(type, (const char*)resource.data(), (glm::uint32)resource.size());
 

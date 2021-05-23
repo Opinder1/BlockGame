@@ -45,7 +45,7 @@ void BlockGameApplication::reload_resources() {
     }
     
     try {
-        engine::load_program("blockgame\\shaders\\sprite\\sprite.json"s, resources);
+        engine::load_program("blockgame\\shaders\\test\\test.json"s, resources);
     }
     catch (engine::program_exception& e) {
         log << "engine::program_exception: " << e.message << newline;
