@@ -52,7 +52,6 @@ namespace engine {
         fs::path path = local_path / ocode::get<std::string>(json, "file"s);
 
         std::vector<std::string> visited;
-        visited.push_back(path.string());
 
         ocode::File resource = preprocess_shader(path, local_path, resources, visited);
 
