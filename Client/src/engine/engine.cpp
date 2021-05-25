@@ -36,4 +36,12 @@ namespace engine {
     void Application::on_window_close(const WindowCloseEvent* e) {
         running = false;
     }
+
+    Mesh Application::mesh(const std::string& name) {
+        return load_mesh(name, resources);
+    }
+
+    Program Application::shader(const std::string& name) {
+        return load_program(name, resources);
+    }
 }

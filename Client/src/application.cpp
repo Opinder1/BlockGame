@@ -5,9 +5,9 @@ BlockGameApplication* application = NULL;
 std::string BlockGameApplication::base_name = "base"s;
 
 BlockGameApplication::BlockGameApplication() : engine::Application("Game"s, { 800, 500 }), log("client.log"s), config("client.json"s) {
-	config.get_value("version"s, 1.0);
+    config.get_value("version"s, 1.0);
 
-	window.set_title("Game ["s + engine::get_renderer_version() + "] ["s + engine::get_adapter_vendor() + ' ' + engine::get_video_adapter() + ']');
+    window.set_title("Game ["s + engine::get_renderer_version() + "] ["s + engine::get_adapter_vendor() + ' ' + engine::get_video_adapter() + ']');
 
     reload_resources();
 }
@@ -17,9 +17,9 @@ BlockGameApplication::~BlockGameApplication() {
 }
 
 void BlockGameApplication::update() {
-	for (auto& module : modules) {
-		module->update();
-	}
+    for (auto& module : modules) {
+        module->update();
+    }
 }
 
 void BlockGameApplication::reload_resources() {
@@ -33,21 +33,12 @@ void BlockGameApplication::reload_resources() {
     resources.load_folder(PROJECT_DIR);
 
     for (auto& [name, file] : resources) {
-        const fs::path& path = name;
+        const fs::path path = name;
 
-        std::string directory = path.lexically_relative(*path.begin()).parent_path().string() + '\\';
+        std::string package = path.begin()->string();
 
-        NameID id = path.begin()->string() + ':' + path.stem().string();
+        std::string folder = (++path.begin())->string();
 
-        std::string extension = path.extension().string();
-
-        //log << name << newline;
-    }
-    
-    try {
-        engine::load_program("blockgame\\shaders\\test\\test.json"s, resources);
-    }
-    catch (engine::program_exception& e) {
-        log << "engine::program_exception: " << e.message << newline;
+        NameID id = package + ':' + path.stem().string();
     }
 }

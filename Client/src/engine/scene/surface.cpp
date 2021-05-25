@@ -8,35 +8,35 @@ namespace engine {
 		{1, 1}
 	};
 
-	Array* quad_array;
-	ArrayBuffer* quad_vertex_array;
+	Array quad_array;
+	ArrayBuffer quad_vertex_array;
 
-	Material* texture_material = NULL;
-	Material* mstexture_material = NULL;
+	Material* texture_material;
+	Material* mstexture_material;
 
 
 	void QuadRenderer::init() {
-		quad_array = new Array();
-		quad_vertex_array = new ArrayBuffer();
+		quad_array._new();
+		quad_vertex_array._new();
 
-		quad_array->set_attribute(0, *quad_vertex_array, Type::uint8, 2);
+		quad_array.set_attribute(0, quad_vertex_array, Type::uint8, 2);
 
-		quad_vertex_array->set_data(quad_vertexes.size(), quad_vertexes.data(), BufferType::Static);
+		quad_vertex_array.set_data(quad_vertexes.size(), quad_vertexes.data(), BufferType::Static);
 
 		texture_material = new Material("sprite"s);
 		mstexture_material = new Material("multisample_sprite"s);
 	}
 
 	void QuadRenderer::deinit() {
-		delete quad_array;
-		delete quad_vertex_array;
+		quad_array._delete();
+		quad_vertex_array._delete();
 
 		delete texture_material;
 		delete mstexture_material;
 	}
 
 	void QuadRenderer::draw() {
-		quad_array->draw(DrawType::Strip, 4);
+		quad_array.draw(DrawType::Strip, 4);
 	}
 
 	void SurfaceBase::resize(const glm::uvec2& size) {

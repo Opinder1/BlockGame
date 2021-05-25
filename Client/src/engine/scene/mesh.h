@@ -17,6 +17,8 @@ namespace engine {
 		ArrayBuffer normal_array;
 		ArrayBuffer texcoord_array;
 
+		glm::uint32 size;
+
 	public:
 		Mesh();
 		Mesh(std::vector<glm::uint16> elements, std::vector<glm::vec3> vertexes, std::vector<glm::vec3> normals, std::vector<glm::vec2> texcoords);

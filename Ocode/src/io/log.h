@@ -5,7 +5,8 @@
 
 #include "file.h"
 
-inline struct _newline {} newline;
+inline struct _newline {} newl;
+inline struct _endline {} endl;
 
 namespace ocode {
     class LogFile {
@@ -25,6 +26,14 @@ namespace ocode {
 
         template<>
         LogFile& operator<<(_newline) {
+            stream << '\n';
+            std::cout << '\n';
+
+            return *this;
+        }
+
+        template<>
+        LogFile& operator<<(_endline) {
             stream << std::endl;
             std::cout << std::endl;
 

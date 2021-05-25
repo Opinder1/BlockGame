@@ -20,9 +20,8 @@ namespace engine {
 		void use();
 
 	public:
-		Array(const Array&) = delete;
-		Array();
-		~Array();
+		void _new();
+		void _delete();
 
 		void set_attribute(glm::uint32 pos, ArrayBuffer& buffer, Type type, glm::uint32 width = 1, glm::uint32 height = 1, glm::uint32 divisor = 0);
 
@@ -35,7 +34,7 @@ namespace engine {
 		Type element_type;
 
 	public:
-		ElementArray(Type type) : Array(), ElementBuffer(), element_type(type) {}
+		void _new(Type type);
 
 		void draw(glm::uint32 elements);
 		void draw_instanced(glm::uint32 elements, glm::uint32 instances);

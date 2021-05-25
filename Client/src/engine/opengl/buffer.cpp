@@ -3,57 +3,79 @@
 #include "opengl.h"
 
 namespace engine {
-	GLenum buffertype_index[] = { GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW };
+	constexpr GLenum buffer_type(BufferType type) {
+		const GLenum buffer_types[] = { GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW };
+		return buffer_types[(glm::uint32)type];
+	}
 
-	glm::uint32 current_buffer = 0;
+	glm::uint32 current_arraybuffer = 0;
+	glm::uint32 current_elementbuffer = 0;
+	glm::uint32 current_globalbuffer = 0;
 
-	Buffer::Buffer(glm::uint32 type) : buffer_type(type), buffer_size(0) {
+	void BufferBase::_new() {
 		glGenBuffers(1, &buffer_id);
 	}
 
-	Buffer::~Buffer() {
+	void BufferBase::_delete() {
 		glDeleteBuffers(1, &buffer_id);
 	}
 
-	void Buffer::use() {
-		if (current_buffer != buffer_id) {
-			glBindBuffer(buffer_type, buffer_id);
-			current_buffer = buffer_id;
+	void ArrayBuffer::use() {
+		if (current_arraybuffer != buffer_id) {
+			glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
+			current_arraybuffer = buffer_id;
 		}
 	}
 
-	void Buffer::new_data(glm::uint64 size, void* data, BufferType usage) {
-		glBufferData(buffer_type, size, data, buffertype_index[(glm::uint32)usage]);
+	void ArrayBuffer::new_data(glm::uint64 size, const void* data, BufferType usage) {
+		use();
+		glBufferData(GL_ARRAY_BUFFER, size, data, buffer_type(usage));
 	}
 
-	void Buffer::sub_data(glm::uint64 pos, glm::uint64 size, void* data) {
-		glBufferSubData(buffer_type, pos, size, data);
+	void ArrayBuffer::sub_data(glm::uint64 pos, glm::uint64 size, const void* data) {
+		use();
+		glBufferSubData(GL_ARRAY_BUFFER, pos, size, data);
 	}
 
-	const glm::uint32 Buffer::get_id() {
-		return buffer_id;
+	void ElementBuffer::use() {
+		if (current_elementbuffer != buffer_id) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_id);
+			current_elementbuffer = buffer_id;
+		}
 	}
 
-	const glm::uint64 Buffer::get_size() {
-		return buffer_size;
+	void ElementBuffer::new_data(glm::uint64 size, const void* data, BufferType usage) {
+		use();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, buffer_type(usage));
 	}
 
-	ArrayBuffer::ArrayBuffer() : Buffer(GL_ARRAY_BUFFER) {
-
-	}
-	
-	ElementBuffer::ElementBuffer() : Buffer(GL_ELEMENT_ARRAY_BUFFER) {
-
+	void ElementBuffer::sub_data(glm::uint64 pos, glm::uint64 size, const void* data) {
+		use();
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, pos, size, data);
 	}
 
-	GlobalBuffer::GlobalBuffer() : Buffer(GL_UNIFORM_BUFFER) {
+	void GlobalBuffer::use() {
+		if (current_globalbuffer != buffer_id) {
+			glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+			current_globalbuffer = buffer_id;
+		}
+	}
+
+	void GlobalBuffer::new_data(glm::uint64 size, const void* data, BufferType usage) {
+		use();
+		glBufferData(GL_UNIFORM_BUFFER, size, data, buffer_type(usage));
+	}
+
+	void GlobalBuffer::sub_data(glm::uint64 pos, glm::uint64 size, const void* data) {
+		use();
+		glBufferSubData(GL_UNIFORM_BUFFER, pos, size, data);
 	}
  
 	void GlobalBuffer::activate_slot(glm::uint32 slot) {
-		glBindBufferBase(GL_UNIFORM_BUFFER, slot, get_id());
+		glBindBufferBase(GL_UNIFORM_BUFFER, slot, buffer_id);
 	}
 
 	void GlobalBuffer::set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size) {
-		glBindBufferRange(GL_UNIFORM_BUFFER, slot, get_id(), pos, size);
+		glBindBufferRange(GL_UNIFORM_BUFFER, slot, buffer_id, pos, size);
 	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ocode.h"
+#include <ocode.h>
 
 #include <enet/enet.h>
 #include <sstream>

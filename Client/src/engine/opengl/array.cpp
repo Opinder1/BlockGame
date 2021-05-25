@@ -3,15 +3,18 @@
 #include "opengl.h"
 
 namespace engine {
-	GLenum drawtype_index[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_PATCHES };
+	constexpr GLenum draw_type(DrawType type) {
+		const GLenum draw_types[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_PATCHES };
+		return draw_types[(glm::uint32)type];
+	}
 
 	glm::uint32 current_array = 0;
 
-	Array::Array() {
+	void Array::_new() {
 		glGenVertexArrays(1, &vertex_array_id);
 	}
 
-	Array::~Array() {
+	void Array::_delete() {
 		glDeleteVertexArrays(1, &vertex_array_id);
 	}
 
@@ -38,16 +41,23 @@ namespace engine {
 
 	void Array::draw(DrawType type, glm::uint32 vertexes) {
 		use();
-		glDrawArrays(drawtype_index[(glm::uint32)type], 0, vertexes);
+		glDrawArrays(draw_type(type), 0, vertexes);
 	}
 
 	void Array::draw_instanced(DrawType type, glm::uint32 vertexes, glm::uint32 instances) {
 		use();
-		glDrawArraysInstanced(drawtype_index[(glm::uint32)type], 0, vertexes, instances);
+		glDrawArraysInstanced(draw_type(type), 0, vertexes, instances);
+	}
+
+	void ElementArray::_new(Type type) {
+		element_type = type;
+		Array::_new();
+		ElementBuffer::_new();
 	}
 
 	void ElementArray::draw(glm::uint32 elements) {
 		Array::use();
+		// TODO allow drawing of other modes
 		glDrawElements(GL_TRIANGLES, elements, gl_type(element_type), 0);
 	}
 

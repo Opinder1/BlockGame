@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ocode.h"
+#include <ocode.h>
 
 struct Block {
 	glm::uint32 id;

@@ -42,9 +42,6 @@
     <ClCompile Include="src\io\file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\io\resources.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\io\config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -330,9 +327,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\io\log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\io\resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\io\io.h">

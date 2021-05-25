@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ocode.h"
+#include <ocode.h>
 
 #include <unordered_map>
 

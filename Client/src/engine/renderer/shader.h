@@ -28,8 +28,8 @@ namespace engine {
         glm::uint32 shader_id;
 
     public:
-        void new_(ShaderType type, const char* code, glm::uint32 code_size);
-        void delete_();
+        void _new(ShaderType type, const char* code, glm::uint32 code_size);
+        void _delete();
 
         int compile_status();
         std::string get_log();
@@ -40,8 +40,8 @@ namespace engine {
         glm::uint32 program_id;
 
     public:
-        void new_();
-        void delete_();
+        void _new();
+        void _delete();
 
         void attach(const Shader& shader);
         void link();
@@ -62,6 +62,4 @@ namespace engine {
             set(get_uniform_location(name), value);
         }
     };
-
-    Program load_program(const std::string& name, const ocode::ResourceManager& resources);
 }
