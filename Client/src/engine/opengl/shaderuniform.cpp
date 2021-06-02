@@ -66,4 +66,7 @@ namespace engine {
     template<> void Program::set(glm::uint32 location, const glm::mat4& value) {
         glProgramUniformMatrix4fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
     }
+
+    // TODO Maybe add int and uint form for matrix
+    // TODO Maybe add other dimensions of matrix
 }

@@ -6,21 +6,39 @@
 
 #include "../renderer/array.h"
 #include "../renderer/framebuffer.h"
-#include "material.h"
 
 namespace engine {
-	class Scene {
-		// (!) Layout for scene class
+	class Renderer2D {
+	public:
+		static int camera_buffer_slot;
 
-		// Frame buffer with related frame components
-		// Camera for render position
-		// Set global GPU states for frame shape and camera pos
+		static void init();
+		static void shutdown();
 
-		// Method to render to other scenes (Probably some way to retrieve texture data)
+		static void draw_quad();
+	};
 
-		// Following probably wont work for more specialised cases:
-		// - Have array of related shaders and textures
-		// - Have array of related materials
-		// - Have array of objects in scene
+	struct Transform2D {
+		glm::vec2 position;
+	};
+
+	class Scene2D {
+	private:
+		glm::vec2 size;
+
+		Texture2D texture;
+		FrameBuffer frame;
+
+	public:
+		Scene2D(glm::vec2 size);
+		~Scene2D();
+
+		void use();
+
+		void set_size(const glm::vec2& size);
+
+		glm::vec2 get_size();
+
+		Texture2D get_texture();
 	};
 }

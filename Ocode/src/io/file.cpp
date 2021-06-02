@@ -9,10 +9,10 @@ namespace ocode {
     }
 
     File load_file(const fs::path& path) {
-        if (!fs::exists(path)) throw file_exception{ "File does not exist"s };
+        if (!fs::exists(path)) throw file_exception{ "File does not exist"sv, path.u8string() };
 
         std::ifstream file(path, std::ios::binary);
-        if (!file) throw file_exception{ "Could not upen file"s };
+        if (!file) throw file_exception{ "Could not upen file"sv, path.u8string() };
 
         size_t file_size = fs::file_size(path);
 

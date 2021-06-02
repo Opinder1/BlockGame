@@ -13,7 +13,10 @@
 namespace json = rapidjson;
 
 namespace ocode {
-    struct json_exception : file_exception {}; 
+    struct json_exception {
+        std::string_view message;
+        std::string name;
+    };
     
     void load_json_file(const fs::path& path, json::Document& data);
 
@@ -21,11 +24,11 @@ namespace ocode {
     
     template<class Type>
     const Type get(const json::Value& json, const std::string& name) {
-        if (!json.HasMember(name)) throw json_exception{ "Json entry '' is missing"s.replace(12, 0, name) };
+        if (!json.HasMember(name)) throw json_exception{ "Json entry is missing"sv, name };
 
         const json::Value& type = json[name];
 
-        if (!type.Is<Type>()) throw json_exception{ "Json entry '' is not an array"s.replace(12, 0, name) };
+        if (!type.Is<Type>()) throw json_exception{ "Json entry is not an array"sv, name };
 
         return type.Get<Type>();
     }

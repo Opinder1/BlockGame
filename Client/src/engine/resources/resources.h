@@ -2,8 +2,16 @@
 
 #include <ocode.h>
 
+#include "../renderer/shader.h"
+
 namespace engine {
 	struct resource_exception : ocode::file_exception {};
+
+	struct program_exception {
+		std::string_view message;
+		std::string name;
+		std::string log;
+	};
 
 	class ResourceManager {
 		using Resources = std::unordered_map<std::string, const ocode::File>;
@@ -13,6 +21,7 @@ namespace engine {
 
 	public:
 		using iterator = Resources::iterator;
+		using const_iterator = Resources::const_iterator;
 
 		ResourceManager() {}
 		~ResourceManager();
@@ -29,4 +38,7 @@ namespace engine {
 
 		ocode::File copy_resource(const std::string& resource_name);
 	};
+
+	ocode::File read_shader_file(const fs::path& path, const ResourceManager& resources, std::vector<std::string>& visited);
+	Program load_program(const std::string& name, const ResourceManager& resources);
 }

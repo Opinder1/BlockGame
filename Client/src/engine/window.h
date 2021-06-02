@@ -15,21 +15,17 @@ namespace engine {
 	private:
 		GLFWwindow* window;
 
-		Monitor monitor;
-
 		glm::uvec2 last_size;
 		glm::ivec2 last_pos;
 
 	public:
 		Window(const Window&) = delete;
-		Window(const std::string& name, glm::uvec2 size, bool fullscreen = false);
+		Window(const std::string& name, glm::uvec2 size);
 		~Window();
 
 		void use();
 		void update();
 		void close();
-
-		void set_icon(const Texture& texture);
 
 		void set_fullscreen(Monitor monitor, bool vsync);
 		void set_fullscreen(bool vsync);
@@ -37,10 +33,15 @@ namespace engine {
 		void set_windowed();
 		void set_windowed(glm::uvec2 size, glm::ivec2 pos);
 
+		void set_icon(const Texture& texture);
+
 		void set_title(const std::string& name);
+
+		void set_limits(const glm::ivec2 min, const glm::ivec2 max);
 
 		void set_mouse_type(int type);
 
+		glm::ivec2 get_pos();
 		glm::ivec2 get_size();
 		glm::ivec2 get_mouse_pos();
 		int get_key(int key);

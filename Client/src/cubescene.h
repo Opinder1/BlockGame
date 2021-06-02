@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include <vector>
 
 #include "application.h"
@@ -12,9 +12,9 @@ T map(T n, T a1, T b1, T a2, T b2) {
 class CubeScene : public Module {
 private:
 	engine::FPSCamera camera;
-	engine::GlobalBuffer camera_buffer;
+	engine::UniformBuffer camera_buffer;
 
-	engine::Surface3D surface;
+	engine::SurfaceMS surface;
 
 	engine::Material cube_material;
 	engine::Mesh cube_poly;
@@ -39,3 +39,4 @@ private:
 
 	void on_window_resize(const engine::WindowResizeEvent* e);
 };
+*/

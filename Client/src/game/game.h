@@ -4,18 +4,19 @@
 
 #include "tilemap_renderer.h"
 
+/*
 class Game : public Module {
 private:
 	engine::FPSCamera camera;
-	engine::GlobalBuffer camera_buffer;
+	engine::UniformBuffer camera_buffer;
 
-	engine::Surface3D surface;
+	engine::SurfaceMS surface;
 
 	Scene scene;
 	BlockGameApplication client;
 
-	engine::TextureBuffer color;
-	engine::TextureBuffer height;
+	engine::Texture2D color;
+	engine::Texture2D height;
 
 	bool mouse_toggle = false;
 
@@ -34,4 +35,4 @@ public:
 
 	void on_window_resize(const engine::WindowResizeEvent* e);
 };
-
+*/

@@ -5,53 +5,33 @@
 #include <GLM/glm.hpp>
 #include <GLM/ext.hpp>
 
-#include "transform.h"
 #include "../window.h"
 #include "../renderer/buffer.h"
 
+#include "scene.h"
+
 namespace engine {
 	extern ocode::EventManager* event_manager;
+	
+	// TODO Use this to set viewport
+	// TOOD Maybe even turn this into a viewport class
+	class Camera {
+		struct {
+			glm::ivec2 pos;
+			glm::uvec2 size;
+		} viewport;
+	};
 
 	class Camera2D : public Transform2D {
+	private:
+		Scene2D& scene;
+
+		UniformBuffer buffer;
+
 	public:
-		Camera2D(float width, float height);
+		Camera2D(Scene2D& scene);
 		~Camera2D();
 
-		glm::mat2 get_projection();
-	};
-
-	class Camera3D : public Transform3D {
-	protected:
-		glm::mat4 perspective;
-
-		void set_perspective(float fov, glm::vec2 size);
-
-	public:
-		Camera3D(float fov, glm::vec2 size);
-		~Camera3D();
-
-		virtual glm::vec3 look_direction() = 0;
-		virtual glm::vec3 up_direction() = 0;
-		virtual glm::vec3 left_direction() = 0;
-		
-		glm::mat4 get_projection();
-	};
-
-	class FPSCamera : public Camera3D {
-	private:
-		float fov;
-		glm::vec2 last_mouse_pos;
-
-	public:
-		FPSCamera(float fov, glm::vec2 size);
-
-		void update(glm::vec2 mouse_pos);
-
-		glm::vec3 look_direction() override;
-		glm::vec3 up_direction() override;
-		glm::vec3 left_direction() override;
-
-	private:
-		bool on_window_resize(const WindowResizeEvent* e);
+		void use();
 	};
 }

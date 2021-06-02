@@ -10,6 +10,8 @@
 
 #define COMMAND(name) int name(glm::uint8 argc, std::string* argv)
 
+// TODO Unused
+
 // TODO What even was this again lol
 
 namespace ocode {

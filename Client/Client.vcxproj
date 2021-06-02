@@ -98,6 +98,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <LanguageStandard_C>Default</LanguageStandard_C>
       <EnableModules>false</EnableModules>
+      <PrecompiledHeaderFile>ocode.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,11 +110,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="src\engine\load_mesh.cpp" />
-    <ClCompile Include="src\engine\resources.cpp" />
+    <ClCompile Include="Client.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\engine\resources\resources.cpp" />
+    <ClCompile Include="src\engine\scene\renderer2d.cpp" />
     <ClCompile Include="src\engine\scene\scene.cpp" />
-    <ClCompile Include="src\engine\load_shader.cpp" />
+    <ClCompile Include="src\engine\resources\load_shader.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine\opengl\array.cpp" />
@@ -123,11 +126,8 @@
     <ClCompile Include="src\engine\opengl\shaderuniform.cpp" />
     <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
-    <ClCompile Include="src\engine\scene\mesh.cpp" />
     <ClCompile Include="src\engine\opengl\shader.cpp" />
-    <ClCompile Include="src\engine\scene\material.cpp" />
-    <ClCompile Include="src\engine\opengl\texture.cpp" />
-    <ClCompile Include="src\engine\scene\surface.cpp" />
+    <ClCompile Include="src\engine\renderer\texture.cpp" />
     <ClCompile Include="src\game\tilemap_renderer.cpp" />
     <ClCompile Include="src\mainmenu.cpp" />
     <ClCompile Include="src\cubescene.cpp" />
@@ -137,7 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\renderer\sound.h" />
-    <ClInclude Include="src\engine\resources.h" />
+    <ClInclude Include="src\engine\resources\resources.h" />
     <ClInclude Include="src\engine\scene\scene.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\application.h" />
@@ -148,12 +148,8 @@
     <ClInclude Include="src\engine\scene\camera.h" />
     <ClInclude Include="src\engine\engine.h" />
     <ClInclude Include="src\engine\renderer\buffer.h" />
-    <ClInclude Include="src\engine\scene\mesh.h" />
     <ClInclude Include="src\engine\renderer\shader.h" />
-    <ClInclude Include="src\engine\scene\material.h" />
     <ClInclude Include="src\engine\renderer\texture.h" />
-    <ClInclude Include="src\engine\scene\surface.h" />
-    <ClInclude Include="src\engine\scene\transform.h" />
     <ClInclude Include="src\game\tilemap_renderer.h" />
     <ClInclude Include="src\mainmenu.h" />
     <ClInclude Include="src\cubescene.h" />

@@ -1,22 +1,15 @@
 #include "opengl.h"
 
 namespace engine {
-    void glCheckError(const char* file, int line) {
-        GLenum errorCode;
-        while ((errorCode = glGetError()) != GL_NO_ERROR) {
-            const char* error;
-            switch (errorCode) {
-            case GL_INVALID_ENUM:                  error = "INVALID_ENUM"; break;
-            case GL_INVALID_VALUE:                 error = "INVALID_VALUE"; break;
-            case GL_INVALID_OPERATION:             error = "INVALID_OPERATION"; break;
-            case GL_STACK_OVERFLOW:                error = "STACK_OVERFLOW"; break;
-            case GL_STACK_UNDERFLOW:               error = "STACK_UNDERFLOW"; break;
-            case GL_OUT_OF_MEMORY:                 error = "OUT_OF_MEMORY"; break;
-            case GL_INVALID_FRAMEBUFFER_OPERATION: error = "INVALID_FRAMEBUFFER_OPERATION"; break;
-            default:                               error = "NONE";
-            }
-            printf("%s | %s (%i)\n", error, file, line);
-        }
+    struct {
+        const char* function;
+        const char* file;
+        int line;
+    } last_line;
+
+    void glLastLine(const char* function, const char* file, int line) {
+        last_line = { function, file, line };
+        printf("(%s) %s:%i\n", function, file, line);
     }
 
     void gl_debug_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
@@ -55,101 +48,107 @@ namespace engine {
         default:                             severity_str = "Severity: ";
         }
 
-        printf("Debug message (%i) %s", id, message);
-        printf("%s\n%s\n%s\n", source_str, type_str, severity_str);
+        printf("%s | %s | %s\n", source_str, type_str, severity_str);
+        printf("Debug message (%i) %s\n", id, message);
+
+        if (severity == GL_DEBUG_SEVERITY_LOW || severity == GL_DEBUG_SEVERITY_MEDIUM || severity == GL_DEBUG_SEVERITY_HIGH) {
+            throw std::exception();
+        }
     }
 
     bool renderer_init() {
         if (glewInit() != GLEW_OK) {
+            // TODO use throw instead
             return false;
         }
 
-        //glEnable(GL_DEBUG_OUTPUT);
-        //glDebugMessageCallback(gl_debug_callback, 0);
+        GLEW_GET_FUN(glEnable)(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(gl_debug_callback, 0);
 
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GLEW_GET_FUN(glClearColor)(0.0f, 0.0f, 0.0f, 0.0f);
 
         set_multisample(false);
         set_depthtest(false);
         set_alphatest(false);
-        set_culling(Culling::Disabled);
-        set_polymode(PolyMode::Fill);
+        set_culling(CullingMode::Disabled);
+        set_drawmode(DrawMode::Fill);
+
+        glm::uint32 uniformbuffer_max_size = 0;
+        glm::uint32 uniformbuffer_max_bindings = 0;
+        glm::uint32 globalbuffer_max_size = 0;
+        glm::uint32 globalbuffer_max_bindings = 0;
+
+        glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, (GLint*)&uniformbuffer_max_size);
+        glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, (GLint*)&uniformbuffer_max_bindings);
+        glGetIntegerv(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, (GLint*)&globalbuffer_max_size);
+        glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, (GLint*)&globalbuffer_max_bindings);
+
+        // TODO Maybe implement glEnable(GL_PROGRAM_POINT_SIZE) although it just makes squares but that could be useful for sprites;
+
+        std::cout << uniformbuffer_max_size << " " << uniformbuffer_max_bindings << " " << globalbuffer_max_size << " " << globalbuffer_max_bindings << std::endl;
 
         return true;
     }
 
-    const char* get_renderer_version() {
-        return (const char*)glGetString(GL_VERSION);
+    const std::string_view get_renderer_version() {
+        return (const char*)GLEW_GET_FUN(glGetString)(GL_VERSION);
     }
 
-    const char* get_adapter_vendor() {
-        return (const char*)glGetString(GL_VENDOR);
+    const std::string_view get_adapter_vendor() {
+        return (const char*)GLEW_GET_FUN(glGetString)(GL_VENDOR);
     }
 
-    const char* get_video_adapter() {
-        return (const char*)glGetString(GL_RENDERER);
+    const std::string_view get_video_adapter() {
+        return (const char*)GLEW_GET_FUN(glGetString)(GL_RENDERER);
     }
 
     void set_multisample(bool enabled) {
         if (enabled) {
-            glEnable(GL_MULTISAMPLE);
+            GLEW_GET_FUN(glEnable)(GL_MULTISAMPLE);
         }
         else {
-            glDisable(GL_MULTISAMPLE);
+            GLEW_GET_FUN(glDisable)(GL_MULTISAMPLE);
         }
     }
 
     void set_depthtest(bool enabled) {
         if (enabled) {
-            glEnable(GL_DEPTH_TEST);
+            GLEW_GET_FUN(glEnable)(GL_DEPTH_TEST);
         }
         else {
-            glDisable(GL_DEPTH_TEST);
+            GLEW_GET_FUN(glDisable)(GL_DEPTH_TEST);
         }
     }
 
     void set_alphatest(bool enabled) {
         if (enabled) {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            GLEW_GET_FUN(glEnable)(GL_BLEND);
+            GLEW_GET_FUN(glBlendFunc)(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         }
         else {
-            glDisable(GL_BLEND);
+            GLEW_GET_FUN(glDisable)(GL_BLEND);
         }
     }
 
-    void set_culling(Culling cull_type) {
-        GLenum type = GL_FALSE;
-
-        switch (cull_type) {
-        case Culling::Disabled: type = GL_FALSE; break;
-        case Culling::Back:     type = GL_BACK; break;
-        case Culling::Front:    type = GL_FRONT; break;
-        case Culling::Both:     type = GL_FRONT_AND_BACK; break;
-        }
+    void set_culling(CullingMode mode) {
+        GLenum type = culling_mode(mode);
 
         if (type != 0) {
-            glEnable(GL_CULL_FACE);
-            glCullFace(type);
+            GLEW_GET_FUN(glEnable)(GL_CULL_FACE);
+            GLEW_GET_FUN(glCullFace)(type);
         }
         else {
-            glDisable(GL_CULL_FACE);
+            GLEW_GET_FUN(glDisable)(GL_CULL_FACE);
         }
     }
 
-    void set_polymode(PolyMode poly_mode) {
-        GLenum type = GL_FALSE;
+    void set_drawmode(DrawMode mode) {
+        GLenum type = draw_mode(mode);
 
-        switch (poly_mode) {
-        case PolyMode::Fill:  type = GL_FILL; break;
-        case PolyMode::Line:  type = GL_LINE; break;
-        case PolyMode::Point: type = GL_POINT; break;
-        }
-
-        glPolygonMode(GL_FRONT_AND_BACK, type);
+        GLEW_GET_FUN(glPolygonMode)(GL_FRONT_AND_BACK, type);
     }
 
     void set_viewport(glm::ivec2 pos, glm::uvec2 size) {
-        glViewport(pos.x, pos.y, size.x, size.y);
+        GLEW_GET_FUN(glViewport)(pos.x, pos.y, size.x, size.y);
     }
 }

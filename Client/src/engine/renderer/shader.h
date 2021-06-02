@@ -15,12 +15,6 @@ namespace engine {
         COMPUTE
     };
 
-    struct shader_exception {
-        std::string message;
-    };
-
-    struct program_exception : shader_exception {};
-
     class Shader {
         friend class Program;
 

@@ -4,7 +4,7 @@
 
 namespace engine {
     constexpr GLenum shader_type(ShaderType type) {
-        const GLenum shader_types[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER,  GL_GEOMETRY_SHADER, GL_COMPUTE_SHADER };
+        const GLenum shader_types[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, GL_GEOMETRY_SHADER, GL_COMPUTE_SHADER };
         return shader_types[(glm::uint32)type];
     }
 
@@ -80,10 +80,12 @@ namespace engine {
     }
 
     glm::uint32 Program::get_attribute_location(const char* name) {
-        return glGetAttribLocation(program_id, name);
+        glm::uint32 location = glGetAttribLocation(program_id, name);
+        return location;
     }
 
     glm::uint32 Program::get_uniform_location(const char* name) {
-        return glGetUniformLocation(program_id, name);
+        glm::uint32 location = glGetUniformLocation(program_id, name);
+        return location;
     }
 }

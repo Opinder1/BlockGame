@@ -8,9 +8,10 @@ namespace engine {
 		return buffer_types[(glm::uint32)type];
 	}
 
-	glm::uint32 current_arraybuffer = 0;
-	glm::uint32 current_elementbuffer = 0;
-	glm::uint32 current_globalbuffer = 0;
+	glm::uint32 current_array_buffer = 0;
+	glm::uint32 current_element_buffer = 0;
+	glm::uint32 current_uniform_buffer = 0;
+	glm::uint32 current_global_buffer = 0;
 
 	void BufferBase::_new() {
 		glGenBuffers(1, &buffer_id);
@@ -21,9 +22,9 @@ namespace engine {
 	}
 
 	void ArrayBuffer::use() {
-		if (current_arraybuffer != buffer_id) {
+		if (current_array_buffer != buffer_id) {
 			glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
-			current_arraybuffer = buffer_id;
+			current_array_buffer = buffer_id;
 		}
 	}
 
@@ -38,9 +39,9 @@ namespace engine {
 	}
 
 	void ElementBuffer::use() {
-		if (current_elementbuffer != buffer_id) {
+		if (current_element_buffer != buffer_id) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer_id);
-			current_elementbuffer = buffer_id;
+			current_uniform_buffer = buffer_id;
 		}
 	}
 
@@ -54,28 +55,45 @@ namespace engine {
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, pos, size, data);
 	}
 
-	void GlobalBuffer::use() {
-		if (current_globalbuffer != buffer_id) {
+	void UniformBuffer::use() {
+		if (current_uniform_buffer != buffer_id) {
 			glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
-			current_globalbuffer = buffer_id;
+			current_uniform_buffer = buffer_id;
+		}
+	}
+
+	void UniformBuffer::new_data(glm::uint64 size, const void* data, BufferType usage) {
+		use();
+		glBufferData(GL_UNIFORM_BUFFER, size, data, buffer_type(usage));
+	}
+
+	void UniformBuffer::sub_data(glm::uint64 pos, glm::uint64 size, const void* data) {
+		use();
+		glBufferSubData(GL_UNIFORM_BUFFER, pos, size, data);
+	}
+ 
+	void UniformBuffer::activate_slot(glm::uint32 slot) {
+		glBindBufferBase(GL_UNIFORM_BUFFER, slot, buffer_id);
+	}
+
+	void UniformBuffer::set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size) {
+		glBindBufferRange(GL_UNIFORM_BUFFER, slot, buffer_id, pos, size);
+	}
+
+	void GlobalBuffer::use() {
+		if (current_global_buffer != buffer_id) {
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, buffer_id);
+			current_global_buffer = buffer_id;
 		}
 	}
 
 	void GlobalBuffer::new_data(glm::uint64 size, const void* data, BufferType usage) {
 		use();
-		glBufferData(GL_UNIFORM_BUFFER, size, data, buffer_type(usage));
+		glBufferData(GL_SHADER_STORAGE_BUFFER, size, data, buffer_type(usage));
 	}
 
 	void GlobalBuffer::sub_data(glm::uint64 pos, glm::uint64 size, const void* data) {
 		use();
-		glBufferSubData(GL_UNIFORM_BUFFER, pos, size, data);
-	}
- 
-	void GlobalBuffer::activate_slot(glm::uint32 slot) {
-		glBindBufferBase(GL_UNIFORM_BUFFER, slot, buffer_id);
-	}
-
-	void GlobalBuffer::set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size) {
-		glBindBufferRange(GL_UNIFORM_BUFFER, slot, buffer_id, pos, size);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, pos, size, data);
 	}
 }

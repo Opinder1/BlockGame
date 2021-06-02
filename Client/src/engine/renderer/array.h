@@ -7,9 +7,10 @@
 
 namespace engine {
 	enum class DrawType {
-		Default,
-		Strip,
-		Fan
+		Triangles,
+		Strips,
+		Fans,
+		Patches
 	};
 
 	class Array {
@@ -35,8 +36,9 @@ namespace engine {
 
 	public:
 		void _new(Type type);
+		void _delete();
 
-		void draw(glm::uint32 elements);
-		void draw_instanced(glm::uint32 elements, glm::uint32 instances);
+		void draw(DrawType type, glm::uint32 elements);
+		void draw_instanced(DrawType type, glm::uint32 elements, glm::uint32 instances);
 	};
 }

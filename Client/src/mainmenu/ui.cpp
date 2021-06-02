@@ -1,10 +1,12 @@
 #include "ui.h"
 
 namespace ui {
-	Element::Element(engine::Material* material, engine::TextureBuffer* texture, glm::vec2 position) :
+	Element::Element(engine::Program& material, engine::Texture2D& texture, glm::vec2 position, glm::vec2 size) :
 		material(material),
 		texture(texture),
-		engine::Transform2D(position)
+		engine::Transform2D{ position },
+		size(size),
+		rot(0)
 	{
 
 	}
@@ -14,16 +16,18 @@ namespace ui {
 	}
 
 	void Element::draw() {
-		texture->use(0);
+		texture.use(0);
 
-		material->set("pos", position);
-		material->set("texture_size", texture->get_size());
+		material.set("pos", position);
 
-		engine::QuadRenderer::draw();
+		material.set("rot", rot);
+		rot += 0.01;
+
+		engine::Renderer2D::draw_quad();
 	}
 
-	Button::Button(const std::function<void()>& event, engine::Material* material, engine::TextureBuffer* texture, glm::vec2 position) :
-		Element(material, texture, position),
+	Button::Button(const std::function<void()>& event, engine::Program& material, engine::Texture2D& texture, glm::vec2 position, glm::vec2 size) :
+		Element(material, texture, position, size),
 		function(event), 
 		handle(application->events.event_subscribe(engine::MouseClickEvent, on_click))
 	{
@@ -35,7 +39,7 @@ namespace ui {
 	}
 
 	bool Button::touching(glm::ivec2 pos) {
-		glm::ivec2 corner = glm::ivec2(position) + glm::ivec2(texture->get_size());
+		glm::ivec2 corner = glm::ivec2(position) + glm::ivec2(size);
 
 		return pos.x >= position.x && pos.y >= position.y && pos.x <= corner.x && pos.y <= corner.y;
 	}

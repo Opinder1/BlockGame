@@ -9,12 +9,14 @@ inline struct _newline {} newl;
 inline struct _endline {} endl;
 
 namespace ocode {
+    struct log_exception : file_exception {};
+
     class LogFile {
     private:
         std::ofstream stream;
 
     public:
-        LogFile(const fs::path& name) : stream(name) {}
+        LogFile(const fs::path& path);
 
         template<class Type>
         LogFile& operator<<(Type t) {

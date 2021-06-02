@@ -13,6 +13,7 @@
 #include <libzippp/libzippp.h>
 
 using namespace std::string_literals;
+using namespace std::string_view_literals;
 
 namespace fs = std::filesystem;
 
@@ -20,7 +21,8 @@ namespace lz = libzippp;
 
 namespace ocode {
     struct file_exception {
-        std::string message;
+        std::string_view message;
+        std::string name;
     };
 
     using File = std::string;

@@ -1,5 +1,5 @@
 #include "cubescene.h"
-
+/*
 CubeScene::CubeScene() : camera(70.0f, application->window.get_size()), surface(application->window.get_size(), 32), cube_material("cube"s), cube_poly() {
     application->window.set_mouse_type(GLFW_CURSOR_DISABLED);
 
@@ -80,7 +80,7 @@ void CubeScene::update() {
     engine::set_multisample(true);
     engine::set_alphatest(true);
     engine::set_depthtest(true);
-    engine::set_culling(engine::Culling::Back);
+    engine::set_culling(engine::CullingMode::Back);
 
     surface.clear();
 
@@ -119,3 +119,4 @@ void CubeScene::on_key_action(const engine::KeyActionEvent* e) {
 void CubeScene::on_window_resize(const engine::WindowResizeEvent* e) {
     surface.resize(e->size, 32);
 }
+*/

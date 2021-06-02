@@ -24,13 +24,7 @@
     <ClCompile Include="src\engine\scene\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\scene\mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\cubescene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\window.cpp">
@@ -40,9 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mainmenu\ui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\scene\surface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\application.cpp">
@@ -78,16 +69,16 @@
     <ClCompile Include="src\engine\opengl\shaderuniform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\opengl\texture.cpp">
+    <ClCompile Include="src\engine\renderer\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\load_shader.cpp">
+    <ClCompile Include="src\engine\resources\resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\resources.cpp">
+    <ClCompile Include="src\engine\resources\load_shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\load_mesh.cpp">
+    <ClCompile Include="src\engine\scene\renderer2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,19 +86,10 @@
     <ClInclude Include="src\engine\scene\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\cubescene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\scene\material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\scene\transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\window.h">
@@ -117,9 +99,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mainmenu\ui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\scene\surface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\application.h">
@@ -152,16 +131,16 @@
     <ClInclude Include="src\engine\renderer\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer\texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\opengl\opengl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\renderer\sound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\resources.h">
+    <ClInclude Include="src\engine\renderer\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\resources\resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

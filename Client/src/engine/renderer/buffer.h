@@ -26,12 +26,12 @@ namespace engine {
 	class Buffer : public BufferBase {
 	public:
 		template<class T>
-		void set_data(glm::uint64 size, T* data, BufferType usage) {
+		void set_data(T* data, glm::uint64 size, BufferType usage) {
 			static_cast<SubClass*>(this)->new_data(size * sizeof(T), data, usage);
 		}
 
 		template<class T>
-		void modify_data(glm::uint64 pos, glm::uint64 size, T* data) {
+		void modify_data(T* data, glm::uint64 pos, glm::uint64 size) {
 			static_cast<SubClass*>(this)->sub_data(pos * sizeof(T), size * sizeof(T), data + pos);
 		}
 	};
@@ -45,6 +45,7 @@ namespace engine {
 		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
 	public:
+		// TODO Ideally private
 		void use();
 	};
 
@@ -57,11 +58,16 @@ namespace engine {
 		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
 	public:
+		// TODO Ideally private
 		void use();
 	};
 
-	class GlobalBuffer : public Buffer<GlobalBuffer> {
+	class UniformBuffer : public Buffer<UniformBuffer> {
 		friend class Buffer;
+
+	public:
+		static const int max_slots;
+		static const int max_size;
 
 	private:
 		void new_data(glm::uint64 size, const void* data, BufferType usage);
@@ -69,8 +75,32 @@ namespace engine {
 		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
 	public:
+		// TODO Ideally private
 		void use();
 
+		// TODO Maybe have a thing where a shader can do .activate_slot(slot, buffer)
+		void activate_slot(glm::uint32 slot);
+
+		void set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size);
+	};
+
+	class GlobalBuffer : public Buffer<GlobalBuffer> {
+		friend class Buffer;
+
+	public:
+		static const int max_slots;
+		static const int max_size;
+
+	private:
+		void new_data(glm::uint64 size, const void* data, BufferType usage);
+
+		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
+
+	public:
+		// TODO Ideally private
+		void use();
+
+		// TODO Implement
 		void activate_slot(glm::uint32 slot);
 
 		void set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size);

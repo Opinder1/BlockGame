@@ -8,4 +8,4 @@
 #include "src/scene/scene.h"
 #include "src/network/network.h"
 
-// (!) Use blockgame namespace
+// TODO Use blockgame namespace

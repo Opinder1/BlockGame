@@ -1,11 +1,13 @@
 #include "id.h"
 
-std::string get_name(const NameID& id) {
-    return id.substr(id.find(':') + 1);
+const std::string_view get_name(const NameID& id) {
+    std::string_view view(id);
+    return view.substr(view.find(':') + 1);
 }
 
-std::string get_package(const NameID& id) {
-    return id.substr(0, id.find(':'));
+const std::string_view get_package(const NameID& id) {
+    std::string_view view(id);
+    return view.substr(0, view.find(':'));
 }
 
 IDManager::IDManager() {

@@ -1,15 +1,19 @@
-#pragma once
+ #pragma once
 
 #include "../application.h"
 
 namespace ui {
 	class Element : public engine::Transform2D {
 	protected:
-		engine::Material* material;
-		engine::TextureBuffer* texture;
+		engine::Program& material;
+		engine::Texture2D& texture;
+
+		glm::uvec2 size;
+
+		glm::float32 rot;
 
 	public:
-		Element(engine::Material* material, engine::TextureBuffer* texture, glm::vec2 position = { 0, 0 });
+		Element(engine::Program& material, engine::Texture2D& texture, glm::vec2 position = { 0, 0 }, glm::vec2 size = { 0, 0 });
 		~Element();
 
 		void draw();
@@ -18,8 +22,6 @@ namespace ui {
 	typedef std::vector<std::unique_ptr<ui::Element>> Frame;
 
 	class Button : public Element {
-	private:
-		bool touching(glm::ivec2 pos);
 
 	protected:
 		std::function<void()> function;
@@ -27,10 +29,12 @@ namespace ui {
 		ocode::ObserverHandle handle;
 
 	public:
-		Button(const std::function<void()>& event, engine::Material* material, engine::TextureBuffer* texture, glm::vec2 position);
+		Button(const std::function<void()>& event, engine::Program& material, engine::Texture2D& texture, glm::vec2 position, glm::vec2 size);
 		~Button();
 
-	protected:
+	private:
+		bool touching(glm::ivec2 pos);
+
 		void on_click(const engine::MouseClickEvent* e);
 	};
 }

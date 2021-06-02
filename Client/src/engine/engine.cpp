@@ -3,18 +3,34 @@
 namespace engine {
     ocode::EventManager* event_manager = NULL;
 
-    Application::Application(const std::string& name, glm::uvec2 size) : events(), running((engine::event_manager = &events, true)), window(name, size), surface(window.get_size()) {
+    bool config_fullscreen = false;
+    bool config_vsync = true;
+
+    Application::Application(const std::string& name, glm::uvec2 size) : events(), running(true), window(name, size) {
+        // TODO constructor used to have: , surface(window.get_size())
+        if (!renderer_init()) {
+            // TODO make this not a c string
+            throw "Failed to initialise renderer";
+        }
+        
+        engine::event_manager = &events;
+
         events.event_subscribe(engine::WindowResizeEvent, on_window_resize);
         events.event_subscribe(engine::WindowCloseEvent, on_window_close);
-        
-        window.set_icon(engine::Texture("icon.png"s));
 
-        // TODO EW what is this supposed to be lol
-        engine::QuadRenderer::init();
+        Monitor monitor = Monitor::init();
+
+        if (config_fullscreen) {
+            window.set_fullscreen(monitor, config_vsync);
+        }
+        
+        window.set_icon(engine::Texture("blockgame\\textures\\icon.png"s));
+
+        Renderer2D::init();
     }
 
     Application::~Application() {
-        engine::QuadRenderer::deinit();
+        Renderer2D::shutdown();
     }
 
     void Application::run() {
@@ -30,15 +46,11 @@ namespace engine {
     }
 
     void Application::on_window_resize(const WindowResizeEvent* e) {
-        surface.resize(e->size);
+
     }
 
     void Application::on_window_close(const WindowCloseEvent* e) {
         running = false;
-    }
-
-    Mesh Application::mesh(const std::string& name) {
-        return load_mesh(name, resources);
     }
 
     Program Application::shader(const std::string& name) {

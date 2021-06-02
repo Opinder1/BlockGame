@@ -1,12 +1,16 @@
 #include "game.h"
-
+/*
 Game::Game() : 
     camera(90.0f, application->window.get_size()),
     surface(application->window.get_size(), 4),
-    scene(application->events),
-    color(engine::Texture("world.png"s)),
-    height(engine::Texture("world_heightmap.png"s))
+    scene(application->events)
 {
+    color._new();
+    height._new();
+
+    color.set_data(engine::Texture("world.png"s));
+    height.set_data(engine::Texture("world_heightmap.png"s));
+
     tilemap::init();
 
     camera.position = { 0, 30, 0 };
@@ -20,6 +24,9 @@ Game::Game() :
 }
 
 Game::~Game() {
+    color._delete();
+    height._delete();
+
     tilemap::deinit();
 }
 
@@ -118,3 +125,4 @@ void Game::on_window_resize(const engine::WindowResizeEvent* e) {
     surface.resize(e->size, 4);
     tilemap::set_screen_size(e->size);
 }
+*/

@@ -41,7 +41,7 @@ namespace engine {
 
 	void Array::draw(DrawType type, glm::uint32 vertexes) {
 		use();
-		glDrawArrays(draw_type(type), 0, vertexes);
+		GLEW_GET_FUN(glDrawArrays)(draw_type(type), 0, vertexes);
 	}
 
 	void Array::draw_instanced(DrawType type, glm::uint32 vertexes, glm::uint32 instances) {
@@ -53,16 +53,21 @@ namespace engine {
 		element_type = type;
 		Array::_new();
 		ElementBuffer::_new();
+		ElementBuffer::use();
 	}
 
-	void ElementArray::draw(glm::uint32 elements) {
-		Array::use();
-		// TODO allow drawing of other modes
-		glDrawElements(GL_TRIANGLES, elements, gl_type(element_type), 0);
+	void ElementArray::_delete() {
+		Array::_delete();
+		ElementBuffer::_delete();
 	}
 
-	void ElementArray::draw_instanced(glm::uint32 elements, glm::uint32 instances) {
+	void ElementArray::draw(DrawType type, glm::uint32 elements) {
 		Array::use();
-		glDrawElementsInstanced(GL_TRIANGLES, elements, gl_type(element_type), 0, instances);
+		GLEW_GET_FUN(glDrawElements)(draw_type(type), elements, gl_type(element_type), 0);
+	}
+
+	void ElementArray::draw_instanced(DrawType type, glm::uint32 elements, glm::uint32 instances) {
+		Array::use();
+		glDrawElementsInstanced(draw_type(type), elements, gl_type(element_type), 0, instances);
 	}
 }

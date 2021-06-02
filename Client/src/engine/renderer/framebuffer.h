@@ -4,57 +4,48 @@
 #include "texture.h"
 
 namespace engine {
-	class TextureBuffer {
+	enum class Format : glm::uint32 {
+		R,
+		RG,
+		RGB,
+		RGBA,
+		DEPTH_AND_STENCIL
+	};
+
+	class TextureBase {
 		friend class FrameBuffer;
 
-	private:
+	protected:
 		glm::uint32 buffer_id;
 
-		glm::uvec2 size;
+	public:
+		void _new();
+		void _delete();
+	};
 
+	class Texture2D : public TextureBase {
+	private:
 		void use();
 
 	public:
-		TextureBuffer(const TextureBuffer&) = delete;
-		TextureBuffer(const glm::uvec2& size);
-		TextureBuffer(const Texture& texture);
-		TextureBuffer(const std::string& name) : TextureBuffer(Texture(name)) {}
-		virtual ~TextureBuffer();
-
-		const glm::uvec2 get_size();
-
 		void use(glm::uint32 slot);
 
-		void resize(const glm::uvec2& size);
+		void set_empty(const glm::uvec2& new_size);
 
 		void set_data(const Texture& texture);
 	};
 
-	class MSTextureBuffer {
-		friend class FrameBuffer;
-
+	class Texture2DMS : public TextureBase {
 	private:
-		glm::uint32 buffer_id;
-
-		glm::uvec2 size;
-		glm::uint32 samples;
-
 		void use();
 
 	public:
-		MSTextureBuffer(const MSTextureBuffer&) = delete;
-		MSTextureBuffer(const glm::uvec2&, glm::uint32 samples = 1);
-		~MSTextureBuffer();
-
-		const glm::uvec2 get_size();
-		const glm::uint32 get_samples();
-
 		void use(glm::uint32 slot);
 
-		void resize(const glm::uvec2&, glm::uint32 samples = 1);
+		void set_empty(const glm::uvec2& new_size, glm::uint32 samples);
 	};
 
-	class DepthBuffer {
+	class RenderBuffer {
 		friend class FrameBuffer;
 
 	private:
@@ -63,36 +54,43 @@ namespace engine {
 		void use();
 
 	public:
-		DepthBuffer(const DepthBuffer&) = delete;
-		DepthBuffer(const glm::uvec2&, glm::uint32 samples = 1);
-		~DepthBuffer();
+		void _new();
+		void _delete();
 
-		void resize(const glm::uvec2&, glm::uint32 samples = 1);
+		void set_empty(const glm::uvec2& new_size, glm::uint32 samples = 0);
 	};
 
 	class FrameBuffer {
-		friend class SurfaceBase;
-
 	private:
 		glm::uint32 buffer_id;
 
-		FrameBuffer(bool window);
-
 	public:
-		FrameBuffer(const FrameBuffer&) = delete;
-		FrameBuffer();
-		~FrameBuffer();
+		void _new();
+		void _delete();
 		 
 		void use();
-		void use_cleared();
 
-		void set_attachment(TextureBuffer& texture, glm::uint32 position);
-		void set_attachment(MSTextureBuffer& texture, glm::uint32 position);
-		void set_attachment(DepthBuffer& depth);
+		void clear();
 
-		int status();
-		const char* get_status();
+		void set_attachment(Texture2D& texture, glm::uint32 position = 0);
+		void set_attachment(Texture2DMS& texture, glm::uint32 position = 0);
+		void set_attachment(RenderBuffer& depth);
 
-		void blit(FrameBuffer& buffer);
+		bool is_complete();
+		const std::string_view get_status();
+
+		struct Rect {
+			glm::uvec2 pos;
+			glm::uvec2 size;
+		};
+
+		void blit(FrameBuffer& buffer, Rect source, Rect dest);
+	};
+
+	class WindowBuffer : private FrameBuffer {
+	public:
+		void use();
+
+		void clear();
 	};
 }
