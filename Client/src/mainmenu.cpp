@@ -10,7 +10,7 @@ MainMenu::MainMenu() :
 	material = application->shader("blockgame\\shaders\\ui\\ui.json"s);
 
 	texture._new();
-	engine::Texture t("blockgame\\textures\\pixel_test.png"s);
+	engine::Texture t("blockgame\\textures\\default.png"s);
 	texture.set_data(t);
 
 	main_page.emplace_back(new ui::Button([=] {
@@ -69,6 +69,8 @@ void MainMenu::update() {
 	material.set("pos", glm::vec2{ 0, 0 });
 
 	material.set("rot", 0.0f);
+
+	material.set("scale", glm::vec2{ 1, 1 });
 
 	engine::Renderer2D::draw_quad();
 }

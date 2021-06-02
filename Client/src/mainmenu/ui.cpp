@@ -21,7 +21,7 @@ namespace ui {
 		material.set("pos", position);
 
 		material.set("rot", rot);
-		rot += 0.01;
+		//rot += 0.01f;
 
 		engine::Renderer2D::draw_quad();
 	}

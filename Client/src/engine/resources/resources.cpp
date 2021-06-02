@@ -16,7 +16,14 @@ namespace engine {
 
 				const std::string& name = path.lexically_relative(resources_folder).u8string();
 
-				if (resources.find(name) == resources.end()) resources.emplace(name, ocode::load_file(path.u8string()));
+				if (resources.find(name) == resources.end()) {
+					try {
+						resources.emplace(name, ocode::load_file(path.u8string()));
+					}
+					catch (ocode::file_exception& e) {
+
+					}
+				}
 			}
 		}
 	}

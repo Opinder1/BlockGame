@@ -4,22 +4,13 @@
 
 #include <GLM/glm.hpp>
 
-#include "../renderer/array.h"
-#include "../renderer/framebuffer.h"
+#include "renderer2d.h"
 
 namespace engine {
-	class Renderer2D {
-	public:
-		static int camera_buffer_slot;
-
-		static void init();
-		static void shutdown();
-
-		static void draw_quad();
-	};
-
 	struct Transform2D {
 		glm::vec2 position;
+		glm::float32 zoom;
+		glm::float32 rotation;
 	};
 
 	class Scene2D {
@@ -30,6 +21,7 @@ namespace engine {
 		FrameBuffer frame;
 
 	public:
+		Scene2D(const Scene2D&) = delete;
 		Scene2D(glm::vec2 size);
 		~Scene2D();
 

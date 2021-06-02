@@ -2,7 +2,7 @@
 
 BlockGameApplication* application = NULL;
 
-std::string BlockGameApplication::base_name = "base"s;
+std::string_view BlockGameApplication::base_name = "base"sv;
 
 BlockGameApplication::BlockGameApplication() : engine::Application("Game"s, { 800, 500 }), log("client.log"s), config("client.json"s) {
     config.get_value("version"s, 1.0);

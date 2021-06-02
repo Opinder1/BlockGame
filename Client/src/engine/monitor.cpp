@@ -45,6 +45,7 @@ namespace engine {
         glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 
+        // TODO hmm maybe people dont want to run at their monitors refresh rate as it could be glitched or something
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
     }
 

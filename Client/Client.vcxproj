@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="src\engine\renderer\sound.h" />
     <ClInclude Include="src\engine\resources\resources.h" />
+    <ClInclude Include="src\engine\scene\renderer2d.h" />
     <ClInclude Include="src\engine\scene\scene.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\application.h" />

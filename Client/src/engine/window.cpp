@@ -92,6 +92,7 @@ namespace engine {
 
     void Window::set_fullscreen(Monitor monitor, bool vsync) {
         if (monitor.is_null()) {
+            // TODO Should throw exception so that you can know if you screwed up
             return;
         }
 
@@ -100,6 +101,7 @@ namespace engine {
         event_manager->event_post(WindowResizeEvent, monitor.get_size());
         event_manager->event_post(WindowMoveEvent, monitor.get_pos());
 
+        // TODO Maybe you may want half vsync for some dumb reason
         if (vsync) {
             glfwSwapInterval(1);
         }

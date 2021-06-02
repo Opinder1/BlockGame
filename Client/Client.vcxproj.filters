@@ -143,6 +143,9 @@
     <ClInclude Include="src\engine\resources\resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\scene\renderer2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\cube.frag" />

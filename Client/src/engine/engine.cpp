@@ -7,9 +7,8 @@ namespace engine {
     bool config_vsync = true;
 
     Application::Application(const std::string& name, glm::uvec2 size) : events(), running(true), window(name, size) {
-        // TODO constructor used to have: , surface(window.get_size())
         if (!renderer_init()) {
-            // TODO make this not a c string
+            // TODO Use throw within renderer_init()
             throw "Failed to initialise renderer";
         }
         

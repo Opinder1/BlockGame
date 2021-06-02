@@ -26,57 +26,52 @@ namespace engine {
 	class Buffer : public BufferBase {
 	public:
 		template<class T>
-		void set_data(T* data, glm::uint64 size, BufferType usage) {
+		void create(glm::uint64 size, T* data, BufferType usage) {
 			static_cast<SubClass*>(this)->new_data(size * sizeof(T), data, usage);
 		}
 
 		template<class T>
-		void modify_data(T* data, glm::uint64 pos, glm::uint64 size) {
-			static_cast<SubClass*>(this)->sub_data(pos * sizeof(T), size * sizeof(T), data + pos);
+		void modify(glm::uint64 pos, glm::uint64 size, T* data) {
+			static_cast<SubClass*>(this)->modify_data(pos * sizeof(T), size * sizeof(T), data + pos);
 		}
 	};
 
 	class ArrayBuffer : public Buffer<ArrayBuffer> {
-		friend class Buffer;
+		friend class Array;
 
 	private:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
-
-		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
+		void use();
 
 	public:
-		// TODO Ideally private
-		void use();
+		void new_data(glm::uint64 size, const void* data, BufferType usage);
+
+		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 	};
 
 	class ElementBuffer : public Buffer<ElementBuffer> {
-		friend class Buffer;
+		friend class ElementArray;
 
 	private:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
-
-		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
+		void use();
 
 	public:
-		// TODO Ideally private
-		void use();
+		void new_data(glm::uint64 size, const void* data, BufferType usage);
+
+		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 	};
 
 	class UniformBuffer : public Buffer<UniformBuffer> {
-		friend class Buffer;
-
 	public:
-		static const int max_slots;
-		static const int max_size;
+		static int max_slots;
+		static int max_size;
 
 	private:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
-
-		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
+		void use();
 
 	public:
-		// TODO Ideally private
-		void use();
+		void new_data(glm::uint64 size, const void* data, BufferType usage);
+
+		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
 		// TODO Maybe have a thing where a shader can do .activate_slot(slot, buffer)
 		void activate_slot(glm::uint32 slot);
@@ -85,20 +80,17 @@ namespace engine {
 	};
 
 	class GlobalBuffer : public Buffer<GlobalBuffer> {
-		friend class Buffer;
-
 	public:
-		static const int max_slots;
-		static const int max_size;
+		static int max_slots;
+		static int max_size;
 
 	private:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
-
-		void sub_data(glm::uint64 pos, glm::uint64 size, const void* data);
+		void use();
 
 	public:
-		// TODO Ideally private
-		void use();
+		void new_data(glm::uint64 size, const void* data, BufferType usage);
+
+		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
 		// TODO Implement
 		void activate_slot(glm::uint32 slot);

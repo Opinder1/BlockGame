@@ -25,7 +25,7 @@ namespace tilemap {
 		vertex_buffer._new();
 		array._new();
 
-		vertex_buffer.set_data(vertexes.data(), vertexes.size(), engine::BufferType::Static);
+		vertex_buffer.create(vertexes.size(), vertexes.data(), engine::BufferType::Static);
 		array.set_attribute(0, vertex_buffer, engine::Type::float32, 3);
 
 		program._new();

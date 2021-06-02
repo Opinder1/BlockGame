@@ -19,21 +19,16 @@ namespace engine {
 	};
 
     bool renderer_init();
+	void init_buffer_limits();
 
 	const std::string_view get_renderer_version();
-
 	const std::string_view get_adapter_vendor();
-
 	const std::string_view get_video_adapter();
 
 	void set_multisample(bool enabled);
-
 	void set_depthtest(bool enabled);
-
 	void set_alphatest(bool enabled);
-
 	void set_culling(CullingMode mode);
-
 	void set_drawmode(DrawMode mode);
 
 	void set_viewport(glm::ivec2 pos, glm::uvec2 size);

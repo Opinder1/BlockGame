@@ -12,15 +12,6 @@
 
 namespace engine {
 	extern ocode::EventManager* event_manager;
-	
-	// TODO Use this to set viewport
-	// TOOD Maybe even turn this into a viewport class
-	class Camera {
-		struct {
-			glm::ivec2 pos;
-			glm::uvec2 size;
-		} viewport;
-	};
 
 	class Camera2D : public Transform2D {
 	private:
@@ -29,6 +20,7 @@ namespace engine {
 		UniformBuffer buffer;
 
 	public:
+		Camera2D(const Camera2D&) = delete;
 		Camera2D(Scene2D& scene);
 		~Camera2D();
 

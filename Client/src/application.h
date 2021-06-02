@@ -11,7 +11,7 @@ public:
 
 class BlockGameApplication : public engine::Application {
 public:
-	static std::string base_name;
+	static std::string_view base_name;
 
 	ocode::LogFile log;
 	ocode::Config config;

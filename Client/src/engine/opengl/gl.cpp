@@ -9,7 +9,7 @@ namespace engine {
 
     void glLastLine(const char* function, const char* file, int line) {
         last_line = { function, file, line };
-        printf("(%s) %s:%i\n", function, file, line);
+        //printf("(%s) %s:%i\n", function, file, line);
     }
 
     void gl_debug_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
@@ -73,19 +73,9 @@ namespace engine {
         set_culling(CullingMode::Disabled);
         set_drawmode(DrawMode::Fill);
 
-        glm::uint32 uniformbuffer_max_size = 0;
-        glm::uint32 uniformbuffer_max_bindings = 0;
-        glm::uint32 globalbuffer_max_size = 0;
-        glm::uint32 globalbuffer_max_bindings = 0;
-
-        glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, (GLint*)&uniformbuffer_max_size);
-        glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, (GLint*)&uniformbuffer_max_bindings);
-        glGetIntegerv(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, (GLint*)&globalbuffer_max_size);
-        glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, (GLint*)&globalbuffer_max_bindings);
+        init_buffer_limits();
 
         // TODO Maybe implement glEnable(GL_PROGRAM_POINT_SIZE) although it just makes squares but that could be useful for sprites;
-
-        std::cout << uniformbuffer_max_size << " " << uniformbuffer_max_bindings << " " << globalbuffer_max_size << " " << globalbuffer_max_bindings << std::endl;
 
         return true;
     }
