@@ -21,13 +21,16 @@ public:
 	engine::Program window_program;
 
 private:
-	void update() override;
-
 	void reload_resources();
 
 public:
 	BlockGameApplication();
 	~BlockGameApplication();
+
+	void run();
+
+	engine::Program shader(const std::string_view& name);
+	engine::Texture texture(const std::string_view& name);
 };
 
 extern BlockGameApplication* application;

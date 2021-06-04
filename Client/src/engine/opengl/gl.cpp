@@ -61,20 +61,16 @@ namespace engine {
             throw std::runtime_error{ "Could not initialize OpenGL (GLEW)" };
         }
 
+#ifdef _DEBUG
         GLEW_GET_FUN(glEnable)(GL_DEBUG_OUTPUT);
         GLEW_GET_FUN(glDebugMessageCallback)(gl_debug_callback, 0);
+#endif
+
+        GLEW_GET_FUN(glEnable)(GL_PROGRAM_POINT_SIZE);
 
         GLEW_GET_FUN(glClearColor)(0.0f, 0.0f, 0.0f, 0.0f);
 
-        set_multisample(false);
-        set_depthtest(false);
-        set_alphatest(false);
-        set_culling(CullingMode::Disabled);
-        set_drawmode(DrawMode::Fill);
-
         init_buffer_limits();
-
-        GLEW_GET_FUN(glEnable)(GL_PROGRAM_POINT_SIZE);
     }
 
     const std::string_view get_renderer_version() {
@@ -120,7 +116,7 @@ namespace engine {
     void set_culling(CullingMode mode) {
         GLenum type = culling_mode(mode);
 
-        if (type != 0) {
+        if (type) {
             GLEW_GET_FUN(glEnable)(GL_CULL_FACE);
             GLEW_GET_FUN(glCullFace)(type);
         }

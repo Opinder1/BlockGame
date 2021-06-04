@@ -27,14 +27,10 @@ namespace engine {
         Renderer2D::shutdown();
     }
 
-    void Application::run() {
-        while (running) {
-            update();
+    void Application::update() {
+        window.update();
 
-            window.update();
-
-            glfwPollEvents();
-        }
+        glfwPollEvents();
     }
 
     void Application::on_window_resize(const WindowResizeEvent* e) {
@@ -43,13 +39,5 @@ namespace engine {
 
     void Application::on_window_close(const WindowCloseEvent* e) {
         running = false;
-    }
-
-    Program Application::shader(const std::string& name) {
-        return load_program(name, resources);
-    }
-
-    Texture Application::texture(const std::string& name) {
-        return load_texture(name, resources);
     }
 }

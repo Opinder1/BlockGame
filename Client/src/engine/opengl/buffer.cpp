@@ -19,6 +19,13 @@ namespace engine {
 	int GlobalBuffer::max_size = 0;
 	int GlobalBuffer::max_slots = 0;
 
+	void init_buffer_limits() {
+		glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, (GLint*)&UniformBuffer::max_size);
+		glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, (GLint*)&UniformBuffer::max_slots);
+		glGetIntegerv(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, (GLint*)&GlobalBuffer::max_size);
+		glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, (GLint*)&GlobalBuffer::max_slots);
+	}
+
 	void BufferBase::_new() {
 		glGenBuffers(1, &buffer_id);
 	}
@@ -59,13 +66,6 @@ namespace engine {
 	void ElementBuffer::modify_data(glm::uint64 pos, glm::uint64 size, const void* data) {
 		use();
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, pos, size, data);
-	}
-
-	void init_buffer_limits() {
-		glGetIntegerv(GL_MAX_UNIFORM_BLOCK_SIZE, (GLint*)&UniformBuffer::max_size);
-		glGetIntegerv(GL_MAX_UNIFORM_BUFFER_BINDINGS, (GLint*)&UniformBuffer::max_slots);
-		glGetIntegerv(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, (GLint*)&GlobalBuffer::max_size);
-		glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, (GLint*)&GlobalBuffer::max_slots);
 	}
 
 	void UniformBuffer::use() {

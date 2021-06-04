@@ -4,11 +4,11 @@ MainMenu::MainMenu() : state(1), scene(application->window.get_size()), camera(s
 {
 	application->events.event_subscribe(engine::WindowResizeEvent, on_window_resize);
 
-	material = application->shader("blockgame\\shaders\\ui\\ui.json"s);
+	material = application->shader("shaders\\ui"sv);
 
 	texture._new();
 
-	engine::Texture t = application->texture("blockgame\\textures\\long_test.png"s);
+	engine::Texture t = application->texture("textures\\long_test.png"sv);
 	texture.set_data(t);
 
 	main_page.emplace_back(new ui::Button([&] {
