@@ -5,10 +5,10 @@
 
 #include "file.h"
 
-inline struct _newline {} newl;
-inline struct _endline {} endl;
-
 namespace ocode {
+    inline struct _newline {} newl;
+    inline struct _endline {} endl;
+
     struct log_exception : file_exception {};
 
     class LogFile {

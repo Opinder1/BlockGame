@@ -1,9 +1,9 @@
 #pragma once
 
-#include <GLM/glm.hpp>
-
 #include <string>
 #include <chrono>
+
+#include "time.h"
 
 namespace ocode {
 	struct UUID {
@@ -19,6 +19,7 @@ namespace ocode {
 	public:
 		Random(const Random&) = delete;
 		Random();
+		Random(glm::uint64 seed);
 
 		template<class Type>
 		Type get() {

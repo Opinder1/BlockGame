@@ -4,7 +4,7 @@
 
 namespace engine {
 	constexpr GLenum draw_type(DrawType type) {
-		const GLenum draw_types[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_PATCHES };
+		const GLenum draw_types[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_PATCHES, GL_POINTS };
 		return draw_types[(glm::uint32)type];
 	}
 

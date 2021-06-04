@@ -1,7 +1,17 @@
 #include "scene.h"
 
 namespace engine {
-	Scene2D::Scene2D(glm::vec2 size) : size(size) {
+	glm::mat4 Transform2D::get_transform() {
+		glm::mat4 transform(1);
+		
+		transform = glm::translate(transform, glm::vec3(position, 0));
+		transform = glm::rotate(transform, rotation, glm::vec3(0, 0, 1));
+		transform = glm::scale(transform, glm::vec3(scale, 1));
+
+		return transform;
+	}
+
+	Scene2D::Scene2D(glm::uvec2 size) : size(size) {
 		frame._new();
 		texture._new();
 		texture.set_empty(size);
@@ -17,12 +27,12 @@ namespace engine {
 		frame.clear();
 	}
 
-	void Scene2D::set_size(const glm::vec2& new_size) {
+	void Scene2D::set_size(const glm::uvec2& new_size) {
 		size = new_size;
 		texture.set_empty(new_size);
 	}
 
-	glm::vec2 Scene2D::get_size() {
+	glm::uvec2 Scene2D::get_size() {
 		return size;
 	}
 

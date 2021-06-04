@@ -3,11 +3,8 @@
 #include <ocode.h>
 
 #include <GLFW/glfw3.h>
-#include <GLM/glm.hpp>
 
 namespace engine {
-	extern ocode::EventManager* event_manager;
-
 	class Monitor {
 		friend struct MonitorConnectEvent;
 		friend struct MonitorDisconnectEvent;
@@ -18,13 +15,13 @@ namespace engine {
 		Monitor(GLFWmonitor* monitor) : monitor(monitor) {}
 
 	public:
-		Monitor() : monitor(NULL) {}
-
-		bool operator==(Monitor monitor);
 		static Monitor init();
 
-		static Monitor get_primary();
-		static Monitor get(glm::uint32 id);
+		Monitor(const Monitor&) = delete;
+		Monitor();
+		Monitor(glm::uint32 id);
+
+		bool operator==(Monitor monitor);
 
 		void use(GLFWwindow* window);
 		bool is_null();

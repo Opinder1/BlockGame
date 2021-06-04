@@ -16,12 +16,17 @@ namespace engine {
 
 				const std::string& name = path.lexically_relative(resources_folder).u8string();
 
+				// TODO this is for debug only
+				if (fs::path(name).begin()->string() == ".vs"s) {
+					continue;
+				}
+
 				if (resources.find(name) == resources.end()) {
 					try {
 						resources.emplace(name, ocode::load_file(path.u8string()));
 					}
-					catch (ocode::file_exception& e) {
-
+					catch (ocode::file_exception&) {
+						continue;
 					}
 				}
 			}

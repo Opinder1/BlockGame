@@ -52,18 +52,17 @@ namespace engine {
         printf("Debug message (%i) %s\n", id, message);
 
         if (severity == GL_DEBUG_SEVERITY_LOW || severity == GL_DEBUG_SEVERITY_MEDIUM || severity == GL_DEBUG_SEVERITY_HIGH) {
-            throw std::exception();
+            throw std::runtime_error{ "Internal debug error" };
         }
     }
 
-    bool renderer_init() {
+    void renderer_init() {
         if (glewInit() != GLEW_OK) {
-            // TODO use throw instead
-            return false;
+            throw std::runtime_error{ "Could not initialize OpenGL (GLEW)" };
         }
 
         GLEW_GET_FUN(glEnable)(GL_DEBUG_OUTPUT);
-        glDebugMessageCallback(gl_debug_callback, 0);
+        GLEW_GET_FUN(glDebugMessageCallback)(gl_debug_callback, 0);
 
         GLEW_GET_FUN(glClearColor)(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -75,9 +74,7 @@ namespace engine {
 
         init_buffer_limits();
 
-        // TODO Maybe implement glEnable(GL_PROGRAM_POINT_SIZE) although it just makes squares but that could be useful for sprites;
-
-        return true;
+        GLEW_GET_FUN(glEnable)(GL_PROGRAM_POINT_SIZE);
     }
 
     const std::string_view get_renderer_version() {

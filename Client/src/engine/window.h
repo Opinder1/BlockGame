@@ -3,17 +3,17 @@
 #include <ocode.h>
 
 #include <GLFW/glfw3.h>
-#include <GLM/glm.hpp>
 
 #include "monitor.h"
+#include "renderer/framebuffer.h"
 #include "renderer/texture.h"
 
 namespace engine {
-	extern ocode::EventManager* event_manager;
-
 	class Window {
 	private:
 		GLFWwindow* window;
+
+		WindowBuffer surface;
 
 		glm::uvec2 last_size;
 		glm::ivec2 last_pos;
@@ -27,8 +27,7 @@ namespace engine {
 		void update();
 		void close();
 
-		void set_fullscreen(Monitor monitor, bool vsync);
-		void set_fullscreen(bool vsync);
+		void set_fullscreen(Monitor& monitor, bool vsync);
 
 		void set_windowed();
 		void set_windowed(glm::uvec2 size, glm::ivec2 pos);
@@ -45,8 +44,6 @@ namespace engine {
 		glm::ivec2 get_size();
 		glm::ivec2 get_mouse_pos();
 		int get_key(int key);
-
-		void on_monitor_disconnect(const MonitorDisconnectEvent* e);
 	};
 
 	struct WindowResizeEvent : ocode::Event {

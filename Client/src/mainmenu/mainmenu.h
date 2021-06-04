@@ -1,11 +1,8 @@
 #pragma once
 
-#include "application.h"
+#include "../application.h"
 
-#include "cubescene.h"
-#include "game/game.h"
-
-#include "mainmenu/ui.h"
+#include "ui.h"
 
 class MainMenu : public Module {
 private:
@@ -17,8 +14,8 @@ private:
 	engine::Scene2D scene;
 	engine::Camera2D camera;
 
-	ui::Frame main_page;
-	ui::Frame settings;
+	std::vector<std::unique_ptr<ui::Element>> main_page;
+	std::vector<std::unique_ptr<ui::Element>> settings;
 
 private:
 	void on_window_resize(const engine::WindowResizeEvent* e);

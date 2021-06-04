@@ -3,6 +3,7 @@
 #include <ocode.h>
 
 #include "../renderer/shader.h"
+#include "../renderer/texture.h"
 
 namespace engine {
 	struct resource_exception : ocode::file_exception {};
@@ -11,6 +12,11 @@ namespace engine {
 		std::string_view message;
 		std::string name;
 		std::string log;
+	};
+
+	struct texture_exception {
+		std::string_view message;
+		std::string name;
 	};
 
 	class ResourceManager {
@@ -41,4 +47,7 @@ namespace engine {
 
 	ocode::File read_shader_file(const fs::path& path, const ResourceManager& resources, std::vector<std::string>& visited);
 	Program load_program(const std::string& name, const ResourceManager& resources);
+	Texture load_texture(const std::string& name, const ResourceManager& resources);
+	//Model load_model(const std::string& name, const ResourceManager& resources);
+	// TODO Add all loading functions
 }

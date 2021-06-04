@@ -1,6 +1,8 @@
 #include "monitor.h"
 
 namespace engine {
+    extern ocode::EventManager* event_manager;
+
     bool Monitor::operator==(Monitor monitor) {
         return this->monitor == monitor.monitor;
     }
@@ -17,23 +19,19 @@ namespace engine {
     Monitor Monitor::init() {
         glfwSetMonitorCallback(on_monitor_change);
 
-        return Monitor::get_primary();
+        return Monitor();
     }
 
-    Monitor Monitor::get_primary() {
-        return Monitor(glfwGetPrimaryMonitor());
+    Monitor::Monitor() : monitor(glfwGetPrimaryMonitor()) {
+
     }
 
-    Monitor Monitor::get(glm::uint32 id) {
+    Monitor::Monitor(glm::uint32 id) : monitor(nullptr) {
         glm::uint32 count;
 
         GLFWmonitor** monitor_list = glfwGetMonitors((int*)&count);
 
-        if (id > count) {
-            id = count;
-        }
-
-        return Monitor(monitor_list[id]);
+        if (monitor_list) monitor = monitor_list[id > count ? count : id];
     }
 
     void Monitor::use(GLFWwindow* window) {
@@ -50,7 +48,7 @@ namespace engine {
     }
 
     bool Monitor::is_null() {
-        return monitor == NULL;
+        return monitor == nullptr;
     }
 
     const glm::uvec2 Monitor::get_size() {

@@ -3,26 +3,26 @@
 #include "opengl.h"
 
 namespace engine {
-	constexpr GLenum storage_format(Format format) {
+	constexpr GLenum storage_format(TextureFormat format) {
 		switch (format) {
-		case Format::R:
+		case TextureFormat::R:
 			return GL_RED;
-		case Format::RG:
+		case TextureFormat::RG:
 			return GL_RG;
-		case Format::RGB:
+		case TextureFormat::RGB:
 			return GL_RGB;
-		case Format::RGBA:
+		case TextureFormat::RGBA:
 			return GL_RGBA;
-		case Format::DEPTH_AND_STENCIL:
+		case TextureFormat::DEPTH_AND_STENCIL:
 			return GL_DEPTH24_STENCIL8;
 		default:
 			return GL_FALSE;
 		}
 	}
 
-	constexpr GLenum storage_type(Format format, Type type = Type::float64) {
+	constexpr GLenum storage_type(TextureFormat format, Type type = Type::float64) {
 		switch (format) {
-		case Format::R:
+		case TextureFormat::R:
 			switch (type) {
 			case Type::uint8: return GL_R8UI;
 			case Type::uint16: return GL_R16UI;
@@ -30,7 +30,7 @@ namespace engine {
 			case Type::float32: return GL_R32F;
 			default: return GL_RED;
 			}
-		case Format::RG:
+		case TextureFormat::RG:
 			switch (type) {
 			case Type::uint8: return GL_RG8UI;
 			case Type::uint16: return GL_RG16UI;
@@ -38,7 +38,7 @@ namespace engine {
 			case Type::float32: return GL_RG32F;
 			default: return GL_RG;
 			}
-		case Format::RGB:
+		case TextureFormat::RGB:
 			switch (type) {
 			case Type::uint8: return GL_RGB8UI;
 			case Type::uint16: return GL_RGB16UI;
@@ -46,7 +46,7 @@ namespace engine {
 			case Type::float32: return GL_RGB32F;
 			default: return GL_RGB;
 			}
-		case Format::RGBA:
+		case TextureFormat::RGBA:
 			switch (type) {
 			case Type::uint8: return GL_RGBA8UI;
 			case Type::uint16: return GL_RGBA16UI;
@@ -54,7 +54,7 @@ namespace engine {
 			case Type::float32: return GL_RGBA32F;
 			default: return GL_RGBA;
 			}
-		case Format::DEPTH_AND_STENCIL:
+		case TextureFormat::DEPTH_AND_STENCIL:
 			return GL_DEPTH24_STENCIL8;
 		default:
 			return GL_FALSE;
@@ -93,7 +93,7 @@ namespace engine {
 		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(Format::RGBA, Type::float32), new_size.x, new_size.y, 0, storage_format(Format::RGBA), gl_type(Type::uint8), nullptr);
+		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(TextureFormat::RGBA, Type::float32), new_size.x, new_size.y, 0, storage_format(TextureFormat::RGBA), gl_type(Type::uint8), nullptr);
 	}
 
 	void Texture2D::set_data(const Texture& texture) {
@@ -107,7 +107,7 @@ namespace engine {
 		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		glm::uvec2 size = texture.get_size();
-		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(Format::RGBA, Type::float32), size.x, size.y, 0, storage_format(Format::RGBA), gl_type(Type::uint8), texture.get_data());
+		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(TextureFormat::RGBA, Type::float32), size.x, size.y, 0, storage_format(TextureFormat::RGBA), gl_type(Type::uint8), texture.get_data());
 	}
 
 	void Texture2DMS::use() {
@@ -125,7 +125,7 @@ namespace engine {
 
 	void Texture2DMS::set_empty(const glm::uvec2& new_size, glm::uint32 samples) {
 		use();
-		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, storage_type(Format::RGBA, Type::uint8), new_size.x, new_size.y, GL_TRUE);
+		glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, storage_type(TextureFormat::RGBA, Type::uint8), new_size.x, new_size.y, GL_TRUE);
 	}
 
 	void RenderBuffer::_new() {

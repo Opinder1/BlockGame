@@ -113,6 +113,9 @@
     <ClCompile Include="Client.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\engine\renderer\texture.cpp" />
+    <ClCompile Include="src\engine\resources\load_model.cpp" />
+    <ClCompile Include="src\engine\resources\load_texture.cpp" />
     <ClCompile Include="src\engine\resources\resources.cpp" />
     <ClCompile Include="src\engine\scene\renderer2d.cpp" />
     <ClCompile Include="src\engine\scene\scene.cpp" />
@@ -127,9 +130,8 @@
     <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\opengl\shader.cpp" />
-    <ClCompile Include="src\engine\renderer\texture.cpp" />
     <ClCompile Include="src\game\tilemap_renderer.cpp" />
-    <ClCompile Include="src\mainmenu.cpp" />
+    <ClCompile Include="src\mainmenu\mainmenu.cpp" />
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\monitor.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
@@ -152,7 +154,7 @@
     <ClInclude Include="src\engine\renderer\shader.h" />
     <ClInclude Include="src\engine\renderer\texture.h" />
     <ClInclude Include="src\game\tilemap_renderer.h" />
-    <ClInclude Include="src\mainmenu.h" />
+    <ClInclude Include="src\mainmenu\mainmenu.h" />
     <ClInclude Include="src\cubescene.h" />
     <ClInclude Include="src\engine\monitor.h" />
     <ClInclude Include="src\engine\window.h" />

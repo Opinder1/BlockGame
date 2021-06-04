@@ -1,12 +1,11 @@
 #include "ui.h"
 
 namespace ui {
-	Element::Element(engine::Program& material, engine::Texture2D& texture, glm::vec2 position, glm::vec2 size) :
-		material(material),
+	Element::Element(engine::Texture2D& texture, glm::vec2 position, glm::vec2 size) :
 		texture(texture),
-		engine::Transform2D{ position },
+		engine::Transform2D{ position, 0, size },
 		size(size),
-		rot(0)
+		model(1)
 	{
 
 	}
@@ -15,19 +14,18 @@ namespace ui {
 
 	}
 
-	void Element::draw() {
+	void Element::draw(engine::Program& material) {
 		texture.use(0);
 
-		material.set("pos", position);
+		model = get_transform();
 
-		material.set("rot", rot);
-		//rot += 0.01f;
+		material.set("model", model);
 
 		engine::Renderer2D::draw_quad();
 	}
 
-	Button::Button(const std::function<void()>& event, engine::Program& material, engine::Texture2D& texture, glm::vec2 position, glm::vec2 size) :
-		Element(material, texture, position, size),
+	Button::Button(const std::function<void()>& event, engine::Texture2D& texture, glm::vec2 position, glm::vec2 size) :
+		Element(texture, position, size),
 		function(event), 
 		handle(application->events.event_subscribe(engine::MouseClickEvent, on_click))
 	{

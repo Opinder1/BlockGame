@@ -18,6 +18,8 @@ public:
 
 	std::vector<std::unique_ptr<Module>> modules;
 
+	engine::Program window_program;
+
 private:
 	void update() override;
 

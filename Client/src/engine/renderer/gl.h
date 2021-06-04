@@ -2,23 +2,36 @@
 
 #include <ocode.h>
 
-#include <GLM/glm.hpp>
-#include <GLM/ext.hpp>
-
 namespace engine {
 	enum class Type : glm::uint32 {
 		int8, uint8, int16, uint16, int32, uint32, float32, float64
 	};
 
-	enum class CullingMode : glm::uint32 {
-		Disabled, Back, Front, Both
+	enum class BufferType : glm::uint32 {
+		Static, Dynamic, Stream
+	};
+
+	enum class DrawType : glm::uint32 {
+		Triangles, Strips, Fans, Patches, Points
 	};
 
 	enum class DrawMode : glm::uint32 {
 		Fill, Line, Point
 	};
 
-    bool renderer_init();
+	enum class CullingMode : glm::uint32 {
+		Disabled, Back, Front, Both
+	};
+
+	enum class TextureFormat : glm::uint32 {
+		R, RG, RGB, RGBA, DEPTH_AND_STENCIL
+	};
+
+	enum class ShaderType : glm::uint32 {
+		Vertex, Fragment, Geometry, Compute
+	};
+
+    void renderer_init();
 	void init_buffer_limits();
 
 	const std::string_view get_renderer_version();

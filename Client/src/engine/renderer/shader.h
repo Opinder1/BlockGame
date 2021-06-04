@@ -8,13 +8,6 @@
 #include "texture.h"
 
 namespace engine {
-    enum class ShaderType : glm::uint32 {
-        VERTEX,
-        FRAGMENT,
-        GEOMETRY,
-        COMPUTE
-    };
-
     class Shader {
         friend class Program;
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <GLM/glm.hpp>
-
 #include <string>
 #include <unordered_map>
+
+#include "math.h"
 
 #include "parser/parser.h"
 #include "io/log.h"

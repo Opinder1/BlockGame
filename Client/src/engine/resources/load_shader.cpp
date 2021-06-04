@@ -41,10 +41,10 @@ namespace engine {
     }
 
     ShaderType get_shader_type(const fs::path& path, const std::string& type) {
-        if (type == "vertex"sv) return ShaderType::VERTEX;
-        if (type == "fragment"sv) return ShaderType::FRAGMENT;
-        if (type == "geometry"sv) return ShaderType::GEOMETRY;
-        if (type == "compute"sv) return ShaderType::COMPUTE;
+        if (type == "vertex"sv) return ShaderType::Vertex;
+        if (type == "fragment"sv) return ShaderType::Fragment;
+        if (type == "geometry"sv) return ShaderType::Geometry;
+        if (type == "compute"sv) return ShaderType::Compute;
 
         throw program_exception{ "Invalid shader type"sv, path.string(), type + " is not a shader type" };
     }

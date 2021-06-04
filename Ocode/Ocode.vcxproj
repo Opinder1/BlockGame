@@ -28,7 +28,7 @@
     <ClCompile Include="src\parser\token.cpp" />
     <ClCompile Include="src\parser\tokenize.cpp" />
     <ClCompile Include="src\random.cpp" />
-    <ClCompile Include="src\timer.cpp" />
+    <ClCompile Include="src\time.cpp" />
     <ClCompile Include="src\worker_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,9 +124,10 @@
     <ClInclude Include="src\io\io.h" />
     <ClInclude Include="src\io\log.h" />
     <ClInclude Include="ocode.h" />
+    <ClInclude Include="src\math.h" />
     <ClInclude Include="src\parser\parser.h" />
     <ClInclude Include="src\random.h" />
-    <ClInclude Include="src\timer.h" />
+    <ClInclude Include="src\time.h" />
     <ClInclude Include="src\worker_thread.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

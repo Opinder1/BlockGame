@@ -13,18 +13,25 @@
 #include "monitor.h"
 
 namespace engine {
-	extern ocode::EventManager* event_manager;
+	class Settings {
+		glm::float64 time;
+		UniformBuffer buffer;
+
+		Settings();
+		~Settings();
+	};
 
 	class Application {
+	private:
+
 	public:
 		bool running;
 
 		ocode::EventManager events;
 
-		Window window;
-		WindowBuffer surface;
-
 		ResourceManager resources;
+
+		Window window;
 
 	protected:
 		void on_window_resize(const WindowResizeEvent* e);
@@ -37,9 +44,11 @@ namespace engine {
 		Application(const std::string& name, glm::uvec2 size);
 		~Application();
 
-		virtual void run();
+		void run();
 
+		// TODO remove these
 		Program shader(const std::string& name);
-		// TODO Add all loading functions
+		Texture texture(const std::string& name);
+
 	};
 }

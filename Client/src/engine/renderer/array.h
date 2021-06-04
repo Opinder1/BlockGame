@@ -6,13 +6,6 @@
 #include "buffer.h"
 
 namespace engine {
-	enum class DrawType {
-		Triangles,
-		Strips,
-		Fans,
-		Patches
-	};
-
 	class Array {
 	private:
 		glm::uint32 vertex_array_id;

@@ -1,6 +1,6 @@
 #include "src/application.h"
 
-#include "src/mainmenu.h"
+#include "src/mainmenu/mainmenu.h"
 
 int main(int argc, char** argv) {
 	application = new BlockGameApplication();

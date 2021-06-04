@@ -1,10 +1,9 @@
 #pragma once
 
+#include <string>
 #include <chrono>
 
-#include <string>
-
-#include <GLM/glm.hpp>
+#include "math.h"
 
 namespace chrono = std::chrono;
 

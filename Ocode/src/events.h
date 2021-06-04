@@ -1,10 +1,10 @@
 #pragma once
 
-#include <GLM/glm.hpp>
-
 #include <functional>
 #include <unordered_map>
 #include <vector>
+
+#include "math.h"
 
 #define event_subscribe(event, function) _event_subscribe<event>([&](const event* e){ function(e); })
 

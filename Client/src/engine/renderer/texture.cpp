@@ -1,54 +1,19 @@
 #include "texture.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
-
-class Flip {
-public:
-	Flip() {
-		stbi_set_flip_vertically_on_load(true);
-	}
-} startup;
-
 namespace engine {
-	Texture::Texture(glm::uvec2 size) : size(size) {
-		data = new Pixel[size.x, size.y];
+	Texture::Texture(glm::uvec2 size, TextureFormat format) : data(new glm::uint8[size.x, size.y, (glm::uint8)format]), size(size), format(format) {
+
 	}
 
-	Texture::Texture(const std::string& name) : size(0, 0), data(NULL) {
-		std::string file_name = std::string(PROJECT_DIR) + "resources\\"s + name;
+	Texture::Texture(glm::uint8* data, glm::uvec2 size, TextureFormat format) : data(data), size(size), format(format) {
 
-		// TODO redo this
-		if (!fs::exists(file_name)) {
-			printf("File %s does not exist\n", file_name.c_str());
-			return;
-		}
-
-		glm::int32 n;
-		data = (Pixel*)stbi_load(file_name.c_str(), (int*)&size.x, (int*)&size.y, &n, 4);
-		
-		// TODO Use this
-		// stbi_load_from_memory(file.data());
-
-		if (n != 4) {
-			// TODO make this not a c string
-			throw "Could not load image";
-		}
 	}
 
 	Texture::~Texture() {
 		delete data;
 	}
 
-	void Texture::_set_at(glm::uvec2 pos, Pixel pixel) {
-		data[pos.x + pos.y * size.x] = pixel;
-	}
-
-	Pixel& Texture::_get_at(glm::uvec2 pos) const {
-		return data[pos.x + pos.y * size.x];
-	}
-
-	Pixel* Texture::get_data() const {
+	glm::uint8* Texture::get_data() const {
 		return data;
 	}
 
@@ -56,30 +21,7 @@ namespace engine {
 		return size;
 	}
 
-	void Texture::set_at(glm::uvec2 pos, Pixel pixel) {
-		if (pos.x < 0) pos.x = 0;
-		if (pos.y < 0) pos.y = 0;
-		if (pos.x > size.x) pos.x = size.x;
-		if (pos.y > size.y) pos.y = size.y;
-
-		_set_at(pos, pixel);
-	}
-
-	Pixel Texture::get_at(glm::uvec2 pos) const {
-		if (pos.x < 0) pos.x = 0;
-		if (pos.y < 0) pos.y = 0;
-		if (pos.x > size.x) pos.x = size.x;
-		if (pos.y > size.y) pos.y = size.y;
-
-		return _get_at(pos);
-	}
-
-	Pixel& Texture::operator[](glm::uvec2 pos) {
-		if (pos.x < 0) pos.x = 0;
-		if (pos.y < 0) pos.y = 0;
-		if (pos.x > size.x) pos.x = size.x;
-		if (pos.y > size.y) pos.y = size.y;
-
-		return _get_at(pos);
+	TextureFormat Texture::get_format() const {
+		return format;
 	}
 }

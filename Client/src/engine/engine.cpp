@@ -7,23 +7,18 @@ namespace engine {
     bool config_vsync = true;
 
     Application::Application(const std::string& name, glm::uvec2 size) : events(), running(true), window(name, size) {
-        if (!renderer_init()) {
-            // TODO Use throw within renderer_init()
-            throw "Failed to initialise renderer";
+        renderer_init();
+
+        Monitor initial_monitor = Monitor::init();
+
+        if (config_fullscreen) {
+            window.set_fullscreen(initial_monitor, config_vsync);
         }
         
         engine::event_manager = &events;
 
         events.event_subscribe(engine::WindowResizeEvent, on_window_resize);
         events.event_subscribe(engine::WindowCloseEvent, on_window_close);
-
-        Monitor monitor = Monitor::init();
-
-        if (config_fullscreen) {
-            window.set_fullscreen(monitor, config_vsync);
-        }
-        
-        window.set_icon(engine::Texture("blockgame\\textures\\icon.png"s));
 
         Renderer2D::init();
     }
@@ -34,8 +29,6 @@ namespace engine {
 
     void Application::run() {
         while (running) {
-            surface.clear();
-
             update();
 
             window.update();
@@ -54,5 +47,9 @@ namespace engine {
 
     Program Application::shader(const std::string& name) {
         return load_program(name, resources);
+    }
+
+    Texture Application::texture(const std::string& name) {
+        return load_texture(name, resources);
     }
 }

@@ -7,8 +7,12 @@ namespace ocode {
 		return buffer;
 	}
 
-	Random::Random() {
-		seed = std::chrono::system_clock::now().time_since_epoch().count() + std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	Random::Random() : seed(chrono::system_clock::now().time_since_epoch().count() + chrono::high_resolution_clock::now().time_since_epoch().count()) {
+
+	}
+
+	Random::Random(glm::uint64 seed) : seed(seed) {
+
 	}
 
 	UUID Random::new_uuid() {

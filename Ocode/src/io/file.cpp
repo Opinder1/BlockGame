@@ -12,6 +12,7 @@ namespace ocode {
         if (!fs::exists(path)) throw file_exception{ "File does not exist"sv, path.u8string() };
 
         std::ifstream file(path, std::ios::binary);
+        file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         if (!file) throw file_exception{ "Could not upen file"sv, path.u8string() };
 
         size_t file_size = fs::file_size(path);

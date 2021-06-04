@@ -1,4 +1,4 @@
-#include "timer.h"
+#include "time.h"
 
 namespace ocode {
 	Timer::Timer() {

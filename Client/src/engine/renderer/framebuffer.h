@@ -4,14 +4,6 @@
 #include "texture.h"
 
 namespace engine {
-	enum class Format : glm::uint32 {
-		R,
-		RG,
-		RGB,
-		RGBA,
-		DEPTH_AND_STENCIL
-	};
-
 	class TextureBase {
 		friend class FrameBuffer;
 

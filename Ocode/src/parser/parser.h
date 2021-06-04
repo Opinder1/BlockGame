@@ -1,10 +1,10 @@
 #pragma once
 
-#include <GLM/glm.hpp>
-
 #include <unordered_map>
 #include <vector>
 #include <string>
+
+#include "../math.h"
 
 using namespace std::string_literals;
 

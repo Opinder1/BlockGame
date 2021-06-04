@@ -1,6 +1,8 @@
 #include "window.h"
 
 namespace engine {
+    extern ocode::EventManager* event_manager;
+
     glm::ivec2 get_cursor_pos_rel(GLFWwindow* window) {
         glm::dvec2 pos;
         glfwGetCursorPos(window, &pos.x, &pos.y);
@@ -80,6 +82,7 @@ namespace engine {
 
     void Window::use() {
         glfwMakeContextCurrent(window);
+        surface.clear();
     }
 
     void Window::update() {
@@ -90,7 +93,7 @@ namespace engine {
         glfwSetWindowShouldClose(window, true);
     }
 
-    void Window::set_fullscreen(Monitor monitor, bool vsync) {
+    void Window::set_fullscreen(Monitor& monitor, bool vsync) {
         if (monitor.is_null()) {
             // TODO Should throw exception so that you can know if you screwed up
             return;
@@ -110,10 +113,6 @@ namespace engine {
         }
     }
 
-    void Window::set_fullscreen(bool vsync) {
-        set_fullscreen(Monitor::get_primary(), vsync);
-    }
-
     void Window::set_windowed() {
         glfwSetWindowMonitor(window, nullptr, last_pos.x, last_pos.y, last_size.x, last_size.y, 0);
     }
@@ -128,7 +127,7 @@ namespace engine {
     void Window::set_icon(const Texture& texture) {
         glm::ivec2 size = texture.get_size();
 
-        GLFWimage image = { size.x, size.y, (glm::uint8*)texture.get_data() };
+        GLFWimage image = { size.x, size.y, texture.get_data() };
 
         glfwSetWindowIcon(window, 1, &image);
     }

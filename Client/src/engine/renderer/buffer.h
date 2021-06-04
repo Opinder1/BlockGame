@@ -7,12 +7,6 @@
 #include "gl.h"
 
 namespace engine {
-	enum class BufferType : glm::uint32 {
-		Static,
-		Dynamic,
-		Stream
-	};
-
 	class BufferBase {
 	protected:
 		glm::uint32 buffer_id;
@@ -32,7 +26,7 @@ namespace engine {
 
 		template<class T>
 		void modify(glm::uint64 pos, glm::uint64 size, T* data) {
-			static_cast<SubClass*>(this)->modify_data(pos * sizeof(T), size * sizeof(T), data + pos);
+			static_cast<SubClass*>(this)->modify_data(pos * sizeof(T), size * sizeof(T), data);
 		}
 	};
 
