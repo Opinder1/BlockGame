@@ -10,11 +10,12 @@
 namespace engine {
 	class Camera {
 	private:
-		UniformBuffer buffer;
+		SharedBuffer buffer;
 
 	protected:
-		glm::mat4 projection;
 		glm::mat4 view;
+		glm::mat4 projection;
+		glm::mat4 vp;
 
 	public:
 		Camera(const Camera&) = delete;
@@ -28,7 +29,7 @@ namespace engine {
 	private:
 		Scene2D& scene;
 
-		UniformBuffer buffer;
+		SharedBuffer buffer;
 
 		bool normalized;
 

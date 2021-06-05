@@ -13,8 +13,6 @@ namespace engine {
 		ArrayBuffer vertex_array;
 	} quad;
 
-	int Renderer2D::camera_buffer_slot = 1;
-
 	void Renderer2D::init() {
 		quad.array._new();
 		quad.vertex_array._new();

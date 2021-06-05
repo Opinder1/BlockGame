@@ -1,4 +1,4 @@
-#include "../renderer/framebuffer.h"
+#include "../renderer/frame_buffer.h"
 
 #include "opengl.h"
 

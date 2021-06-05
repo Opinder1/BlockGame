@@ -13,6 +13,16 @@ namespace engine {
         return glm::ivec2(pos.x, height - pos.y);
     }
 
+    void glfw_init() {
+        if (!glfwInit()) throw window_exception{ "Failed to initialise glfw"sv };
+
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+    }
+
     void on_window_resize(GLFWwindow* window, int event_width, int event_height) {
         event_manager->event_post(WindowResizeEvent, { event_width, event_height });
     }
@@ -38,23 +48,11 @@ namespace engine {
     }
 
     Window::Window(const std::string& name, glm::uvec2 size) : window(NULL), last_size(size), last_pos({ 0, 0 }) {
-        if (!glfwInit()) {
-            // TODO make this not a c string
-            throw "Failed to initialise glfw";
-        }
-
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+        glfw_init();
 
         window = glfwCreateWindow(size.x, size.y, name.c_str(), nullptr, nullptr);
 
-        if (!window) {
-            // TODO make this not a c string
-            throw "Failed to initialise window";
-        }
+        if (!window) throw window_exception{ "Failed to initialise window"sv };
 
         use();
         last_pos = get_pos();
@@ -94,17 +92,13 @@ namespace engine {
     }
 
     void Window::set_fullscreen(Monitor& monitor, bool vsync) {
-        if (monitor.is_null()) {
-            // TODO Should throw exception so that you can know if you screwed up
-            return;
-        }
+        if (monitor.is_null()) throw window_exception{ "Invalid monitor for fullscreen"sv };
 
         monitor.use(window);
 
         event_manager->event_post(WindowResizeEvent, monitor.get_size());
         event_manager->event_post(WindowMoveEvent, monitor.get_pos());
 
-        // TODO Maybe you may want half vsync for some dumb reason
         if (vsync) {
             glfwSwapInterval(1);
         }

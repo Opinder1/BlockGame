@@ -57,7 +57,6 @@ engine::Program BlockGameApplication::shader(const std::string_view& name) {
 }
 
 engine::Texture BlockGameApplication::texture(const std::string_view& name) {
-
     std::string file = ocode::format("%s\\%s"sv, base_name.data(), name.data());
 
     return load_texture(file, resources);

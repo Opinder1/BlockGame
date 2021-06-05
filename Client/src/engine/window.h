@@ -5,10 +5,14 @@
 #include <GLFW/glfw3.h>
 
 #include "monitor.h"
-#include "renderer/framebuffer.h"
+#include "renderer/frame_buffer.h"
 #include "renderer/texture.h"
 
 namespace engine {
+	struct window_exception {
+		std::string_view message;
+	};
+
 	class Window {
 	private:
 		GLFWwindow* window;

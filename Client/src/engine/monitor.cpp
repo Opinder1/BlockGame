@@ -37,13 +37,11 @@ namespace engine {
     void Monitor::use(GLFWwindow* window) {
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-
         glfwWindowHint(GLFW_RED_BITS, mode->redBits);
         glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-        // TODO hmm maybe people dont want to run at their monitors refresh rate as it could be glitched or something
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
     }
 

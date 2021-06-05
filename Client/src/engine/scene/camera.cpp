@@ -1,7 +1,7 @@
 #include "camera.h"
 
 namespace engine {
-	Camera::Camera() : projection(1), view(1) {
+	Camera::Camera() : projection(1), view(1), vp(1) {
 		buffer._new();
 
 		buffer.create<glm::mat4>(3, nullptr, BufferType::Stream);
@@ -12,9 +12,9 @@ namespace engine {
 	}
 
 	void Camera::update() {
-		buffer.activate_slot(Renderer2D::camera_buffer_slot);
+		buffer.activate_slot(1);
 
-		glm::mat4 vp = projection * view;
+		vp = projection * view;
 
 		buffer.modify(0, 1, &view);
 		buffer.modify(1, 1, &projection);

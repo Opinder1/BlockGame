@@ -124,13 +124,16 @@
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\engine\opengl\array.cpp" />
     <ClCompile Include="src\engine\opengl\buffer.cpp" />
-    <ClCompile Include="src\engine\opengl\framebuffer.cpp" />
+    <ClCompile Include="src\engine\opengl\frame_buffer.cpp" />
     <ClCompile Include="src\engine\opengl\gl.cpp" />
-    <ClCompile Include="src\engine\opengl\shaderuniform.cpp" />
+    <ClCompile Include="src\engine\opengl\shader_uniform.cpp" />
     <ClCompile Include="src\engine\scene\camera.cpp" />
     <ClCompile Include="src\engine\engine.cpp" />
     <ClCompile Include="src\engine\opengl\shader.cpp" />
     <ClCompile Include="src\game\tilemap_renderer.cpp" />
+    <ClCompile Include="src\engine\instancing\instance_static.cpp" />
+    <ClCompile Include="src\engine\instancing\instance_dynamic.cpp" />
+    <ClCompile Include="src\engine\instancing\instance_stream.cpp" />
     <ClCompile Include="src\mainmenu\mainmenu.cpp" />
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\monitor.cpp" />
@@ -145,7 +148,7 @@
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\application.h" />
     <ClInclude Include="src\engine\renderer\array.h" />
-    <ClInclude Include="src\engine\renderer\framebuffer.h" />
+    <ClInclude Include="src\engine\renderer\frame_buffer.h" />
     <ClInclude Include="src\engine\renderer\gl.h" />
     <ClInclude Include="src\engine\opengl\opengl.h" />
     <ClInclude Include="src\engine\scene\camera.h" />
@@ -154,6 +157,9 @@
     <ClInclude Include="src\engine\renderer\shader.h" />
     <ClInclude Include="src\engine\renderer\texture.h" />
     <ClInclude Include="src\game\tilemap_renderer.h" />
+    <ClInclude Include="src\engine\instancing\instance_static.h" />
+    <ClInclude Include="src\engine\instancing\instance_dynamic.h" />
+    <ClInclude Include="src\engine\instancing\instance_stream.h" />
     <ClInclude Include="src\mainmenu\mainmenu.h" />
     <ClInclude Include="src\cubescene.h" />
     <ClInclude Include="src\engine\monitor.h" />

@@ -2,6 +2,8 @@
 
 #include <ocode.h>
 
+#include "../renderer/frame_buffer.h"
+
 #include "renderer2d.h"
 
 namespace engine {

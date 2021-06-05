@@ -2,8 +2,6 @@
 
 #include <ocode.h>
 
-#include <vector>
-
 #include "gl.h"
 
 namespace engine {
@@ -21,7 +19,7 @@ namespace engine {
 	public:
 		template<class T>
 		void create(glm::uint64 size, T* data, BufferType usage) {
-			static_cast<SubClass*>(this)->new_data(size * sizeof(T), data, usage);
+			static_cast<SubClass*>(this)->create_data(size * sizeof(T), data, usage);
 		}
 
 		template<class T>
@@ -37,7 +35,7 @@ namespace engine {
 		void use();
 
 	public:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
+		void create_data(glm::uint64 size, const void* data, BufferType usage);
 
 		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 	};
@@ -49,12 +47,12 @@ namespace engine {
 		void use();
 
 	public:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
+		void create_data(glm::uint64 size, const void* data, BufferType usage);
 
 		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 	};
 
-	class UniformBuffer : public Buffer<UniformBuffer> {
+	class SharedBuffer : public Buffer<SharedBuffer> {
 	public:
 		static int max_slots;
 		static int max_size;
@@ -63,11 +61,10 @@ namespace engine {
 		void use();
 
 	public:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
+		void create_data(glm::uint64 size, const void* data, BufferType usage);
 
 		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
-		// TODO Maybe have a thing where a shader can do .activate_slot(slot, buffer)
 		void activate_slot(glm::uint32 slot);
 
 		void set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size);
@@ -82,7 +79,7 @@ namespace engine {
 		void use();
 
 	public:
-		void new_data(glm::uint64 size, const void* data, BufferType usage);
+		void create_data(glm::uint64 size, const void* data, BufferType usage);
 
 		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
