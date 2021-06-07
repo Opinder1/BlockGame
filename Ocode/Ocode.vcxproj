@@ -118,6 +118,7 @@
     <ClInclude Include="include\zlib\zlib.h" />
     <ClInclude Include="include\zlib\zutil.h" />
     <ClInclude Include="src\commands.h" />
+    <ClInclude Include="src\entity.h" />
     <ClInclude Include="src\events.h" />
     <ClInclude Include="src\io\config.h" />
     <ClInclude Include="src\io\file.h" />

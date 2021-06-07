@@ -28,7 +28,6 @@ namespace engine {
 	}
 
 	void Renderer2D::draw_quad() {
-		// TODO could be replaced with drawing a varied size point.
 		quad.array.draw(DrawType::Strips, 4);
 	}
 }

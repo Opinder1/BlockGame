@@ -83,7 +83,6 @@ namespace engine {
 
 		void modify_data(glm::uint64 pos, glm::uint64 size, const void* data);
 
-		// TODO Implement
 		void activate_slot(glm::uint32 slot);
 
 		void set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size);

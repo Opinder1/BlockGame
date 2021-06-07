@@ -1,13 +1,8 @@
-#include "../renderer/buffer.h"
+#include "../gl/buffer.h"
 
 #include "opengl.h"
 
 namespace engine {
-	constexpr GLenum buffer_type(BufferType type) {
-		const GLenum buffer_types[] = { GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW };
-		return buffer_types[(glm::uint32)type];
-	}
-
 	glm::uint32 current_array_buffer = 0;
 	glm::uint32 current_element_buffer = 0;
 	glm::uint32 current_uniform_buffer = 0;
@@ -108,5 +103,13 @@ namespace engine {
 	void GlobalBuffer::modify_data(glm::uint64 pos, glm::uint64 size, const void* data) {
 		use();
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER, pos, size, data);
+	}
+
+	void GlobalBuffer::activate_slot(glm::uint32 slot) {
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, slot, buffer_id);
+	}
+
+	void GlobalBuffer::set_range(glm::uint32 slot, glm::uint64 pos, glm::uint64 size) {
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, slot, buffer_id, pos, size);
 	}
 }

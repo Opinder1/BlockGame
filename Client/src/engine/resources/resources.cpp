@@ -16,10 +16,11 @@ namespace engine {
 
 				const std::string& name = path.lexically_relative(resources_folder).u8string();
 
-				// TODO this is for debug only
+#ifdef _DEBUG
 				if (fs::path(name).begin()->string() == ".vs"s) {
 					continue;
 				}
+#endif
 
 				if (resources.find(name) == resources.end()) {
 					try {

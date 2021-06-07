@@ -2,7 +2,7 @@
 
 #include <ocode.h>
 
-#include "../renderer/array.h"
+#include "../gl/array.h"
 
 namespace engine {
 	class Renderer2D {

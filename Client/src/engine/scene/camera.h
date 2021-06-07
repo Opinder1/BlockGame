@@ -3,7 +3,7 @@
 #include <ocode.h>
 
 #include "../window.h"
-#include "../renderer/buffer.h"
+#include "../gl/buffer.h"
 
 #include "scene.h"
 

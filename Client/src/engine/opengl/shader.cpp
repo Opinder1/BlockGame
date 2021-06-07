@@ -1,13 +1,8 @@
-#include "../renderer/shader.h"
+#include "../gl/shader.h"
 
 #include "opengl.h"
 
 namespace engine {
-    constexpr GLenum shader_type(ShaderType type) {
-        const GLenum shader_types[] = { GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, GL_GEOMETRY_SHADER, GL_COMPUTE_SHADER };
-        return shader_types[(glm::uint32)type];
-    }
-
     glm::uint32 current_program = 0;
 
     void Shader::_new(ShaderType type, const char* code, glm::uint32 code_size) {

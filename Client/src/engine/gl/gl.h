@@ -23,12 +23,33 @@ namespace engine {
 		Disabled, Back, Front, Both
 	};
 
+	enum class ShaderType : glm::uint32 {
+		Vertex, Fragment, Geometry, Compute
+	};
+
 	enum class TextureFormat : glm::uint32 {
 		R, RG, RGB, RGBA, DEPTH_AND_STENCIL
 	};
 
-	enum class ShaderType : glm::uint32 {
-		Vertex, Fragment, Geometry, Compute
+	enum class TextureFilter : glm::uint32 {
+		Nearest, Linear
+	};
+
+	enum class MipmapFilter : glm::uint32 {
+		Disabled, Nearest, Linear
+	};
+
+	enum class TextureWrap : glm::uint32 {
+		Repeat, MirrorRepeat, Clamp
+	};
+
+	struct TextureLayout {
+		TextureFormat format;
+		Type format_datatype;
+		TextureFilter min_filter;
+		TextureFilter min_mipmap_filter;
+		TextureFilter mag_filter;
+		TextureWrap wrap;
 	};
 
     void renderer_init();

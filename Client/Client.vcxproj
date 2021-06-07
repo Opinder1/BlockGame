@@ -113,7 +113,7 @@
     <ClCompile Include="Client.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\engine\renderer\texture.cpp" />
+    <ClCompile Include="src\engine\gl\texture.cpp" />
     <ClCompile Include="src\engine\resources\load_model.cpp" />
     <ClCompile Include="src\engine\resources\load_texture.cpp" />
     <ClCompile Include="src\engine\resources\resources.cpp" />
@@ -141,21 +141,21 @@
     <ClCompile Include="src\mainmenu\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\renderer\sound.h" />
+    <ClInclude Include="src\engine\gl\sound.h" />
     <ClInclude Include="src\engine\resources\resources.h" />
     <ClInclude Include="src\engine\scene\renderer2d.h" />
     <ClInclude Include="src\engine\scene\scene.h" />
     <ClInclude Include="src\game\game.h" />
     <ClInclude Include="src\application.h" />
-    <ClInclude Include="src\engine\renderer\array.h" />
-    <ClInclude Include="src\engine\renderer\frame_buffer.h" />
-    <ClInclude Include="src\engine\renderer\gl.h" />
+    <ClInclude Include="src\engine\gl\array.h" />
+    <ClInclude Include="src\engine\gl\frame_buffer.h" />
+    <ClInclude Include="src\engine\gl\gl.h" />
     <ClInclude Include="src\engine\opengl\opengl.h" />
     <ClInclude Include="src\engine\scene\camera.h" />
     <ClInclude Include="src\engine\engine.h" />
-    <ClInclude Include="src\engine\renderer\buffer.h" />
-    <ClInclude Include="src\engine\renderer\shader.h" />
-    <ClInclude Include="src\engine\renderer\texture.h" />
+    <ClInclude Include="src\engine\gl\buffer.h" />
+    <ClInclude Include="src\engine\gl\shader.h" />
+    <ClInclude Include="src\engine\gl\texture.h" />
     <ClInclude Include="src\game\tilemap_renderer.h" />
     <ClInclude Include="src\engine\instancing\instance_static.h" />
     <ClInclude Include="src\engine\instancing\instance_dynamic.h" />

@@ -3,31 +3,35 @@
 #include <queue>
 #include <vector>
 
-#include "../renderer/buffer.h"
+#include "../gl/buffer.h"
 
-using Instance = glm::mat4;
+namespace engine {
+	using ID = glm::uint32;
+	using Instance = glm::mat4;
 
-class InstanceStatic : private engine::ArrayBuffer {
-private:
-	std::queue<glm::uint64> deleted;
-	std::vector<Instance> instances;
+	// TODO Decide if these buffers are needed and if so which ones
+	// TODO They should probably be templated as instances may not be mat4
 
-	glm::uint64 count;
+	class InstanceStatic : private engine::ArrayBuffer {
+	private:
+		std::queue<ID> deleted;
+		std::vector<Instance> instances;
 
-	void _new_filled();
-	void _resize_filled();
-	void _update_instance(glm::uint64 id);
+		void _new_filled();
+		void _resize_filled();
+		void _update_instance(ID id);
 
-public:
-	explicit InstanceStatic(const InstanceStatic&) = default;
-	InstanceStatic();
-	~InstanceStatic();
+	public:
+		explicit InstanceStatic(const InstanceStatic&) = default;
+		InstanceStatic();
+		~InstanceStatic();
 
-	glm::uint64 new_instance(const Instance& instance);
+		ID new_instance(const Instance& instance);
 
-	void modify_instance(glm::uint64 id, const Instance& instance);
+		void modify_instance(ID id, const Instance& instance);
 
-	void delete_instance(glm::uint64 id);
+		void delete_instance(ID id);
 
-	glm::uint64 instance_count();
-};
+		glm::uint32 instance_count();
+	};
+}

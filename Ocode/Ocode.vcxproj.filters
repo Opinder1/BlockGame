@@ -341,5 +341,8 @@
     <ClInclude Include="src\time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

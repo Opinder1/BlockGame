@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include <GLFW/glfw3.h>
+
 #include "scene/scene.h"
 #include "scene/camera.h"
 

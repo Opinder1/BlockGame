@@ -5,8 +5,8 @@
 #include <GLFW/glfw3.h>
 
 #include "monitor.h"
-#include "renderer/frame_buffer.h"
-#include "renderer/texture.h"
+#include "gl/frame_buffer.h"
+#include "gl/texture.h"
 
 namespace engine {
 	struct window_exception {

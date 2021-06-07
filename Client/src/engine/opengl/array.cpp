@@ -1,13 +1,8 @@
-#include "../renderer/array.h"
+#include "../gl/array.h"
 
 #include "opengl.h"
 
 namespace engine {
-	constexpr GLenum draw_type(DrawType type) {
-		const GLenum draw_types[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_PATCHES, GL_POINTS };
-		return draw_types[(glm::uint32)type];
-	}
-
 	glm::uint32 current_array = 0;
 
 	void Array::_new() {

@@ -14,6 +14,7 @@ namespace engine {
 	Scene2D::Scene2D(glm::uvec2 size) : size(size) {
 		frame._new();
 		texture._new();
+		texture.set_filter(TextureFilter::Linear, TextureFilter::Linear);
 		texture.set_empty(size);
 		frame.set_attachment(texture, 0);
 	}

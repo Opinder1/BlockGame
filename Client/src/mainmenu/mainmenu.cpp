@@ -9,6 +9,7 @@ MainMenu::MainMenu() : state(1), scene(application->window.get_size()), camera(s
 	texture._new();
 
 	engine::Texture t = application->texture("textures\\long_test.png"sv);
+	texture.set_filter(engine::TextureFilter::Linear, engine::TextureFilter::Linear);
 	texture.set_data(t);
 
 	main_page.emplace_back(new ui::Button([&] {

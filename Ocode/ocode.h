@@ -1,6 +1,7 @@
 #pragma once
 
 #include "src/commands.h"
+#include "src/entity.h"
 #include "src/events.h"
 #include "src/random.h"
 #include "src/time.h"

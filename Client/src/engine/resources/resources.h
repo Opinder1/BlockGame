@@ -2,8 +2,8 @@
 
 #include <ocode.h>
 
-#include "../renderer/shader.h"
-#include "../renderer/texture.h"
+#include "../gl/shader.h"
+#include "../gl/texture.h"
 
 namespace engine {
 	struct resource_exception : ocode::file_exception {};
@@ -48,6 +48,6 @@ namespace engine {
 	ocode::File read_shader_file(const fs::path& path, const ResourceManager& resources, std::vector<std::string>& visited);
 	Program load_program(const std::string& name, const ResourceManager& resources);
 	Texture load_texture(const std::string& name, const ResourceManager& resources);
-	//Model load_model(const std::string& name, const ResourceManager& resources);
-	// TODO Add all loading functions
+	//Model load_model(const std::string& name, const ResourceManager& resources); 
+	//Sound load_sound(const std::string& name, const ResourceManager& resources);
 }

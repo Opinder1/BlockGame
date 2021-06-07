@@ -10,6 +10,7 @@
 
 namespace fs = std::filesystem;
 
+// TODO this should be in blockgame namespace to not interfere with anything else
 using ID = glm::uint64;
 using NameID = std::string;
 

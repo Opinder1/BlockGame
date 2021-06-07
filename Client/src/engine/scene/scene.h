@@ -2,7 +2,7 @@
 
 #include <ocode.h>
 
-#include "../renderer/frame_buffer.h"
+#include "../gl/frame_buffer.h"
 
 #include "renderer2d.h"
 

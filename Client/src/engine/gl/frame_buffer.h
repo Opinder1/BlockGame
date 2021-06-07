@@ -22,6 +22,9 @@ namespace engine {
 	public:
 		void use(glm::uint32 slot);
 
+		void set_filter(TextureFilter mag_filter, TextureFilter min_filter, MipmapFilter mipmap_filter = MipmapFilter::Disabled);
+		void set_wrap(TextureWrap x_wrap, TextureWrap y_wrap);
+
 		void set_empty(const glm::uvec2& new_size);
 
 		void set_data(const Texture& texture);

@@ -1,20 +1,15 @@
 #pragma once
 
-#include <ocode.h>
-
-#include <unordered_map>
-#include <vector>
-
-#include "entity.h"
+#include <ocode.h> 
 
 class Scene {
 private:
 	ocode::Random random;
 
-	std::unordered_map<glm::uint32, std::vector<Entity*>> entities;
+	entt::registry entities;
 
 	ocode::EventManager& manager;
 
 public:
 	Scene(ocode::EventManager& manager) : manager(manager) {}
-};
+}; 

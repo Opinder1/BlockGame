@@ -1,4 +1,4 @@
-#include "../renderer/shader.h"
+#include "../gl/shader.h"
 
 #include "opengl.h"
 
@@ -7,21 +7,6 @@ namespace engine {
         glProgramUniform1i(program_id, location, value);
     }
 
-    template<> void Program::set(glm::uint32 location, const glm::float32& value) {
-        glProgramUniform1f(program_id, location, value);
-    }
-
-    template<> void Program::set(glm::uint32 location, const glm::vec2& value) {
-        glProgramUniform2f(program_id, location, value.x, value.y);
-    }
-
-    template<> void Program::set(glm::uint32 location, const glm::vec3& value) {
-        glProgramUniform3f(program_id, location, value.x, value.y, value.z);
-    }
-
-    template<> void Program::set(glm::uint32 location, const glm::vec4& value) {
-        glProgramUniform4f(program_id, location, value.x, value.y, value.z, value.w);
-    }
 
     template<> void Program::set(glm::uint32 location, const glm::int32& value) {
         glProgramUniform1i(program_id, location, value);
@@ -39,6 +24,7 @@ namespace engine {
         glProgramUniform4i(program_id, location, value.x, value.y, value.z, value.w);
     }
 
+
     template<> void Program::set(glm::uint32 location, const glm::uint32& value) {
         glProgramUniform1ui(program_id, location, value);
     }
@@ -55,6 +41,24 @@ namespace engine {
         glProgramUniform4ui(program_id, location, value.x, value.y, value.z, value.w);
     }
 
+    template<> void Program::set(glm::uint32 location, const glm::float32& value) {
+        glProgramUniform1f(program_id, location, value);
+    }
+
+
+    template<> void Program::set(glm::uint32 location, const glm::vec2& value) {
+        glProgramUniform2f(program_id, location, value.x, value.y);
+    }
+
+    template<> void Program::set(glm::uint32 location, const glm::vec3& value) {
+        glProgramUniform3f(program_id, location, value.x, value.y, value.z);
+    }
+
+    template<> void Program::set(glm::uint32 location, const glm::vec4& value) {
+        glProgramUniform4f(program_id, location, value.x, value.y, value.z, value.w);
+    }
+
+
     template<> void Program::set(glm::uint32 location, const glm::mat2& value) {
         glProgramUniformMatrix2fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
     }
@@ -67,6 +71,28 @@ namespace engine {
         glProgramUniformMatrix4fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
     }
 
-    // TODO Maybe add int and uint form for matrix
-    // TODO Maybe add other dimensions of matrix
+
+    template<> void Program::set(glm::uint32 location, const glm::mat2x3& value) {
+        glProgramUniformMatrix2x3fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    template<> void Program::set(glm::uint32 location, const glm::mat3x2& value) {
+        glProgramUniformMatrix3x2fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    template<> void Program::set(glm::uint32 location, const glm::mat2x4& value) {
+        glProgramUniformMatrix2x4fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    template<> void Program::set(glm::uint32 location, const glm::mat4x2& value) {
+        glProgramUniformMatrix4x2fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    template<> void Program::set(glm::uint32 location, const glm::mat3x4& value) {
+        glProgramUniformMatrix3x4fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    template<> void Program::set(glm::uint32 location, const glm::mat4x3& value) {
+        glProgramUniformMatrix4x3fv(program_id, location, 1, GL_FALSE, glm::value_ptr(value));
+    }
 }

@@ -1,66 +1,8 @@
-#include "../renderer/frame_buffer.h"
+#include "../gl/frame_buffer.h"
 
 #include "opengl.h"
 
 namespace engine {
-	constexpr GLenum storage_format(TextureFormat format) {
-		switch (format) {
-		case TextureFormat::R:
-			return GL_RED;
-		case TextureFormat::RG:
-			return GL_RG;
-		case TextureFormat::RGB:
-			return GL_RGB;
-		case TextureFormat::RGBA:
-			return GL_RGBA;
-		case TextureFormat::DEPTH_AND_STENCIL:
-			return GL_DEPTH24_STENCIL8;
-		default:
-			return GL_FALSE;
-		}
-	}
-
-	constexpr GLenum storage_type(TextureFormat format, Type type = Type::float64) {
-		switch (format) {
-		case TextureFormat::R:
-			switch (type) {
-			case Type::uint8: return GL_R8UI;
-			case Type::uint16: return GL_R16UI;
-			case Type::uint32: return GL_R32UI;
-			case Type::float32: return GL_R32F;
-			default: return GL_RED;
-			}
-		case TextureFormat::RG:
-			switch (type) {
-			case Type::uint8: return GL_RG8UI;
-			case Type::uint16: return GL_RG16UI;
-			case Type::uint32: return GL_RG32UI;
-			case Type::float32: return GL_RG32F;
-			default: return GL_RG;
-			}
-		case TextureFormat::RGB:
-			switch (type) {
-			case Type::uint8: return GL_RGB8UI;
-			case Type::uint16: return GL_RGB16UI;
-			case Type::uint32: return GL_RGB32UI;
-			case Type::float32: return GL_RGB32F;
-			default: return GL_RGB;
-			}
-		case TextureFormat::RGBA:
-			switch (type) {
-			case Type::uint8: return GL_RGBA8UI;
-			case Type::uint16: return GL_RGBA16UI;
-			case Type::uint32: return GL_RGBA32UI;
-			case Type::float32: return GL_RGBA32F;
-			default: return GL_RGBA;
-			}
-		case TextureFormat::DEPTH_AND_STENCIL:
-			return GL_DEPTH24_STENCIL8;
-		default:
-			return GL_FALSE;
-		}
-	}
-
 	glm::uint32 current_texture = 0;
 	glm::uint32 current_multisample_texture = 0;
 	glm::uint32 current_renderbuffer = 0;
@@ -87,11 +29,22 @@ namespace engine {
 		current_texture = buffer_id;
 	}
 
-	void Texture2D::set_empty(const glm::uvec2& new_size) {
+	void Texture2D::set_filter(TextureFilter mag_filter, TextureFilter min_filter, MipmapFilter mipmap_filter) {
 		use();
 
-		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texture_filter_mag(mag_filter));
+		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texture_filter_min(min_filter, mipmap_filter));
+	}
+
+	void Texture2D::set_wrap(TextureWrap x_wrap, TextureWrap y_wrap) {
+		use();
+
+		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texture_wrap(x_wrap));
+		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texture_wrap(y_wrap));
+	}
+
+	void Texture2D::set_empty(const glm::uvec2& new_size) {
+		use();
 
 		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(TextureFormat::RGBA, Type::float32), new_size.x, new_size.y, 0, storage_format(TextureFormat::RGBA), gl_type(Type::uint8), nullptr);
 	}
@@ -99,15 +52,8 @@ namespace engine {
 	void Texture2D::set_data(const Texture& texture) {
 		use();
 
-		// TODO complete texture settings + set border
-		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		GLEW_GET_FUN(glTexParameteri)(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
 		glm::uvec2 size = texture.get_size();
-		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(TextureFormat::RGBA, Type::float32), size.x, size.y, 0, storage_format(TextureFormat::RGBA), gl_type(Type::uint8), texture.get_data());
+		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(TextureFormat::RGBA, Type::float32), size.x, size.y, 0, storage_format(texture.get_format()), gl_type(Type::uint8), texture.get_data());
 	}
 
 	void Texture2DMS::use() {
@@ -145,7 +91,6 @@ namespace engine {
 
 	void RenderBuffer::set_empty(const glm::uvec2& new_size, glm::uint32 samples) {
 		use();
-		// TODO Allow for setting different depths maybe. Engine itself will most probably use 24bit depth and 8bit stencil as standard.
 		glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, GL_DEPTH24_STENCIL8, new_size.x, new_size.y);
 	}
 
