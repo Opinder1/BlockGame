@@ -2,21 +2,17 @@
 
 BlockGameApplication* application = NULL;
 
-std::string_view BlockGameApplication::base_name = "blockgame"sv;
-
 BlockGameApplication::BlockGameApplication() : engine::Application("Game"s, { 800, 500 }), log("client.log"s), config("client.json"s) {
     config.get_value("version"s, 1.0);
 
     reload_resources();
 
     window.set_title("Game ["s + engine::get_renderer_version().data() + "] ["s + engine::get_adapter_vendor().data() + ' ' + engine::get_video_adapter().data() + ']');
-    window.set_icon(texture("textures\\icon.png"sv));
-
-    window_program = shader("shaders\\window"sv);
+    window.set_icon(texture("icon.png"sv));
 }
 
 BlockGameApplication::~BlockGameApplication() {
-    window_program._delete();
+
 }
 
 void BlockGameApplication::run() {
@@ -37,7 +33,7 @@ void BlockGameApplication::reload_resources() {
     // Load all mod resource folders
 
     // Finally load vanilla resources
-    resources.load_folder(PROJECT_DIR);
+    resources.load_folder(PROJECT_DIR + "blockgame"s);
 
     for (auto& [name, file] : resources) {
         const fs::path path = name;
@@ -51,13 +47,19 @@ void BlockGameApplication::reload_resources() {
 }
 
 engine::Program BlockGameApplication::shader(const std::string_view& name) {
-    std::string file = ocode::format("%s\\%s\\%s.json"sv, base_name.data(), name.data(), name.data() + name.rfind('\\') + 1);
+    std::string file = ocode::format("%s\\shaders\\%s"sv, "blockgame", name.data());
 
-    return load_program(file, resources);
+    return load_shader(file, resources);
 }
 
 engine::Texture BlockGameApplication::texture(const std::string_view& name) {
-    std::string file = ocode::format("%s\\%s"sv, base_name.data(), name.data());
+    std::string file = ocode::format("%s\\textures\\%s"sv, "blockgame", name.data());
 
     return load_texture(file, resources);
+}
+
+engine::Font BlockGameApplication::font(const std::string_view& name) {
+    std::string file = ocode::format("%s\\fonts\\%s"sv, "blockgame", name.data());
+
+    return load_font(file, resources);
 }

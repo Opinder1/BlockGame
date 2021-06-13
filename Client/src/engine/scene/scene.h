@@ -12,10 +12,17 @@ namespace engine {
 		glm::float32 rotation = 0;
 		glm::vec2 scale = { 1, 1 };
 
-		glm::mat4 get_transform();
+		glm::mat4 get_transform() const;
 	};
 
-	class Scene2D {
+	class Scene {
+	public:
+		virtual void use() = 0;
+
+		virtual glm::uvec2 get_size() = 0;
+	};
+
+	class Scene2D : public Scene {
 	private:
 		glm::uvec2 size;
 
@@ -27,11 +34,11 @@ namespace engine {
 		Scene2D(glm::uvec2 size);
 		~Scene2D();
 
-		void use();
+		void use() override;
 
 		void set_size(const glm::uvec2& size);
 
-		glm::uvec2 get_size();
+		glm::uvec2 get_size() override;
 
 		Texture2D get_texture();
 	};

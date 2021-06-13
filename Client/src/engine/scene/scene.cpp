@@ -1,7 +1,7 @@
 #include "scene.h"
 
 namespace engine {
-	glm::mat4 Transform2D::get_transform() {
+	glm::mat4 Transform2D::get_transform() const {
 		glm::mat4 transform(1);
 		
 		transform = glm::translate(transform, glm::vec3(position, 0));

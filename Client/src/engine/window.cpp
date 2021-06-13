@@ -80,7 +80,10 @@ namespace engine {
 
     void Window::use() {
         glfwMakeContextCurrent(window);
+
         surface.clear();
+
+        set_viewport({ 0, 0 }, get_size());
     }
 
     void Window::update() {
@@ -144,7 +147,7 @@ namespace engine {
         return pos;
     }
 
-    glm::ivec2 Window::get_size() {
+    glm::uvec2 Window::get_size() {
         glm::ivec2 size;
         glfwGetWindowSize(window, &size.x, &size.y);
         return size;

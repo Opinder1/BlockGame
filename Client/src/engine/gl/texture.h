@@ -11,6 +11,7 @@ namespace engine {
 	class Texture {
 	private:
 		glm::uint8* data;
+		bool owns_data;
 
 		glm::uvec2 size;
 		TextureFormat format;

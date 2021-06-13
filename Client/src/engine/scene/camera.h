@@ -27,22 +27,19 @@ namespace engine {
 
 	class Camera2D : private Camera, public Transform2D {
 	private:
-		Scene2D& scene;
+		Scene& scene;
 
 		SharedBuffer buffer;
 
 		bool normalized;
 
-	protected:
-		void calc_projection();
-		void calc_view();
-
 	public:
-		Camera2D(Scene2D& scene, bool normalized = true);
+		Camera2D(Scene& scene, bool normalized = true);
 
 		void use();
 
-		void set_size(const glm::uvec2& new_size);
+		void calc_projection();
+		void calc_view();
 	};
 
 	class PixelCamera2D : public Camera {

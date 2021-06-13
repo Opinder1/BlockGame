@@ -5,15 +5,14 @@
 #include <GLFW/glfw3.h>
 
 #include "monitor.h"
-#include "gl/frame_buffer.h"
-#include "gl/texture.h"
+#include "scene/scene.h"
 
 namespace engine {
 	struct window_exception {
 		std::string_view message;
 	};
 
-	class Window {
+	class Window : public Scene {
 	private:
 		GLFWwindow* window;
 
@@ -27,7 +26,7 @@ namespace engine {
 		Window(const std::string& name, glm::uvec2 size);
 		~Window();
 
-		void use();
+		void use() override;
 		void update();
 		void close();
 
@@ -45,7 +44,7 @@ namespace engine {
 		void set_mouse_type(int type);
 
 		glm::ivec2 get_pos();
-		glm::ivec2 get_size();
+		glm::uvec2 get_size() override;
 		glm::ivec2 get_mouse_pos();
 		int get_key(int key);
 	};

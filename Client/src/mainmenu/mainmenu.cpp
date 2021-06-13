@@ -1,38 +1,52 @@
  #include "mainmenu.h"
 
-MainMenu::MainMenu() : state(1), scene(application->window.get_size()), camera(scene, false)
-{
+MainMenu::MainMenu() : Module(), camera(application->window, false), current_page(0) {
 	application->events.event_subscribe(engine::WindowResizeEvent, on_window_resize);
+	application->events.event_subscribe(engine::MouseClickEvent, on_click);
+	application->events.event_subscribe(ui::MenuEvent, on_menu_event);
 
-	material = application->shader("shaders\\ui"sv);
+	shaders.emplace("blockgame:ui"s, application->shader("mainmenu\\ui.json"sv));
+	shaders.emplace("blockgame:text"s, application->shader("mainmenu\\text.json"sv));
 
-	texture._new();
+	engine::Font f = application->font("ocraext.TTF"sv);
+	f->set_shader(shaders.at("blockgame:text"s));
+	fonts.emplace("blockgame:font"s, f);
 
-	engine::Texture t = application->texture("textures\\long_test.png"sv);
-	texture.set_filter(engine::TextureFilter::Linear, engine::TextureFilter::Linear);
-	texture.set_data(t);
+	ui::Background::init(shaders.at("blockgame:ui"s), application->texture("mainmenu\\background.png"sv));
+	ui::BasicButton::init(shaders.at("blockgame:ui"s), application->texture("mainmenu\\button.png"sv), fonts.at("blockgame:font"s));
 
-	main_page.emplace_back(new ui::Button([&] {
-		state = 0;
-		//application->modules.emplace_back(new Game());
-	}, texture, { 0, 0 }, t.get_size()));
+	new_page<Menu_1>("blockgame::menu_1"s);
+	new_page<Menu_2>("blockgame::menu_2"s);
 
-	main_page.emplace_back(new ui::Button([&] {
-
-	}, texture, { 150, 0 }, t.get_size()));
-
-	main_page.emplace_back(new ui::Button([&] {
-		application->running = false;
-	}, texture, { 300, 0 }, t.get_size()));
+	current_page = pages.begin()->second.get();
 }
 
 MainMenu::~MainMenu() {
-	material._delete();
-	texture._delete();
+	ui::Background::shutdown();
+	ui::BasicButton::shutdown();
+
+	for (auto& [name, shader] : shaders) {
+		shader._delete();
+	}
+
+	for (auto& [name, font] : fonts) {
+		delete font;
+	}
 }
 
 void MainMenu::on_window_resize(const engine::WindowResizeEvent* e) {
-	camera.set_size(e->size);
+	camera.calc_projection();
+
+	camera.scale = glm::vec2{ application->window.get_size().y / 600.0f };
+}
+
+void MainMenu::on_click(const engine::MouseClickEvent* e) {
+	current_page->update_component<ui::ButtonComponent>(e, camera.get_transform());
+}
+
+void MainMenu::on_menu_event(const ui::MenuEvent* e) {
+	printf("Setting menu to: (%s)\n", e->name.c_str());
+	current_page = pages.at(e->name).get();
 }
 
 void MainMenu::update() {
@@ -43,25 +57,5 @@ void MainMenu::update() {
 
 	camera.use();
 
-	switch (state) {
-	case 0:
-		break;
-
-	case 1:
-		material.use();
-
-		for (auto& item : main_page) {
-			item->draw(material);
-		}
-
-		break;
-	}
-
-	application->window.use();
-
-	application->window_program.use();
-
-	scene.get_texture().use(0);
-
-	engine::Renderer2D::draw_quad();
+	current_page->update();
 }

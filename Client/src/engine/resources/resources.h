@@ -4,6 +4,7 @@
 
 #include "../gl/shader.h"
 #include "../gl/texture.h"
+#include "../gl/font.h"
 
 namespace engine {
 	struct resource_exception : ocode::file_exception {};
@@ -15,6 +16,11 @@ namespace engine {
 	};
 
 	struct texture_exception {
+		std::string_view message;
+		std::string name;
+	};
+
+	struct font_exception {
 		std::string_view message;
 		std::string name;
 	};
@@ -46,8 +52,9 @@ namespace engine {
 	};
 
 	ocode::File read_shader_file(const fs::path& path, const ResourceManager& resources, std::vector<std::string>& visited);
-	Program load_program(const std::string& name, const ResourceManager& resources);
+	Program load_shader(const std::string& name, const ResourceManager& resources);
 	Texture load_texture(const std::string& name, const ResourceManager& resources);
+	Font load_font(const std::string& name, const ResourceManager& resources);
 	//Model load_model(const std::string& name, const ResourceManager& resources); 
 	//Sound load_sound(const std::string& name, const ResourceManager& resources);
 }

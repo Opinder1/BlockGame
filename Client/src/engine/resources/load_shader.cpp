@@ -71,7 +71,7 @@ namespace engine {
         return shader;
     }
 
-    Program load_program(const std::string& name, const ResourceManager& resources) {
+    Program load_shader(const std::string& name, const ResourceManager& resources) {
         Program program;
 
         program._new();
@@ -84,8 +84,8 @@ namespace engine {
             data.Parse((const char*)resource.data(), resource.size());
             if (data.HasParseError()) throw ocode::json_exception{ "Could not parse program json"sv, name };
 
-            for (const auto& shader_json : ocode::get_array(data, "shaders"s)) {
-                Shader shader = load_shader(shader_json, fs::path(name).parent_path(), resources);
+            for (const auto& stages : ocode::get_array(data, "stages"s)) {
+                Shader shader = load_shader(stages, fs::path(name).parent_path(), resources);
                 program.attach(shader);
                 shader._delete();
             }

@@ -4,16 +4,17 @@
 #include <stb/stb_image.h>
 
 namespace engine {
-	class Flip {
+	class STBI {
 	public:
-		Flip() {
+		STBI() {
 			stbi_set_flip_vertically_on_load(true);
 		}
-	} startup;
 
-	glm::uint8* load_file(const ocode::File& file, const glm::uvec2& size, glm::uint32& n) {
-		return stbi_load_from_memory((stbi_uc*)file.data(), int(file.size()), (int*)&size.x, (int*)&size.y, (int*)&n, 0);
-	}
+		static glm::uint8* load_file(const ocode::File& file, const glm::uvec2& size, glm::uint32& n) {
+			return stbi_load_from_memory((stbi_uc*)file.data(), int(file.size()), (int*)&size.x, (int*)&size.y, (int*)&n, 0);
+		}
+
+	} startup;
 
 	TextureFormat get_format(glm::uint32 components) {
 		switch (components) {
@@ -31,7 +32,7 @@ namespace engine {
 
 			glm::uvec2 size;
 			glm::uint32 file_components;
-			glm::uint8* data = load_file(resource, size, file_components);
+			glm::uint8* data = STBI::load_file(resource, size, file_components);
 
 			if (data == nullptr) {
 				delete data;

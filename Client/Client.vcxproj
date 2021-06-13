@@ -106,14 +106,16 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration)-$(Platform)\;$(SolutionDir)build\$(Configuration)-$(Platform)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>enet.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;zip.lib;libzippp_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>enet.lib;ws2_32.lib;winmm.lib;glew32sd.lib;glfw3.lib;OpenGL32.lib;ocode.lib;blockgame.lib;zip.lib;libzippp_static.lib;freetyped.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\engine\gl\font.cpp" />
     <ClCompile Include="src\engine\gl\texture.cpp" />
+    <ClCompile Include="src\engine\resources\load_font.cpp" />
     <ClCompile Include="src\engine\resources\load_model.cpp" />
     <ClCompile Include="src\engine\resources\load_texture.cpp" />
     <ClCompile Include="src\engine\resources\resources.cpp" />
@@ -138,9 +140,12 @@
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\monitor.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
-    <ClCompile Include="src\mainmenu\ui.cpp" />
+    <ClCompile Include="src\mainmenu\menus\menu_2.cpp" />
+    <ClCompile Include="src\mainmenu\menus\menu_1.cpp" />
+    <ClCompile Include="src\mainmenu\menu_components.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\gl\font.h" />
     <ClInclude Include="src\engine\gl\sound.h" />
     <ClInclude Include="src\engine\resources\resources.h" />
     <ClInclude Include="src\engine\scene\renderer2d.h" />
@@ -164,7 +169,10 @@
     <ClInclude Include="src\cubescene.h" />
     <ClInclude Include="src\engine\monitor.h" />
     <ClInclude Include="src\engine\window.h" />
-    <ClInclude Include="src\mainmenu\ui.h" />
+    <ClInclude Include="src\mainmenu\menus\menu_2.h" />
+    <ClInclude Include="src\mainmenu\menu.h" />
+    <ClInclude Include="src\mainmenu\menus\menu_1.h" />
+    <ClInclude Include="src\mainmenu\menu_components.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\cube.material" />

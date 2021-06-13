@@ -21,8 +21,17 @@ namespace engine {
 		buffer.modify(2, 1, &vp);
 	}
 
-	Camera2D::Camera2D(Scene2D& scene, bool normalized) : scene(scene), normalized(normalized) {
+	Camera2D::Camera2D(Scene& scene, bool normalized) : scene(scene), normalized(normalized) {
 		calc_projection();
+	}
+
+	void Camera2D::use() {
+		calc_view();
+
+		update();
+
+		scene.use();
+		set_viewport({ 0, 0 }, scene.get_size());
 	}
 
 	void Camera2D::calc_projection() {
@@ -35,20 +44,5 @@ namespace engine {
 		view = glm::scale(glm::vec3(scale, 1));
 		view = glm::rotate(view, rotation, glm::vec3(0, 0, 1));
 		view = glm::translate(view, glm::vec3(position, 0));
-	}
-
-	void Camera2D::use() {
-		scene.use();
-		 
-		set_viewport({ 0, 0 }, scene.get_size());
-
-		calc_view();
-
-		update();
-	}
-
-	void Camera2D::set_size(const glm::uvec2& new_size) {
-		scene.set_size(new_size);
-		calc_projection();
 	}
 }
