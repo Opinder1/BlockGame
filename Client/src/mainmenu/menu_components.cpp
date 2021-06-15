@@ -23,7 +23,7 @@ namespace ui {
 
 			pos = glm::inverse(camera) * glm::vec4(pos, 0, 0);
 
-			for (auto&& [entity, transform, button] : registry.view<engine::Transform2D, ButtonComponent>().each()) {
+			for (auto&& [entity, transform, button] : registry.view<TransformComponent, ButtonComponent>().each()) {
 				glm::vec2 bottom_left = transform.position - transform.scale / 2;
 				glm::vec2 top_right = transform.position + transform.scale / 2;
 
@@ -31,6 +31,58 @@ namespace ui {
 					button.function();
 				}
 			}
+		}
+	}
+
+	Sprite::Sprite(engine::Program shader, engine::Texture texture_data) : shader(shader), size(texture_data->get_size()) {
+		texture._new();
+		texture.set_filter(engine::TextureFilter::Linear, engine::TextureFilter::Linear);
+		texture.set_wrap(engine::TextureWrap::Repeat, engine::TextureWrap::Repeat);
+		texture.set_data(texture_data);
+	}
+
+	Sprite::~Sprite() {
+		texture._delete();
+	}
+
+	void Sprite::create(entt::registry& registry, entt::entity entity, const glm::vec2& pos, float rotation) {
+		registry.emplace<TransformComponent>(entity, pos, rotation, size);
+	}
+
+	void Sprite::update(entt::registry& registry, std::vector<entt::entity>& entities) {
+		auto view = registry.view<TransformComponent>(entt::exclude<HiddenComponent>);
+
+		shader.use();
+
+		texture.use(0);
+
+		for (auto& entity : entities) {
+			auto [transform] = view.get(entity);
+
+			shader.set("model", transform.get_transform());
+
+			engine::Renderer2D::draw_quad();
+		}
+	}
+
+	void BasicButton::create(entt::registry& registry, entt::entity entity, const std::string& text, const glm::vec2& pos, float rotation, const std::function<void()>& function) {
+		Sprite::create(registry, entity, pos, rotation);
+
+		registry.emplace<ButtonComponent>(entity, function);
+		registry.emplace<TextComponent>(entity, text);
+	}
+
+	void BasicButton::update(entt::registry& registry, std::vector<entt::entity>& entities) {
+		Sprite::update(registry, entities);
+
+		auto view = registry.view<TransformComponent, TextComponent>(entt::exclude<HiddenComponent>);
+
+		for (auto& entity : entities) {
+			auto [transform, text] = view.get(entity);
+
+			text_font->get_shader().set("model", glm::rotate(glm::translate(glm::vec3(transform.position, 0)), transform.rotation, glm::vec3(0, 0, 1)));
+
+			text_font->render(text.text, text.pos, text.scale, text.color);
 		}
 	}
 }

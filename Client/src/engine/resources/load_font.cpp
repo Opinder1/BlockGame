@@ -51,7 +51,8 @@ namespace engine {
                 texture.set_filter(engine::TextureFilter::Linear, engine::TextureFilter::Linear);
                 texture.set_wrap(engine::TextureWrap::Clamp, engine::TextureWrap::Clamp);
 
-                texture.set_data(engine::Texture(face->glyph->bitmap.buffer, glm::uvec2{ face->glyph->bitmap.width, face->glyph->bitmap.rows }, engine::TextureFormat::R));
+                engine::_Texture texture_data(face->glyph->bitmap.buffer, glm::uvec2{ face->glyph->bitmap.width, face->glyph->bitmap.rows }, engine::TextureFormat::R);
+                texture.set_data(&texture_data);
 
                 // TODO :( why like this? just make a texture atlas...
                 characters.push_back(Character{

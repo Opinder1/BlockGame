@@ -35,7 +35,7 @@ namespace engine {
 		void set_windowed();
 		void set_windowed(glm::uvec2 size, glm::ivec2 pos);
 
-		void set_icon(const Texture& texture);
+		void set_icon(Texture texture);
 
 		void set_title(const std::string& name);
 

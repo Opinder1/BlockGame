@@ -4,9 +4,7 @@
 
 class Menu_1 : public ui::Menu {
 public:
-	Menu_1();
-
-	void update() override;
+	Menu_1(ui::TypeStorage& types);
 
 	void singleplayer();
 

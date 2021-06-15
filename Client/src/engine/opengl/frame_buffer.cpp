@@ -49,11 +49,11 @@ namespace engine {
 		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(TextureFormat::RGBA, Type::float32), new_size.x, new_size.y, 0, storage_format(TextureFormat::RGBA), gl_type(Type::uint8), nullptr);
 	}
 
-	void Texture2D::set_data(const Texture& texture) {
+	void Texture2D::set_data(Texture texture) {
 		use();
 
-		glm::uvec2 size = texture.get_size();
-		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(texture.get_format(), Type::float32), size.x, size.y, 0, storage_format(texture.get_format()), gl_type(Type::uint8), texture.get_data());
+		glm::uvec2 size = texture->get_size();
+		GLEW_GET_FUN(glTexImage2D)(GL_TEXTURE_2D, 0, storage_type(texture->get_format(), Type::float32), size.x, size.y, 0, storage_format(texture->get_format()), gl_type(Type::uint8), texture->get_data());
 	}
 
 	void Texture2DMS::use() {

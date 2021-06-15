@@ -35,8 +35,6 @@ namespace engine {
 			instances.at(id) = instance;
 
 			_update_instance(id);
-
-			return id;
 		}
 		else {
 			size_t size = instances.capacity();
@@ -50,7 +48,6 @@ namespace engine {
 			else {
 				_update_instance(id);
 			}
-
 		}
 
 		return id;

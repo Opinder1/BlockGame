@@ -12,6 +12,8 @@ private:
 	std::unordered_map<std::string, engine::Program> shaders;
 	std::unordered_map<std::string, engine::Font> fonts;
 
+	ui::TypeStorage types;
+
 	std::unordered_map<std::string, std::unique_ptr<ui::Menu>> pages;
 	ui::Menu* current_page;
 
@@ -26,11 +28,7 @@ public:
 	MainMenu();
 	~MainMenu();
 
-	template<class Type>
-	void new_page(const std::string& name) {
-		static_assert(std::is_base_of<ui::Menu, Type>::value, "Should be a menu");
-		pages.emplace(name, std::make_unique<Type>());
-	}
+	void new_page(const std::string& name, ui::Menu* menu);
 
 	void update() override;
 };

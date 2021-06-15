@@ -8,29 +8,28 @@ MainMenu::MainMenu() : Module(), camera(application->window, false), current_pag
 	shaders.emplace("blockgame:ui"s, application->shader("mainmenu\\ui.json"sv));
 	shaders.emplace("blockgame:text"s, application->shader("mainmenu\\text.json"sv));
 
-	engine::Font f = application->font("ocraext.TTF"sv);
-	f->set_shader(shaders.at("blockgame:text"s));
-	fonts.emplace("blockgame:font"s, f);
+	engine::Font f = application->font("ocraext.TTF"sv); f->set_shader(shaders.at("blockgame:text"s)); fonts.emplace("blockgame:font"s, f);
 
-	ui::Background::init(shaders.at("blockgame:ui"s), application->texture("mainmenu\\background.png"sv));
-	ui::BasicButton::init(shaders.at("blockgame:ui"s), application->texture("mainmenu\\button.png"sv), fonts.at("blockgame:font"s));
+	types.emplace("blockgame:background", new ui::Sprite(shaders.at("blockgame:ui"), application->texture("mainmenu\\background.png"sv)));
+	types.emplace("blockgame:button", new ui::BasicButton(shaders.at("blockgame:ui"s), application->texture("mainmenu\\button.png"sv), fonts.at("blockgame:font"s)));
 
-	new_page<Menu_1>("blockgame::menu_1"s);
-	new_page<Menu_2>("blockgame::menu_2"s);
+	new_page("blockgame::menu_1"s, new Menu_1(types));
+	new_page("blockgame::menu_2"s, new Menu_2(types));
 
 	current_page = pages.begin()->second.get();
 }
 
 MainMenu::~MainMenu() {
-	ui::Background::shutdown();
-	ui::BasicButton::shutdown();
-
 	for (auto& [name, shader] : shaders) {
 		shader._delete();
 	}
 
 	for (auto& [name, font] : fonts) {
 		delete font;
+	}
+
+	for (auto& [name, type] : types) {
+		delete type;
 	}
 }
 
@@ -47,6 +46,10 @@ void MainMenu::on_click(const engine::MouseClickEvent* e) {
 void MainMenu::on_menu_event(const ui::MenuEvent* e) {
 	printf("Setting menu to: (%s)\n", e->name.c_str());
 	current_page = pages.at(e->name).get();
+}
+
+void MainMenu::new_page(const std::string& name, ui::Menu* menu) {
+	pages.emplace(name, menu);
 }
 
 void MainMenu::update() {

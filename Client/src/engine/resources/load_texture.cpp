@@ -46,7 +46,7 @@ namespace engine {
 				throw texture_exception{ "Invalid pixel component count", name };
 			}
 
-			return Texture(data, size, format);
+			return new _Texture(data, size, format);
 		}
 		catch (ocode::file_exception& e) {
 			throw texture_exception{ "Error reading texture file"sv, e.name };

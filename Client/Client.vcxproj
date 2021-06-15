@@ -140,6 +140,7 @@
     <ClCompile Include="src\cubescene.cpp" />
     <ClCompile Include="src\engine\monitor.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
+    <ClCompile Include="src\mainmenu\menu.cpp" />
     <ClCompile Include="src\mainmenu\menus\menu_2.cpp" />
     <ClCompile Include="src\mainmenu\menus\menu_1.cpp" />
     <ClCompile Include="src\mainmenu\menu_components.cpp" />

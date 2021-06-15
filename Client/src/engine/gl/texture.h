@@ -8,7 +8,7 @@
 #include "gl.h"
 
 namespace engine {
-	class Texture {
+	class _Texture {
 	private:
 		glm::uint8* data;
 		bool owns_data;
@@ -20,11 +20,11 @@ namespace engine {
 		void clamp_pos(glm::uvec2& pos);
 
 	public:
-		Texture(const Texture&) = delete;
-		Texture(glm::uvec2 size, TextureFormat format);
-		Texture(glm::uint8* data, glm::uvec2 size, TextureFormat format);
+		_Texture(const _Texture&) = delete;
+		_Texture(glm::uvec2 size, TextureFormat format);
+		_Texture(glm::uint8* data, glm::uvec2 size, TextureFormat format);
 
-		~Texture();
+		~_Texture();
 
 		glm::uint8* get_data() const;
 
@@ -32,4 +32,6 @@ namespace engine {
 
 		TextureFormat get_format() const;
 	};
+
+	using Texture = _Texture*;
 }

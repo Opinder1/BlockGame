@@ -4,9 +4,7 @@
 
 class Menu_2 : public ui::Menu {
 public:
-	Menu_2();
-
-	void update() override;
+	Menu_2(ui::TypeStorage& types);
 
 	void new_thing(int thing);
 };

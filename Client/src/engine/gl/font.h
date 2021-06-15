@@ -34,7 +34,7 @@ namespace engine {
 		void render(const std::string& text, glm::vec2 pos, float scale, const glm::vec3& color);
 	};
 
-	typedef class _Font* Font;
+	using Font = _Font*;
 
 	class Fontt {
 	private:

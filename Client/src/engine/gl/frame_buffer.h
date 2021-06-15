@@ -27,7 +27,7 @@ namespace engine {
 
 		void set_empty(const glm::uvec2& new_size);
 
-		void set_data(const Texture& texture);
+		void set_data(Texture texture);
 	};
 
 	class Texture2DMS : public TextureBase {

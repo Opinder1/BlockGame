@@ -121,10 +121,10 @@ namespace engine {
         glfwSetWindowMonitor(window, nullptr, pos.x, pos.y, size.x, size.y, 0);
     }
 
-    void Window::set_icon(const Texture& texture) {
-        glm::ivec2 size = texture.get_size();
+    void Window::set_icon(Texture texture) {
+        glm::ivec2 size = texture->get_size();
 
-        GLFWimage image = { size.x, size.y, texture.get_data() };
+        GLFWimage image = { size.x, size.y, texture->get_data() };
 
         glfwSetWindowIcon(window, 1, &image);
     }
